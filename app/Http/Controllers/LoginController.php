@@ -13,6 +13,21 @@ class LoginController extends Controller
 
     public function process(Request $request)
     {
-        dd($request->all());
+
+        if ($request->username == 'admin' && $request->password == 'admin') {
+            $resp = array(
+                'request' => $request->all(),
+                'status' => 'success',
+                'message' => 'Login Success'
+            );
+        } else {
+            $resp = array(
+                'request' => $request->all(),
+                'status' => 'error',
+                'message' => 'Username and Password is failed'
+            );
+        }
+
+        return json_encode($resp);
     }
 }
