@@ -28,5 +28,6 @@ Route::get('/dashboard', function () {
 //ROUTE FOR AUTHENTICATION
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'index');
-    Route::post('/login', 'process')->name('processLogin');
+    Route::post('/login', 'authenticate')->name('processLogin');
+    Route::post('/logout', 'userLogout')->name('logout');
 });

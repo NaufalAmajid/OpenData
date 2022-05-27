@@ -24,6 +24,7 @@
     <title>Dashboard Open Data</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="title" content="Volt - Free Bootstrap 5 Dashboard">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="author" content="Themesberg">
     <meta name="description"
         content="Volt Pro is a Premium Bootstrap 5 Admin Dashboard featuring over 800 components, 10+ plugins and 20 example pages using Vanilla JS.">
@@ -362,8 +363,7 @@
                                 </a>
                             </li>
                             <li class="nav-item ">
-                                <a class="nav-link"
-                                    href="/template/forAdmin/pages/components/notifications.html">
+                                <a class="nav-link" href="/template/forAdmin/pages/components/notifications.html">
                                     <span class="sidebar-text">Notifications</span>
                                 </a>
                             </li>
@@ -627,15 +627,12 @@
                                     Support
                                 </a>
                                 <div role="separator" class="dropdown-divider my-1"></div>
-                                <a class="dropdown-item d-flex align-items-center" href="#">
-                                    <svg class="dropdown-icon text-danger me-2" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
-                                        </path>
-                                    </svg>
-                                    Logout
-                                </a>
+                                <form>
+                                    @csrf
+                                    <a class="dropdown-item d-flex align-items-center" id="logout">
+                                        <i class="bi bi-box-arrow-right fs-5 px-2"></i> Logout
+                                    </a>
+                                </form>
                             </div>
                         </li>
                     </ul>
@@ -680,7 +677,7 @@
     <script src="/template/forAdmin/vendor/sweetalert2/dist/sweetalert2.all.min.js"></script>
 
     <!-- Moment JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.27.0/moment.min.js"></script>
+    <script src="/otherAsset/js/moment.min.js"></script>
 
     <!-- Vanilla JS Datepicker -->
     <script src="/template/forAdmin/vendor/vanillajs-datepicker/dist/js/datepicker.min.js"></script>
@@ -696,6 +693,51 @@
 
     <!-- Volt JS -->
     <script src="/template/forAdmin/assets/js/volt.js"></script>
+
+    <!-- Other Libraries JS -->
+    <script src="/otherAsset/js/jquery-3.6.0.min.js"></script>
+    <script src="/otherAsset/js/jquery-ui.min.js"></script>
+
+    <!-- Custom JS -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('#logout').click(function () {
+
+                const token = $('meta[name="csrf-token"]').attr('content');
+                const name = '{{ Auth::user()->name }}';
+
+                Swal.fire({
+                    title: 'Apakah Anda Yakin?',
+                    text: `${name} Akan Logout!`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya',
+                    cancelButtonText: 'Tidak'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('logout') }}',
+                            data: {
+                                "_token": token,
+                                "logout": true
+                            },
+                            success: function (data) {
+                                const result = JSON.parse(data);
+                                if (result.status == 'success') {
+                                    window.location.href = result.url;
+                                }
+                            }
+                        });
+                    }
+                })
+            });
+        });
+
+    </script>
 
 
 </body>

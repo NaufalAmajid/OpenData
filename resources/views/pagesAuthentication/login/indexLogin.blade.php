@@ -234,6 +234,7 @@
 
                 if (username == '' && password == '') {
                     $('#username, #password').addClass('is-invalid');
+                    $('#username').focus();
                     $('#validationOfUsername, #validationOfPassword').show();
                 } else {
 
@@ -251,12 +252,29 @@
                             const result = JSON.parse(data);
                             const status = result.status;
 
-                            if (status == 'success') {
-                                console.log(result.message);
+                            if (status === 'success') {
+
+                                swal.fire({
+                                    icon: 'success',
+                                    text: 'Login Berhasil',
+                                    type: 'success',
+                                    confirmButtonText: 'OK'
+                                }).then(function() {
+                                    window.location.href = result.url;
+                                });
+
                             } else {
-                                console.log(result.message);
+                                $('#username, #password').addClass('is-invalid');
+                                $('#password').val('');
+                                $('#username').focus();
+                                $('#validationOfUsername, #validationOfPassword').show(function() {
+                                    $('#validationOfUsername, #validationOfPassword').html(result.message);
+                                });
                             }
 
+                        },
+                        error: function(data) {
+                            console.log(data);
                         }
 
                     });
