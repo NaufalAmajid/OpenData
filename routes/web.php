@@ -23,11 +23,11 @@ Route::get('/test', function () {
 
 Route::get('/dashboard', function () {
     return view('pagesAdmin.dashboard.index');
-});
+})->middleware('auth');
 
 //ROUTE FOR AUTHENTICATION
 Route::controller(LoginController::class)->group(function () {
-    Route::get('/login', 'index');
-    Route::post('/login', 'authenticate')->name('processLogin');
-    Route::post('/logout', 'userLogout')->name('logout');
+    Route::get('/login', 'index')->name('login')->middleware('guest');
+    Route::post('/login', 'authenticate')->name('processLogin')->middleware('guest');
+    Route::post('/logout', 'userLogout')->name('logout')->middleware('auth');
 });
