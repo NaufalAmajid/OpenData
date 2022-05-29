@@ -122,7 +122,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
+                                    <tr id="test">
                                         <th class="text-gray-900" scope="row">
                                             /demo/admin/index.html
                                         </th>

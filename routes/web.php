@@ -1,7 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\SektoralController;
+use App\Http\Controllers\OrganisasiController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,9 +26,9 @@ Route::get('/test', function () {
     return view('mainPage');
 });
 
-Route::get('/dashboard', function () {
-    return view('pagesAdmin.dashboard.index');
-})->middleware('auth');
+// ADMIN PAGES ROUTES =======================================================================================================================
+
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth');
 
 //ROUTE FOR AUTHENTICATION
 Route::controller(LoginController::class)->group(function () {
@@ -31,3 +36,21 @@ Route::controller(LoginController::class)->group(function () {
     Route::post('/login', 'authenticate')->name('processLogin')->middleware('guest');
     Route::post('/logout', 'userLogout')->name('logout')->middleware('auth');
 });
+
+//ROUTE FOR DATASET
+Route::controller(DatasetController::class)->group(function(){
+    Route::get('/dataset/data', 'index')->name('dataset')->middleware('auth');
+    Route::get('/dataset/tags', 'indexTags')->name('tags')->middleware('auth');
+});
+
+//ROUTE FOR SEKTORAL
+Route::controller(SektoralController::class)->group(function () {
+    Route::get('/sektoral', 'index')->name('sektoral')->middleware('auth');
+});
+
+//ROUTE FOR ORGANISASI
+Route::controller(OrganisasiController::class)->group(function () {
+    Route::get('/organisasi', 'index')->name('organisasi')->middleware('auth');
+});
+
+// END ADMIN PAGES ROUTES =======================================================================================================================
