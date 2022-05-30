@@ -32,5 +32,12 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Call Class To Seed Data
+        $this->call([
+            OrganisasiSeeder::class,
+            // SektoralSeeder::class,
+            // DatasetSeeder::class,
+        ]);
+
     }
 }

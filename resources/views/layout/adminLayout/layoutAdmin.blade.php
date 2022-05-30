@@ -161,7 +161,8 @@
                             <i class="bi bi-chevron-right fs-6"></i>
                         </span>
                     </span>
-                    <div class="multi-level collapse {{ Request::is('dataset*') ? 'show' : '' }}" role="list" id="submenu-dataset" aria-expanded="false">
+                    <div class="multi-level collapse {{ Request::is('dataset*') ? 'show' : '' }}" role="list"
+                        id="submenu-dataset" aria-expanded="false">
                         <ul class="flex-column nav">
                             <li class="nav-item {{ Request::is('dataset/data*') ? 'active' : '' }}">
                                 <a class="nav-link" href="{{ route('dataset') }}">
@@ -177,18 +178,17 @@
                     </div>
                 </li>
                 <li class="nav-item {{ Request::is('sektoral*') ? 'active' : '' }}">
-                    <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
-                        data-bs-toggle="collapse" data-bs-target="#submenu-app">
+                    <a href="{{ route('sektoral') }}" class="nav-link d-flex justify-content-between">
                         <span>
                             <span class="sidebar-icon">
                                 <i class="bi bi-globe2 fs-5"></i>
                             </span>
                             <span class="sidebar-text p-2">Sektoral</span>
                         </span>
-                    </span>
+                    </a>
                 </li>
                 <li class="nav-item {{ Request::is('organisasi*') ? 'active' : '' }}">
-                    <a href="#" target="_blank" class="nav-link d-flex justify-content-between">
+                    <a href="{{ route('organisasi') }}" class="nav-link d-flex justify-content-between">
                         <span>
                             <span class="sidebar-icon">
                                 <i class="bi bi-boxes fs-5"></i>
@@ -198,14 +198,14 @@
                     </a>
                 </li>
                 {{-- <li class="nav-item {{ Request::is('visualisasi*') ? 'active' : '' }}">
-                    <a href="#" target="_blank" class="nav-link d-flex justify-content-between">
-                        <span>
-                            <span class="sidebar-icon">
-                                <i class="bi bi-images fs-5"></i>
-                            </span>
-                            <span class="sidebar-text p-2">Visualisasi</span>
+                <a href="#" target="_blank" class="nav-link d-flex justify-content-between">
+                    <span>
+                        <span class="sidebar-icon">
+                            <i class="bi bi-images fs-5"></i>
                         </span>
-                    </a>
+                        <span class="sidebar-text p-2">Visualisasi</span>
+                    </span>
+                </a>
                 </li> --}}
                 <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
                 <li class="nav-item {{ Request::is('administrator*') ? 'active' : '' }}">
@@ -477,9 +477,9 @@
 
     <!-- Custom JS -->
     <script type="text/javascript">
-        $(document).ready(function() {
+        $(document).ready(function () {
 
-            $('#logout').click(function() {
+            $('#logout').click(function () {
 
                 const token = $('meta[name="csrf-token"]').attr('content');
                 const name = '{{ Auth::user()->name }}';
@@ -502,7 +502,7 @@
                                 "_token": token,
                                 "logout": true
                             },
-                            success: function(data) {
+                            success: function (data) {
                                 const result = JSON.parse(data);
                                 if (result.status == 'success') {
                                     window.location.href = result.url;
@@ -514,6 +514,7 @@
             });
 
         });
+
     </script>
 
 
