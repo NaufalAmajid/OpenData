@@ -51,7 +51,7 @@ Route::controller(SektoralController::class)->group(function () {
 //ROUTE FOR ORGANISASI
 Route::controller(OrganisasiController::class)->group(function () {
     Route::get('/organisasi', 'index')->name('organisasi')->middleware('auth');
-    Route::get('/organisasi/create', 'store')->name('createOrganisasi')->middleware('auth');
+    Route::post('/organisasi', 'store')->name('addOrganisasi')->middleware('auth');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

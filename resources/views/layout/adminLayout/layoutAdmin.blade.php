@@ -71,6 +71,8 @@
     <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
     {{-- OTHER CDN INCLUDES --}}
     <link rel="stylesheet" href="/otherAsset/css/bootstrap-icons.css">
+    <link rel="stylesheet" href="/otherAsset/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" href="/otherAsset/themes/jquery-ui-themes-1.13.1/themes/pepper-grinder/jquery-ui.css">
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css"> --}}
 </head>
 
@@ -474,12 +476,57 @@
     <!-- Other Libraries JS -->
     <script src="/otherAsset/js/jquery-3.6.0.min.js"></script>
     <script src="/otherAsset/js/jquery-ui.min.js"></script>
+    <script src="/otherAsset/js/jquery.dataTables.min.js"></script>
+    <script src="/otherAsset/js/dataTables.jqueryui.min.js"></script>
 
     <!-- Custom JS -->
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function() {
 
-            $('#logout').click(function () {
+            // READY FUNCTION==========================================
+            $('#tableOrganisasi').DataTable({
+                "language": {
+                    "url": "/otherAsset/language/dataTables.indonesia.json"
+                }
+            });
+            // ========================================================
+
+
+            // TOGGLE TEXT=============================================
+            $('.addDataOrganisasi').text(function(i, text) {
+                return text === "" ? "Tambah Data Organisasi" :
+                    "Tabel Data Organisasi";
+            });
+
+            //=========================================================
+
+            // SHOW IMAGE ON INPUT TYPE FILE===========================
+            $('#formFileLogoOrganisasi').change(function() {
+                var input = this;
+                var url = $(this).val();
+                var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+                if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#showLogoOrganisasi').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    $('#alertLogoOrganisasi').append(`<div class="alert alert-danger">Hanya file gambar yang diperbolehkan dengan format :
+                        <ul>
+                            <li>PNG</li>
+                            <li>JPEG</li>
+                            <li>JPG</li>
+                        </ul></div>`);
+                    $('#showLogoOrganisasi').hide();
+                }
+            });
+            // ========================================================
+
+            // ON CLICK BUTTON FUNCTION================================
+            $('#logout').click(function() {
 
                 const token = $('meta[name="csrf-token"]').attr('content');
                 const name = '{{ Auth::user()->name }}';
@@ -502,7 +549,7 @@
                                 "_token": token,
                                 "logout": true
                             },
-                            success: function (data) {
+                            success: function(data) {
                                 const result = JSON.parse(data);
                                 if (result.status == 'success') {
                                     window.location.href = result.url;
@@ -513,8 +560,43 @@
                 })
             });
 
-        });
+            $('.addDataOrganisasi').click(function() {
+                $('.formAddOrganisasi').toggleClass('d-none');
+                $('.tableDataOrganisasi').toggleClass('d-none');
+                $('.addDataOrganisasi').text(function(i, text) {
+                    return text === "Tambah Data Organisasi" ? "Tabel Data Organisasi" :
+                        "Tambah Data Organisasi";
+                });
+            });
+            // ========================================================
 
+            // ON SUBMIT FORM FUNCTION=================================
+            $('#formAddDataOrganisasi').submit(function(e) {
+                e.preventDefault();
+                const token = $('meta[name="csrf-token"]').attr('content');
+                const formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('addOrganisasi') }}',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        const result = JSON.parse(data);
+                        console.log(result);
+                    },
+                    error: function(data) {
+                        const result = JSON.parse(data.responseText);
+                        console.error(result['errors']);
+                    }
+                });
+
+            });
+            // ========================================================
+
+        });
     </script>
 
 
