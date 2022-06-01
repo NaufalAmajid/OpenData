@@ -20,7 +20,7 @@ class OrganisasiController extends Controller
         $randomString = substr(str_shuffle($alfaNumeric), 0, 10);
 
         $validationData = $request->validate([
-            'namaOrganisasi' => 'required',
+            'namaOrganisasi' => 'required|unique:organisasis,nama_organisasi',
             'alasanTambahOrganisasi' => 'required',
             'logoOrganisasi' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
             'pembuat'=> 'required'
@@ -35,6 +35,11 @@ class OrganisasiController extends Controller
         $validationData['logoOrganisasi']->move(public_path('images/organisasi'), $organisasi->logo_organisasi);
         $organisasi->save();
 
-        return json_encode($organisasi);
+        $respond = [
+            'status' => 'success',
+            'data' => $organisasi
+        ];
+
+        return json_encode($respond);
     }
 }

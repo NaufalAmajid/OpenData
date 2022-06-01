@@ -513,14 +513,16 @@
                     }
 
                     reader.readAsDataURL(input.files[0]);
+
+                    $('#showLogoOrganisasi').show();
+                    $('#formFileLogoOrganisasi').removeClass('is-invalid');
+                    $('#formFileLogoOrganisasi').addClass('is-valid');
+                    $('.invalidInputFileOrganisasi').hide();
+
                 } else {
-                    $('#alertLogoOrganisasi').append(`<div class="alert alert-danger">Hanya file gambar yang diperbolehkan dengan format :
-                        <ul>
-                            <li>PNG</li>
-                            <li>JPEG</li>
-                            <li>JPG</li>
-                        </ul></div>`);
                     $('#showLogoOrganisasi').hide();
+                    $('#formFileLogoOrganisasi').removeClass('is-valid');
+                    $('#formFileLogoOrganisasi').addClass('is-invalid');
                 }
             });
             // ========================================================
@@ -585,11 +587,70 @@
                     processData: false,
                     success: function(data) {
                         const result = JSON.parse(data);
+                        Swal.fire({
+                            icon: result.status,
+                            title: 'Menambahakan Data Organisasi',
+                            html: `<table>
+                                        <tr class="text-start">
+                                            <td>Nama Organisasi</td>
+                                            <td>:</td>
+                                            <td>${result.data.nama_organisasi}</td>
+                                        </tr>
+                                        <tr class="text-start">
+                                            <td>Alasan</td>
+                                            <td>:</td>
+                                            <td>${result.data.alasan}</td>
+                                        </tr>
+                                        <tr class="text-start">
+                                            <td>Pembuat</td>
+                                            <td>:</td>
+                                            <td>${result.data.pembuat}</td>
+                                        </tr>
+                                   </table>`,
+                            imageUrl: `{{ asset('images/organisasi/${result.data.logo_organisasi}') }}`,
+                            imageWidth: 200,
+                            imageHeight: 200,
+                            imageAlt: 'Logo Organisasi',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
                         console.log(result);
                     },
                     error: function(data) {
                         const result = JSON.parse(data.responseText);
-                        console.error(result['errors']);
+                        const alasan = result.errors.alasanTambahOrganisasi;
+                        const nama = result.errors.namaOrganisasi;
+                        const logo = result.errors.logoOrganisasi;
+
+                        if (nama) {
+                            $('#namaOrganisasi').addClass('is-invalid');
+                            $('.invalidNamaOrganisasi').show();
+                            $('.invalidNamaOrganisasi').text(nama);
+                        } else {
+                            $('#namaOrganisasi').removeClass('is-invalid');
+                            $('#namaOrganisasi').addClass('is-valid');
+                            $('.invalidNamaOrganisasi').hide();
+                        }
+
+                        if (alasan) {
+                            $('#alasanTambahOrganisasi').addClass('is-invalid');
+                            $('.invalidAlasanTambahOrganisasi').show();
+                            $('.invalidAlasanTambahOrganisasi').text(alasan);
+                        } else {
+                            $('#alasanTambahOrganisasi').removeClass('is-invalid');
+                            $('#alasanTambahOrganisasi').addClass('is-valid');
+                            $('.invalidAlasanTambahOrganisasi').hide();
+                        }
+
+                        if (logo) {
+                            $('#formFileLogoOrganisasi').addClass('is-invalid');
+                            $('.invalidInputFileOrganisasi').show();
+                            $('.invalidInputFileOrganisasi').text(logo);
+                        }
+
+                        console.log(result.errors);
                     }
                 });
 

@@ -19,7 +19,7 @@
         </ol>
     </nav>
     {{-- THIS FOR TABLE ORGANISASI --}}
-    <div class="tableDataOrganisasi d-none">
+    <div class="tableDataOrganisasi">
         <div class="d-flex justify-content-between w-100 flex-wrap mb-3">
             <div class="mb-3 mb-lg-0">
                 <h1 class="h4">Daftar Organisasi</h1>
@@ -63,7 +63,7 @@
     </div>
 
     {{-- THIS FOR FORM ORGANISASI --}}
-    <div class="formAddOrganisasi">
+    <div class="formAddOrganisasi d-none">
         <div class="row">
             <div class="d-flex justify-content-between w-100 flex-wrap mb-3">
                 <div class="mb-3 mb-lg-0">
@@ -84,7 +84,10 @@
                         <div class="col-lg-12 col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Nama Organisasi</label>
-                                <input type="text" class="form-control" placeholder="Nama Organisasi" name="namaOrganisasi">
+                                <input type="text" class="form-control" placeholder="Nama Organisasi"
+                                    name="namaOrganisasi" id="namaOrganisasi" autocomplete="off">
+                                    <div class="invalid-feedback invalidNamaOrganisasi">
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -92,7 +95,10 @@
                         <div class="col-lg-12 col-sm-6">
                             <div class="form-group">
                                 <label class="form-label">Alasan Menambahkan Organisasi</label>
-                                <textarea class="form-control" placeholder="Tuliskan alasan menambahkan organisasi..." name="alasanTambahOrganisasi" rows="4"></textarea>
+                                <textarea class="form-control" placeholder="Tuliskan alasan menambahkan organisasi..." name="alasanTambahOrganisasi"
+                                    rows="4" id="alasanTambahOrganisasi"></textarea>
+                                    <div class="invalid-feedback invalidAlasanTambahOrganisasi">
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -101,6 +107,8 @@
                             <div class="form-group">
                                 <label class="form-label">Silahkan Masukkan Logo Organisasi</label>
                                 <input class="form-control" type="file" id="formFileLogoOrganisasi" name="logoOrganisasi">
+                                <div class="invalid-feedback invalidInputFileOrganisasi">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -108,7 +116,7 @@
                         <div class="col-lg-12 col-sm-6">
                             <div class="form-group">
                                 <div id="alertLogoOrganisasi"></div>
-                                <img id="showLogoOrganisasi" src="/images/assets/insertHere.png">
+                                <img id="showLogoOrganisasi" src="/images/assets/insertHere.png" width="500" height="400">
                             </div>
                         </div>
                     </div>

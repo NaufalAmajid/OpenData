@@ -267,13 +267,22 @@
                                 $('#username, #password').addClass('is-invalid');
                                 $('#password').val('');
                                 $('#username').focus();
-                                $('#validationOfUsername, #validationOfPassword').show(function() {
-                                    $('#validationOfUsername, #validationOfPassword').html(result.message);
+                                swal.fire({
+                                    icon: 'error',
+                                    text: result.message,
+                                    type: 'error',
+                                    confirmButtonText: 'OK'
                                 });
                             }
 
                         },
                         error: function(data) {
+                            swal.fire({
+                                icon: 'warning',
+                                text: data.responseJSON.message,
+                                type: 'warning',
+                                confirmButtonText: 'OK'
+                            });
                             console.log(data);
                         }
 
