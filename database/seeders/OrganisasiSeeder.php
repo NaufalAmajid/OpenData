@@ -19,7 +19,7 @@ class OrganisasiSeeder extends Seeder
         Organisasi::create(
             [
                 'kode_organisasi' => 'bpad524013',
-                'alasan' => '-',
+                'deskripsi' => '-',
                 'nama_organisasi' => 'Badan Pengelolaan Aset Daerah',
             ],
         );
@@ -27,7 +27,7 @@ class OrganisasiSeeder extends Seeder
         Organisasi::create(
             [
                 'kode_organisasi' => 'bkpdp62343',
-                'alasan' => '-',
+                'deskripsi' => '-',
                 'nama_organisasi' => 'Badan Kepegawaian, Pendidikan Dan Pelatihan',
             ]
         );
@@ -35,7 +35,7 @@ class OrganisasiSeeder extends Seeder
         Organisasi::create(
             [
                 'kode_organisasi' => 'dadp824302',
-                'alasan' => '-',
+                'deskripsi' => '-',
                 'nama_organisasi' => 'Dinas Arsip Dan Perpustakaan',
             ]
         );
@@ -43,7 +43,7 @@ class OrganisasiSeeder extends Seeder
         Organisasi::create(
             [
                 'kode_organisasi' => 'bpppdpd824',
-                'alasan' => '-',
+                'deskripsi' => '-',
                 'nama_organisasi' => 'Badan Perencanaan Pembangunan, Penelitian Dan Pengembangan Daerah',
             ]
         );
@@ -51,7 +51,7 @@ class OrganisasiSeeder extends Seeder
         Organisasi::create(
             [
                 'kode_organisasi' => 'bppd572340',
-                'alasan' => '-',
+                'deskripsi' => '-',
                 'nama_organisasi' => 'Badan Pengelolaan Pendapatan Daerah',
             ]
         );

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Notifikasi;
 use App\Models\Organisasi;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class OrganisasiController extends Controller
 
         $validationData = $request->validate([
             'namaOrganisasi' => 'required|unique:organisasis,nama_organisasi',
-            'alasanTambahOrganisasi' => 'required',
+            'deskripsiOrganisasi' => 'required',
             'logoOrganisasi' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048',
             'pembuat'=> 'required'
         ]);
@@ -29,11 +30,18 @@ class OrganisasiController extends Controller
         $organisasi = new Organisasi();
         $organisasi->kode_organisasi = $randomString;
         $organisasi->nama_organisasi = $validationData['namaOrganisasi'];
-        $organisasi->alasan = $validationData['alasanTambahOrganisasi'];
+        $organisasi->deskripsi = $validationData['deskripsiOrganisasi'];
         $organisasi->logo_organisasi = $randomString.'.'.$validationData['logoOrganisasi']->getClientOriginalExtension();
         $organisasi->pembuat = $validationData['pembuat'];
         $validationData['logoOrganisasi']->move(public_path('images/organisasi'), $organisasi->logo_organisasi);
+
+        $notifikasi = new Notifikasi();
+        $notifikasi->kode_notifikasi = $randomString;
+        $notifikasi->notifikasi = 'Organisasi <b>'.$organisasi->nama_organisasi.'</b> telah ditambahkan';
+        $notifikasi->nama_notifikator = $organisasi->pembuat;
+
         $organisasi->save();
+        $notifikasi->save();
 
         $respond = [
             'status' => 'success',

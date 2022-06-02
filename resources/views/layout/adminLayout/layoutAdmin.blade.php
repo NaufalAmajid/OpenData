@@ -484,7 +484,7 @@
         $(document).ready(function() {
 
             // READY FUNCTION==========================================
-            $('#tableOrganisasi').DataTable({
+            $('#tableOrganisasi, #tableSektoral').DataTable({
                 "language": {
                     "url": "/otherAsset/language/dataTables.indonesia.json"
                 }
@@ -498,10 +498,15 @@
                     "Tabel Data Organisasi";
             });
 
+            $('.addDataSektoral').text(function(i, text) {
+                return text === "" ? "Tambah Data Sektoral" :
+                    "Tabel Data Sektoral";
+            });
+
             //=========================================================
 
             // SHOW IMAGE ON INPUT TYPE FILE===========================
-            $('#formFileLogoOrganisasi').change(function() {
+            $('#formFileLogoOrganisasi, #formFileLogoSektoral').change(function() {
                 var input = this;
                 var url = $(this).val();
                 var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
@@ -509,20 +514,20 @@
                     var reader = new FileReader();
 
                     reader.onload = function(e) {
-                        $('#showLogoOrganisasi').attr('src', e.target.result);
+                        $('#showLogoOrganisasi, #showLogoSektoral').attr('src', e.target.result);
                     }
 
                     reader.readAsDataURL(input.files[0]);
 
-                    $('#showLogoOrganisasi').show();
-                    $('#formFileLogoOrganisasi').removeClass('is-invalid');
-                    $('#formFileLogoOrganisasi').addClass('is-valid');
-                    $('.invalidInputFileOrganisasi').hide();
+                    $('#showLogoOrganisasi, #showLogoSektoral').show();
+                    $('#formFileLogoOrganisasi, #formFileLogoSektoral').removeClass('is-invalid');
+                    $('#formFileLogoOrganisasi, #formFileLogoSektoral').addClass('is-valid');
+                    $('.invalidInputFileOrganisasi, .invalidInputFileSektoral').hide();
 
                 } else {
-                    $('#showLogoOrganisasi').hide();
-                    $('#formFileLogoOrganisasi').removeClass('is-valid');
-                    $('#formFileLogoOrganisasi').addClass('is-invalid');
+                    $('#showLogoOrganisasi, #showLogoSektoral').hide();
+                    $('#formFileLogoOrganisasi, #formFileLogoSektoral').removeClass('is-valid');
+                    $('#formFileLogoOrganisasi, #formFileLogoSektoral').addClass('is-invalid');
                 }
             });
             // ========================================================
@@ -570,6 +575,15 @@
                         "Tambah Data Organisasi";
                 });
             });
+
+            $('.addDataSektoral').click(function() {
+                $('.formAddSektoral').toggleClass('d-none');
+                $('.tableDataSektoral').toggleClass('d-none');
+                $('.addDataSektoral').text(function(i, text) {
+                    return text === "Tambah Data Sektoral" ? "Tabel Data Sektoral" :
+                        "Tambah Data Sektoral";
+                });
+            });
             // ========================================================
 
             // ON SUBMIT FORM FUNCTION=================================
@@ -597,9 +611,9 @@
                                             <td>${result.data.nama_organisasi}</td>
                                         </tr>
                                         <tr class="text-start">
-                                            <td>Alasan</td>
+                                            <td>Deskripsi</td>
                                             <td>:</td>
-                                            <td>${result.data.alasan}</td>
+                                            <td>${result.data.deskripsi}</td>
                                         </tr>
                                         <tr class="text-start">
                                             <td>Pembuat</td>
@@ -616,11 +630,10 @@
                                 window.location.reload();
                             }
                         });
-                        console.log(result);
                     },
                     error: function(data) {
                         const result = JSON.parse(data.responseText);
-                        const alasan = result.errors.alasanTambahOrganisasi;
+                        const deskripsi = result.errors.deskripsiOrganisasi;
                         const nama = result.errors.namaOrganisasi;
                         const logo = result.errors.logoOrganisasi;
 
@@ -634,14 +647,14 @@
                             $('.invalidNamaOrganisasi').hide();
                         }
 
-                        if (alasan) {
-                            $('#alasanTambahOrganisasi').addClass('is-invalid');
-                            $('.invalidAlasanTambahOrganisasi').show();
-                            $('.invalidAlasanTambahOrganisasi').text(alasan);
+                        if (deskripsi) {
+                            $('#deskripsiOrganisasi').addClass('is-invalid');
+                            $('.invalidDeskripsiOrganisasi').show();
+                            $('.invalidDeskripsiOrganisasi').text(deskripsi);
                         } else {
-                            $('#alasanTambahOrganisasi').removeClass('is-invalid');
-                            $('#alasanTambahOrganisasi').addClass('is-valid');
-                            $('.invalidAlasanTambahOrganisasi').hide();
+                            $('#deskripsiOrganisasi').removeClass('is-invalid');
+                            $('#deskripsiOrganisasi').addClass('is-valid');
+                            $('.invalidDeskripsiOrganisasi').hide();
                         }
 
                         if (logo) {
@@ -649,8 +662,87 @@
                             $('.invalidInputFileOrganisasi').show();
                             $('.invalidInputFileOrganisasi').text(logo);
                         }
+                    }
+                });
 
-                        console.log(result.errors);
+            });
+
+            $('#formAddDataSektoral').submit(function(e) {
+                e.preventDefault();
+                const token = $('meta[name="csrf-token"]').attr('content');
+                const formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('addSektoral') }}',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(data) {
+                        const result = JSON.parse(data);
+                        Swal.fire({
+                            icon: result.status,
+                            title: 'Menambahakan Data Sektoral',
+                            html: `<table>
+                                        <tr class="text-start">
+                                            <td>Nama Sektoral</td>
+                                            <td>:</td>
+                                            <td>${result.data.nama_sektor}</td>
+                                        </tr>
+                                        <tr class="text-start">
+                                            <td>Deskripsi</td>
+                                            <td>:</td>
+                                            <td>${result.data.deskripsi}</td>
+                                        </tr>
+                                        <tr class="text-start">
+                                            <td>Pembuat</td>
+                                            <td>:</td>
+                                            <td>${result.data.pembuat}</td>
+                                        </tr>
+                                   </table>`,
+                            imageUrl: `{{ asset('images/sektoral/${result.data.logo_sektor}') }}`,
+                            imageWidth: 200,
+                            imageHeight: 200,
+                            imageAlt: 'Logo Sektoral',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.reload();
+                            }
+                        });
+                    },
+                    error: function(data) {
+                        const result = JSON.parse(data.responseText);
+                        const deskripsi = result.errors.deskripsiSektoral;
+                        const nama = result.errors.namaSektoral;
+                        const logo = result.errors.logoSektoral;
+
+                        if (nama) {
+                            $('#namaSektoral').addClass('is-invalid');
+                            $('.invalidNamaSektoral').show();
+                            $('.invalidNamaSektoral').text(nama);
+                        } else {
+                            $('#namaSektoral').removeClass('is-invalid');
+                            $('#namaSektoral').addClass('is-valid');
+                            $('.invalidNamaSektoral').hide();
+                        }
+
+                        if (deskripsi) {
+                            $('#deskripsiSektoral').addClass('is-invalid');
+                            $('.invalidDeskripsiSektoral').show();
+                            $('.invalidDeskripsiSektoral').text(deskripsi);
+                        } else {
+                            $('#deskripsiSektoral').removeClass('is-invalid');
+                            $('#deskripsiSektoral').addClass('is-valid');
+                            $('.invalidDeskripsiSektoral').hide();
+                        }
+
+                        if (logo) {
+                            $('#formFileLogoSektoral').addClass('is-invalid');
+                            $('.invalidInputFileSektoral').show();
+                            $('.invalidInputFileSektoral').text(logo);
+                        }
+
                     }
                 });
 

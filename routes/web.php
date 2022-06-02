@@ -46,6 +46,7 @@ Route::controller(DatasetController::class)->group(function(){
 //ROUTE FOR SEKTORAL
 Route::controller(SektoralController::class)->group(function () {
     Route::get('/sektoral', 'index')->name('sektoral')->middleware('auth');
+    Route::post('/sektoral', 'store')->name('addSektoral')->middleware('auth');
 });
 
 //ROUTE FOR ORGANISASI
