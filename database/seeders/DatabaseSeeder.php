@@ -36,6 +36,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             OrganisasiSeeder::class,
             SektoralSeeder::class,
+            TagSeeder::class,
             // DatasetSeeder::class,
         ]);
 

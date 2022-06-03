@@ -484,22 +484,31 @@
         $(document).ready(function() {
 
             // READY FUNCTION==========================================
-            $('#tableOrganisasi, #tableSektoral').DataTable({
+            $('#tableOrganisasi, #tableSektoral, #tableDataset').DataTable({
                 "language": {
                     "url": "/otherAsset/language/dataTables.indonesia.json"
                 }
             });
+
+            $('#tableAktivitas').DataTable({
+                "language": {
+                    "url": "/otherAsset/language/dataTables.indonesia.json"
+                },
+                searching: false,
+                width: '100%',
+                scrollX: true,
+            });
             // ========================================================
 
 
-            // TOGGLE TEXT=============================================
+            // FUNCTION ALL READY =============================================
             $('.addDataOrganisasi').text(function(i, text) {
-                return text === "" ? "Tambah Data Organisasi" :
+                return text == "" ? "Tambah Data Organisasi" :
                     "Tabel Data Organisasi";
             });
 
             $('.addDataSektoral').text(function(i, text) {
-                return text === "" ? "Tambah Data Sektoral" :
+                return text == "" ? "Tambah Data Sektoral" :
                     "Tabel Data Sektoral";
             });
 
@@ -584,9 +593,55 @@
                         "Tambah Data Sektoral";
                 });
             });
+
+            $('#optionMenuDataset').click(function() {
+                $('.formDataset, .showTabelDataset, .showFormDataset, .tableDataset').toggleClass('d-none');
+            });
+
             // ========================================================
 
             // ON SUBMIT FORM FUNCTION=================================
+            $('#formTags').submit(function(e) {
+                e.preventDefault();
+                const token = $('meta[name="csrf-token"]').attr('content');
+                const formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('addTags') }}',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        const result = JSON.parse(response);
+                        // console.log(result);
+                        Swal.mixin({
+                            toast: true,
+                            position: 'top-end',
+                            showConfirmButton: true,
+                            color: '#fff',
+                            background: '#a5dc86',
+                        }).fire({
+                            icon: result.status,
+                            title: result.message
+                        }).then((result) => {
+                            selectTag();
+                            $('#formTags')[0].reset();
+                            $('.invalidToNamaTag').hide();
+                            $('#nameOfTags').removeClass('is-invalid');
+                        });
+                    },
+                    error: function(data) {
+                        const result = JSON.parse(data.responseText);
+                        const tag = result.errors.namaTags;
+                        $('.invalidToNamaTag').text(tag);
+                        $('.invalidToNamaTag').show();
+                        $('#nameOfTags').addClass('is-invalid');
+                    }
+                });
+            });
+
             $('#formAddDataOrganisasi').submit(function(e) {
                 e.preventDefault();
                 const token = $('meta[name="csrf-token"]').attr('content');
@@ -747,8 +802,14 @@
                 });
 
             });
+
+
             // ========================================================
 
+        });
+
+        $(document).ready(function(){
+            selectTag();
         });
     </script>
 

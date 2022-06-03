@@ -6,6 +6,7 @@ use App\Http\Controllers\DatasetController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SektoralController;
 use App\Http\Controllers\OrganisasiController;
+use App\Http\Controllers\TagsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +41,13 @@ Route::controller(LoginController::class)->group(function () {
 //ROUTE FOR DATASET
 Route::controller(DatasetController::class)->group(function(){
     Route::get('/dataset/data', 'index')->name('dataset')->middleware('auth');
-    Route::get('/dataset/tags', 'indexTags')->name('tags')->middleware('auth');
+});
+
+// ROUTES FOR TAGS
+Route::controller(TagsController::class)->group(function(){
+    Route::get('/dataset/tags', 'index')->name('tags')->middleware('auth');
+    Route::post('/dataset/tags', 'store')->name('addTags')->middleware('auth');
+    Route::get('/dataset/readTags', 'read')->name('readTags')->middleware('auth');
 });
 
 //ROUTE FOR SEKTORAL

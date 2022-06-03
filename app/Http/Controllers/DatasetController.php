@@ -11,8 +11,4 @@ class DatasetController extends Controller
         return view('pagesAdmin.dataset.indexDataset');
     }
 
-    public function indexTags()
-    {
-        return view('pagesAdmin.dataset.indexTags');
-    }
 }
