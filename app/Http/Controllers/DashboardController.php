@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Notifikasi;
+use App\Models\Activity;
 use App\Models\Organisasi;
 use App\Models\Sektoral;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+
 
 class DashboardController extends Controller
 {
@@ -13,9 +15,9 @@ class DashboardController extends Controller
     {
         $countOrganisasi = Organisasi::count();
         $countSektoral = Sektoral::count();
+        $today = Carbon::now()->isoFormat('dddd, D MMMM Y');
+        $rowActivity = Activity::whereDate('created_at', Carbon::today())->get();
 
-        $rowNotifikasi = Notifikasi::all();
-
-        return view('pagesAdmin.dashboard.index', compact('countOrganisasi', 'countSektoral', 'rowNotifikasi'));
+        return view('pagesAdmin.dashboard.index', compact('countOrganisasi', 'countSektoral', 'rowActivity', 'today'));
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdministratorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DatasetController;
@@ -41,6 +42,7 @@ Route::controller(LoginController::class)->group(function () {
 //ROUTE FOR DATASET
 Route::controller(DatasetController::class)->group(function(){
     Route::get('/dataset/data', 'index')->name('dataset')->middleware('auth');
+    Route::post('/dataset/data', 'store')->name('createDataset')->middleware('auth');
 });
 
 // ROUTES FOR TAGS
@@ -60,6 +62,12 @@ Route::controller(SektoralController::class)->group(function () {
 Route::controller(OrganisasiController::class)->group(function () {
     Route::get('/organisasi', 'index')->name('organisasi')->middleware('auth');
     Route::post('/organisasi', 'store')->name('addOrganisasi')->middleware('auth');
+});
+
+//ROUTE FOR ADMINISTRATOR
+Route::controller(AdministratorController::class)->group(function () {
+    Route::get('/administrator/users', 'indexUsers')->name('users')->middleware('auth')->middleware('is_admin');
+    Route::get('/administrator/dataset', 'admDataset')->name('admDataset')->middleware('auth')->middleware('is_admin');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

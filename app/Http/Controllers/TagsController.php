@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activity;
+use App\Models\Notifikasi;
 use App\Models\Tags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class TagsController extends Controller
@@ -31,6 +34,18 @@ class TagsController extends Controller
         $tag->kode_tag = rand(1, 100) . Str::random(5);
         $tag->nama_tag = $validationData['namaTags'];
         $tag->pembuat = $request->pembuat;
+
+        $activity = new Activity();
+        $activity->kode_kegiatan = $tag->kode_tag;
+        $activity->nama_kegiatan = $tag->pembuat . ' menambahkan tag <b>' . $tag->nama_tag . '</b>';
+
+        $notifikasi = new Notifikasi();
+        $notifikasi->kode_notifikasi = $tag->kode_tag;
+        $notifikasi->notifikasi = 'Menambahkan tag <b>' . $tag->nama_tag . '</b>';
+        $notifikasi->nama_notifikator = $tag->pembuat;
+
+        $notifikasi->save();
+        $activity->save();
         $tag->save();
 
         return json_encode(['data' => $tag, 'status' => 'success','message' => 'Berhasil menambahkan tag, silahkan tunggu persetujuan admin untuk menambahkan ke dataset']);

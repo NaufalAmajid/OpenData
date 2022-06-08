@@ -108,7 +108,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h2 class="fs-5 fw-bold mb-0">Aktivitas Admin </h2>
+                                <h2 class="fs-5 fw-bold mb-0">Aktivitas Admin {{ $today }} </h2>
                             </div>
                         </div>
                     </div>
@@ -117,35 +117,23 @@
                             <table class="table table-flush alignt-item-center" id="tableAktivitas">
                                 <thead>
                                     <tr>
-                                        <th class="border-bottom" scope="col">Nama</th>
+                                        <th class="border-bottom" scope="col">No.</th>
                                         <th class="border-bottom" scope="col">Aktivitas</th>
                                         <th class="border-bottom" scope="col">Waktu</th>
-                                        <th class="border-bottom" scope="col">Status</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @if ($rowNotifikasi->count() > 0)
-                                    @foreach ($rowNotifikasi as $item)
-                                    <tr>
-                                        <td> Admin {{ $item->nama_notifikator }}</td>
-                                        <td> {!! $item->notifikasi !!}</td>
-                                        <td> {{ $item->created_at->diffForHumans() }}</td>
-                                        <td>
-                                            @switch($item->is_read)
-                                            @case(0)
-                                            <span class="badge badge-lg bg-warning">Belum Dibaca</span>
-                                            @break
-                                            @case(1)
-                                            <span class="badge badge-lg bg-success">Sudah Dibaca</span>
-                                            @break
-                                            @default
-                                            <span class="badge badge-lg bg-danger">Belum Dibaca</span>
-                                            @endswitch
-                                    </tr>
-                                    @endforeach
+                                    @if ($rowActivity->count() > 0)
+                                        @foreach ($rowActivity as $item)
+                                        <tr>
+                                            <td> {{ $loop->iteration }} </td>
+                                            <td> {!! $item->nama_kegiatan !!}</td>
+                                            <td> {{ $item->created_at->diffForHumans() }}</td>
+                                        </tr>
+                                        @endforeach
                                     @else
                                     <tr>
-                                        <td colspan="4" class="text-center">
+                                        <td colspan="3" class="text-center">
                                             <h5 class="text-danger">Belum Ada Aktivitas</h5>
                                         </td>
                                     </tr>

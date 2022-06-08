@@ -210,7 +210,7 @@
                 </a>
                 </li> --}}
                 <li role="separator" class="dropdown-divider mt-4 mb-3 border-gray-700"></li>
-                <li class="nav-item {{ Request::is('administrator*') ? 'active' : '' }}">
+                <li class="nav-item">
                     <span class="nav-link  collapsed  d-flex justify-content-between align-items-center"
                         data-bs-toggle="collapse" data-bs-target="#submenu-pages">
                         <span>
@@ -223,25 +223,33 @@
                             <i class="bi bi-chevron-right fs-6"></i>
                         </span>
                     </span>
-                    <div class="multi-level collapse " role="list" id="submenu-pages" aria-expanded="false">
-                        <ul class="flex-column nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="/template/forAdmin/pages/examples/sign-in.html">
-                                    <span class="sidebar-text">Kelola User</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/template/forAdmin/pages/examples/sign-up.html">
-                                    <span class="sidebar-text">Dataset</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/template/forAdmin/pages/examples/forgot-password.html">
-                                    <span class="sidebar-text">Pengaturan</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    @can('isAdmin')
+                        <div class="multi-level collapse {{ Request::is('administrator*') ? 'show' : '' }}" role="list" id="submenu-pages" aria-expanded="false">
+                            <ul class="flex-column nav">
+                                <li class="nav-item {{ Request::is('administrator/users*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('users') }}">
+                                        <span class="sidebar-text">Kelola User</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item {{ Request::is('administrator/dataset*') ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('admDataset') }}">
+                                        <span class="sidebar-text">Dataset</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    @else
+                        <div class="multi-level collapse" role="list" id="submenu-pages" aria-expanded="false">
+                            <ul class="flex-column nav">
+                                <div class="nav-item d-flex justify-content-center">
+                                    <i class="bi bi-emoji-angry-fill" style="font-size: 80px;"></i>
+                                </div>
+                                <div class="nav-item d-flex justify-content-center">
+                                    <p>Anda Bukan Administrator!</p>
+                                </div>
+                            </ul>
+                        </div>
+                    @endcan
                 </li>
             </ul>
         </div>
@@ -489,15 +497,6 @@
                     "url": "/otherAsset/language/dataTables.indonesia.json"
                 }
             });
-
-            $('#tableAktivitas').DataTable({
-                "language": {
-                    "url": "/otherAsset/language/dataTables.indonesia.json"
-                },
-                searching: false,
-                width: '100%',
-                scrollX: true,
-            });
             // ========================================================
 
 
@@ -601,6 +600,75 @@
             // ========================================================
 
             // ON SUBMIT FORM FUNCTION=================================
+            $('#formCreateDataset').submit(function(e) {
+                e.preventDefault();
+                const token = $('meta[name="csrf-token"]').attr('content');
+                const formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('createDataset') }}',
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(response) {
+                        const result = JSON.parse(response);
+                        if (result.status == 'success') {
+                            Swal.fire({
+                                title: 'Berhasil',
+                                text: result.message,
+                                icon: 'success'
+                            }).then(function() {
+                                location.reload();
+                            });
+                        }
+                    },
+                    error: function(response) {
+                        const result = JSON.parse(response.responseText);
+
+                        const judul = result.errors.judulDataset;
+                        const sektoral = result.errors.sektoralDataset;
+                        const tag = result.errors.tagDataset;
+
+                        if (judul) {
+                            $('#judulDataset').addClass('is-invalid');
+                            $('#judulDataset').removeClass('is-valid');
+                            $('.invalidJudulDataset').text(judul);
+                            $('.invalidJudulDataset').show();
+                        } else {
+                            $('#judulDataset').removeClass('is-invalid');
+                            $('#judulDataset').addClass('is-valid');
+                            $('.invalidJudulDataset').hide();
+                        }
+
+                        if (sektoral) {
+                            $('#sektoralDataset').addClass('is-invalid');
+                            $('#sektoralDataset').removeClass('is-valid');
+                            $('.invalidSektoralDataset').text(sektoral);
+                            $('.invalidSektoralDataset').show();
+                        } else {
+                            $('#sektoralDataset').removeClass('is-invalid');
+                            $('#sektoralDataset').addClass('is-valid');
+                            $('.invalidSektoralDataset').hide();
+                        }
+
+                        if (tag) {
+                            $('#tagDataset').addClass('is-invalid');
+                            $('#tagDataset').removeClass('is-valid');
+                            $('.invalidTagDataset').text(tag);
+                            $('.invalidTagDataset').show();
+                        } else {
+                            $('#tagDataset').removeClass('is-invalid');
+                            $('#tagDataset').addClass('is-valid');
+                            $('.invalidTagDataset').hide();
+                        }
+
+                    }
+                });
+
+            });
+
             $('#formTags').submit(function(e) {
                 e.preventDefault();
                 const token = $('meta[name="csrf-token"]').attr('content');
@@ -615,7 +683,6 @@
                     processData: false,
                     success: function(response) {
                         const result = JSON.parse(response);
-                        // console.log(result);
                         Swal.mixin({
                             toast: true,
                             position: 'top-end',

@@ -43,7 +43,7 @@
     </div>
     <div class="card border-0 shadow components-section mb-4 col-lg-12 col-sm-12">
         <div class="card-body">
-            <form action="javascript:void(0)" enctype="multipart/form-data" method="POST" id="formAddDataset">
+            <form action="javascript:void(0)" enctype="multipart/form-data" method="POST" id="formCreateDataset">
                 @csrf
                 <input type="hidden" name="pembuat" value="{{ Auth::user()->name }}">
                 <div class="row mb-4">
@@ -60,25 +60,19 @@
                 <div class="row mb-4">
                     <div class="col-lg-4 col-sm-12">
                         <div class="form-group">
-                            <label class="my-1 me-2" for="organisasiDataset">Organisasi</label>
-                            <select class="form-select" id="organisasiDataset" name="organisasiDataset">
-                                <option selected>--- Pilih Organisasi ---</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
-                            </select>
-                            <div class="invalid-feedback invalidOrganisasiDataset">
-                            </div>
+                            <label class="form-label">Organisasi</label>
+                            <input type="text" class="form-control" placeholder="Organisasi Dataset" name="organisasiDataset"
+                            id="organisasiDataset" value="{{ $organisasiName->nama_organisasi }}" readonly>
                         </div>
                     </div>
                     <div class="col-lg-4 col-sm-12">
                         <div class="form-group">
                             <label class="my-1 me-2" for="sektoralDataset">Sektoral</label>
                             <select class="form-select" id="sektoralDataset" name="sektoralDataset">
-                                <option selected>--- Pilih Sektoral ---</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="" selected>--- Pilih Sektoral ---</option>
+                                @foreach ($sektoral as $item)
+                                    <option value="{{ $item->kode_sektor }}">{{ $item->nama_sektor }}</option>
+                                @endforeach
                             </select>
                             <div class="invalid-feedback invalidSektoralDataset">
                             </div>
@@ -88,10 +82,10 @@
                         <div class="form-group">
                             <label class="my-1 me-2" for="tagDataset">Tag</label>
                             <select class="form-select" id="tagDataset" name="tagDataset">
-                                <option selected>--- Pilih Tag ---</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="" selected>--- Pilih Tag ---</option>
+                                @foreach ($tag as $item)
+                                    <option value="{{ $item->kode_tag }}">{{ $item->nama_tag }}</option>
+                                @endforeach
                             </select>
                             <div class="invalid-feedback invalidTagDataset">
                             </div>
@@ -102,7 +96,7 @@
                     <div class="col-lg-12 col-sm-6">
                         <div class="form-group">
                             <label class="form-label">Silahkan Masukkan Data dan Resources</label>
-                            <input class="form-control" type="file" id="dataResources" name="dataResources" multiple>
+                            <input class="form-control" type="file" id="dataResources" name="dataResources[]" multiple>
                             <div class="invalid-feedback invalidDataResources">
                             </div>
                         </div>
@@ -128,8 +122,6 @@
                                 <label class="my-1 me-2" for="sumberDataset">Sumber Dataset</label>
                                 <input class="form-control" type="text" id="sumberDataset" name="sumberDataset"
                                     placeholder="Sumber Dataset" autocomplete="off">
-                                <div class="invalid-feedback invalidSumberDataset">
-                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-12">
@@ -137,8 +129,6 @@
                                 <label class="my-1 me-2" for="pengelolaDataset">Pengelola Dataset</label>
                                 <input class="form-control" type="text" id="pengelolaDataset" name="pengelolaDataset"
                                     placeholder="Pengelola Dataset" autocomplete="off">
-                                <div class="invalid-feedback invalidPengelolaDataset">
-                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-sm-12">
@@ -146,8 +136,6 @@
                                 <label class="my-1 me-2" for="lisensiDataset">Lisensi Dataset</label>
                                 <input class="form-control" type="text" id="lisensiDataset" name="lisensiDataset"
                                     placeholder="Lisensi Dataset" autocomplete="off">
-                                <div class="invalid-feedback invalidLisensiDataset">
-                                </div>
                             </div>
                         </div>
                     </div>

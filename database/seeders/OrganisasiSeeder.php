@@ -55,5 +55,13 @@ class OrganisasiSeeder extends Seeder
                 'nama_organisasi' => 'Badan Pengelolaan Pendapatan Daerah',
             ]
         );
+
+        Organisasi::create(
+            [
+                'kode_organisasi' => 'adm824302',
+                'deskripsi' => '-',
+                'nama_organisasi' => 'Administrator',
+            ]
+        );
     }
 }
