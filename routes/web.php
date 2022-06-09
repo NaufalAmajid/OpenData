@@ -66,8 +66,10 @@ Route::controller(OrganisasiController::class)->group(function () {
 
 //ROUTE FOR ADMINISTRATOR
 Route::controller(AdministratorController::class)->group(function () {
-    Route::get('/administrator/users', 'indexUsers')->name('users')->middleware('auth')->middleware('is_admin');
-    Route::get('/administrator/dataset', 'admDataset')->name('admDataset')->middleware('auth')->middleware('is_admin');
+    Route::get('/administrator/users', 'indexUsers')->name('users')->middleware('is_admin');
+    Route::get('/administrator/dataset', 'admDataset')->name('admDataset')->middleware('is_admin');
+    Route::get('/administrator/tableDataAdmin', 'showDataAdmin')->name('tableDataAdmin')->middleware('is_admin');
+    Route::get('/administrator/tableDataOrganisasi', 'showDataOrganisasi')->name('tableDataOrganisasi')->middleware('is_admin');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

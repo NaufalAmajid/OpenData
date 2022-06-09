@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('kode_organisasi');
             $table->boolean('is_admin')->default(false);
+            $table->integer('is_active')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

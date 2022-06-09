@@ -83,7 +83,54 @@
     </div>
 </div>
 @endsection
+
+@section('js')
 <script>
+    $(document).ready(function(){
+
+        $('#formTags').submit(function(e) {
+            e.preventDefault();
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('addTags') }}',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    const result = JSON.parse(response);
+                    Swal.mixin({
+                        toast: true,
+                        position: 'top-end',
+                        showConfirmButton: true,
+                        color: '#fff',
+                        background: '#a5dc86',
+                    }).fire({
+                        icon: result.status,
+                        title: result.message
+                    }).then((result) => {
+                        selectTag();
+                        $('#formTags')[0].reset();
+                        $('.invalidToNamaTag').hide();
+                        $('#nameOfTags').removeClass('is-invalid');
+                    });
+                },
+                error: function(data) {
+                    const result = JSON.parse(data.responseText);
+                    const tag = result.errors.namaTags;
+                    $('.invalidToNamaTag').text(tag);
+                    $('.invalidToNamaTag').show();
+                    $('#nameOfTags').addClass('is-invalid');
+                }
+            });
+        });
+
+        selectTag();
+    });
+
     function selectTag(){
         $.get('{{ route('readTags') }}', function(data){
             $('#showTableTags').html(data);
@@ -101,3 +148,4 @@
         });
     }
 </script>
+@endsection

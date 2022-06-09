@@ -135,8 +135,140 @@
     </div>
 </div>
 @endsection
+
+@section('js')
 <script>
     function test() {
         alert('test');
     }
+    $(document).ready(function () {
+
+        $('#tableSektoral').DataTable({
+            "language": {
+                "url": "/otherAsset/language/dataTables.indonesia.json"
+            }
+        });
+
+        $('.addDataSektoral').text(function(i, text) {
+            return text == "" ? "Tambah Data Sektoral" :
+                "Tabel Data Sektoral";
+        });
+
+        $('#formFileLogoSektoral').change(function() {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#showLogoSektoral').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+
+                $('#showLogoSektoral').show();
+                $('#formFileLogoSektoral').removeClass('is-invalid');
+                $('#formFileLogoSektoral').addClass('is-valid');
+                $('.invalidInputFileSektoral').hide();
+
+            } else {
+                $('#showLogoSektoral').hide();
+                $('#formFileLogoSektoral').removeClass('is-valid');
+                $('#formFileLogoSektoral').addClass('is-invalid');
+            }
+        });
+
+        $('.addDataSektoral').click(function() {
+            $('.formAddSektoral').toggleClass('d-none');
+            $('.tableDataSektoral').toggleClass('d-none');
+            $('.addDataSektoral').text(function(i, text) {
+                return text === "Tambah Data Sektoral" ? "Tabel Data Sektoral" :
+                    "Tambah Data Sektoral";
+            });
+        });
+
+
+        $('#formAddDataSektoral').submit(function(e) {
+            e.preventDefault();
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('addSektoral') }}',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    const result = JSON.parse(data);
+                    Swal.fire({
+                        icon: result.status,
+                        title: 'Menambahakan Data Sektoral',
+                        html: `<table>
+                                    <tr class="text-start">
+                                        <td>Nama Sektoral</td>
+                                        <td>:</td>
+                                        <td>${result.data.nama_sektor}</td>
+                                    </tr>
+                                    <tr class="text-start">
+                                        <td>Deskripsi</td>
+                                        <td>:</td>
+                                        <td>${result.data.deskripsi}</td>
+                                    </tr>
+                                    <tr class="text-start">
+                                        <td>Pembuat</td>
+                                        <td>:</td>
+                                        <td>${result.data.pembuat}</td>
+                                    </tr>
+                               </table>`,
+                        imageUrl: `{{ asset('images/sektoral/${result.data.logo_sektor}') }}`,
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Logo Sektoral',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                },
+                error: function(data) {
+                    const result = JSON.parse(data.responseText);
+                    const deskripsi = result.errors.deskripsiSektoral;
+                    const nama = result.errors.namaSektoral;
+                    const logo = result.errors.logoSektoral;
+
+                    if (nama) {
+                        $('#namaSektoral').addClass('is-invalid');
+                        $('.invalidNamaSektoral').show();
+                        $('.invalidNamaSektoral').text(nama);
+                    } else {
+                        $('#namaSektoral').removeClass('is-invalid');
+                        $('#namaSektoral').addClass('is-valid');
+                        $('.invalidNamaSektoral').hide();
+                    }
+
+                    if (deskripsi) {
+                        $('#deskripsiSektoral').addClass('is-invalid');
+                        $('.invalidDeskripsiSektoral').show();
+                        $('.invalidDeskripsiSektoral').text(deskripsi);
+                    } else {
+                        $('#deskripsiSektoral').removeClass('is-invalid');
+                        $('#deskripsiSektoral').addClass('is-valid');
+                        $('.invalidDeskripsiSektoral').hide();
+                    }
+
+                    if (logo) {
+                        $('#formFileLogoSektoral').addClass('is-invalid');
+                        $('.invalidInputFileSektoral').show();
+                        $('.invalidInputFileSektoral').text(logo);
+                    }
+
+                }
+            });
+
+        });
+    });
 </script>
+@endsection

@@ -133,8 +133,140 @@
     </div>
 </div>
 @endsection
+
+@section('js')
 <script>
+    $(document).ready(function () {
+
+        $('#tableOrganisasi').DataTable({
+            "language": {
+                "url": "/otherAsset/language/dataTables.indonesia.json"
+            }
+        });
+
+        $('.addDataOrganisasi').text(function(i, text) {
+            return text == "" ? "Tambah Data Organisasi" :
+                "Tabel Data Organisasi";
+        });
+
+        $('#formFileLogoOrganisasi').change(function() {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#showLogoOrganisasi').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+
+                $('#showLogoOrganisasi').show();
+                $('#formFileLogoOrganisasi').removeClass('is-invalid');
+                $('#formFileLogoOrganisasi').addClass('is-valid');
+                $('.invalidInputFileOrganisasi').hide();
+
+            } else {
+                $('#showLogoOrganisasi').hide();
+                $('#formFileLogoOrganisasi').removeClass('is-valid');
+                $('#formFileLogoOrganisasi').addClass('is-invalid');
+            }
+        });
+
+        $('.addDataOrganisasi').click(function() {
+            $('.formAddOrganisasi').toggleClass('d-none');
+            $('.tableDataOrganisasi').toggleClass('d-none');
+            $('.addDataOrganisasi').text(function(i, text) {
+                return text === "Tambah Data Organisasi" ? "Tabel Data Organisasi" :
+                    "Tambah Data Organisasi";
+            });
+        });
+
+        $('#formAddDataOrganisasi').submit(function(e) {
+            e.preventDefault();
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('addOrganisasi') }}',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    const result = JSON.parse(data);
+                    Swal.fire({
+                        icon: result.status,
+                        title: 'Menambahakan Data Organisasi',
+                        html: `<table>
+                                    <tr class="text-start">
+                                        <td>Nama Organisasi</td>
+                                        <td>:</td>
+                                        <td>${result.data.nama_organisasi}</td>
+                                    </tr>
+                                    <tr class="text-start">
+                                        <td>Deskripsi</td>
+                                        <td>:</td>
+                                        <td>${result.data.deskripsi}</td>
+                                    </tr>
+                                    <tr class="text-start">
+                                        <td>Pembuat</td>
+                                        <td>:</td>
+                                        <td>${result.data.pembuat}</td>
+                                    </tr>
+                               </table>`,
+                        imageUrl: `{{ asset('images/organisasi/${result.data.logo_organisasi}') }}`,
+                        imageWidth: 200,
+                        imageHeight: 200,
+                        imageAlt: 'Logo Organisasi',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
+                    });
+                },
+                error: function(data) {
+                    const result = JSON.parse(data.responseText);
+                    const deskripsi = result.errors.deskripsiOrganisasi;
+                    const nama = result.errors.namaOrganisasi;
+                    const logo = result.errors.logoOrganisasi;
+
+                    if (nama) {
+                        $('#namaOrganisasi').addClass('is-invalid');
+                        $('.invalidNamaOrganisasi').show();
+                        $('.invalidNamaOrganisasi').text(nama);
+                    } else {
+                        $('#namaOrganisasi').removeClass('is-invalid');
+                        $('#namaOrganisasi').addClass('is-valid');
+                        $('.invalidNamaOrganisasi').hide();
+                    }
+
+                    if (deskripsi) {
+                        $('#deskripsiOrganisasi').addClass('is-invalid');
+                        $('.invalidDeskripsiOrganisasi').show();
+                        $('.invalidDeskripsiOrganisasi').text(deskripsi);
+                    } else {
+                        $('#deskripsiOrganisasi').removeClass('is-invalid');
+                        $('#deskripsiOrganisasi').addClass('is-valid');
+                        $('.invalidDeskripsiOrganisasi').hide();
+                    }
+
+                    if (logo) {
+                        $('#formFileLogoOrganisasi').addClass('is-invalid');
+                        $('.invalidInputFileOrganisasi').show();
+                        $('.invalidInputFileOrganisasi').text(logo);
+                    }
+                }
+            });
+
+        });
+
+    });
+
     function test() {
         alert('test');
     }
 </script>
+@endsection

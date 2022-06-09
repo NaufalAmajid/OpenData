@@ -185,3 +185,90 @@
 </div>
 
 @endsection
+
+@section('js')
+<script>
+    $(document).ready(function () {
+
+        $('#tableDataset').DataTable({
+            "language": {
+                "url": "/otherAsset/language/dataTables.indonesia.json"
+            }
+        });
+
+        $('#optionMenuDataset').click(function() {
+            $('.formDataset, .showTabelDataset, .showFormDataset, .tableDataset').toggleClass('d-none');
+        });
+
+        $('#formCreateDataset').submit(function(e) {
+            e.preventDefault();
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('createDataset') }}',
+                data: formData,
+                contentType: false,
+                cache: false,
+                processData: false,
+                success: function(response) {
+                    const result = JSON.parse(response);
+                    if (result.status == 'success') {
+                        Swal.fire({
+                            title: 'Berhasil',
+                            text: result.message,
+                            icon: 'success'
+                        }).then(function() {
+                            location.reload();
+                        });
+                    }
+                },
+                error: function(response) {
+                    const result = JSON.parse(response.responseText);
+
+                    const judul = result.errors.judulDataset;
+                    const sektoral = result.errors.sektoralDataset;
+                    const tag = result.errors.tagDataset;
+
+                    if (judul) {
+                        $('#judulDataset').addClass('is-invalid');
+                        $('#judulDataset').removeClass('is-valid');
+                        $('.invalidJudulDataset').text(judul);
+                        $('.invalidJudulDataset').show();
+                    } else {
+                        $('#judulDataset').removeClass('is-invalid');
+                        $('#judulDataset').addClass('is-valid');
+                        $('.invalidJudulDataset').hide();
+                    }
+
+                    if (sektoral) {
+                        $('#sektoralDataset').addClass('is-invalid');
+                        $('#sektoralDataset').removeClass('is-valid');
+                        $('.invalidSektoralDataset').text(sektoral);
+                        $('.invalidSektoralDataset').show();
+                    } else {
+                        $('#sektoralDataset').removeClass('is-invalid');
+                        $('#sektoralDataset').addClass('is-valid');
+                        $('.invalidSektoralDataset').hide();
+                    }
+
+                    if (tag) {
+                        $('#tagDataset').addClass('is-invalid');
+                        $('#tagDataset').removeClass('is-valid');
+                        $('.invalidTagDataset').text(tag);
+                        $('.invalidTagDataset').show();
+                    } else {
+                        $('#tagDataset').removeClass('is-invalid');
+                        $('#tagDataset').addClass('is-valid');
+                        $('.invalidTagDataset').hide();
+                    }
+
+                }
+            });
+
+        });
+
+    });
+</script>
+@endsection
