@@ -68,18 +68,9 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-flush alignt-item-center" id="tableDataAdmin">
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom" scope="col">Nama</th>
-                                    <th class="border-bottom" scope="col">Status</th>
-                                    <th class="border-bottom" scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="showDataAdmin">
+                        <div class="col-auto" id="showDataAdmin">
 
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -97,18 +88,9 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-flush alignt-item-center" id="tableOrganisasiAdministrator">
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom" scope="col">Organisasi</th>
-                                    <th class="border-bottom" scope="col">Status</th>
-                                    <th class="border-bottom" scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="showDataOrganisasi">
+                        <div class="col-auto" id="showDataOrganisasi">
 
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -125,11 +107,70 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form action="javascript:void(0)" method="POST" id="formAddNewAdmin">
+                    @csrf
+                    <div class="row mb-4">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" placeholder="Nama Lengkap Admin" name="namaLengkap"
+                                    id="namaLengkap" autocomplete="off">
+                                <div class="invalid-feedback invalidNamaLengkap">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-label">Organisasi</label>
+                                <select class="form-select" id="organisasiAdmin" name="organisasiAdmin">
+                                    <option value="" selected>--- Pilih Organisasi ---</option>
+                                    @foreach ($rowOrganisasi as $item)
+                                        <option value="{{ $item->kode_organisasi }}">{{ $item->nama_organisasi }}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback invalidOrganisasiAdmin">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-label">Username</label>
+                                <input type="text" class="form-control" placeholder="Username Admin" name="username"
+                                    id="username" autocomplete="off">
+                                <div class="invalid-feedback invalidUsername">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-sm-12">
+                            <div class="form-group">
+                                <label class="form-label">Password</label>
+                                <input type="text" class="form-control" placeholder="Password" name="password"
+                                    id="password" autocomplete="off">
+                                <div class="invalid-feedback invalidPassword">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-12 col-sm-12">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="chkIsAdmin" name="isAdmin">
+                                <label class="form-check-label" for="chkIsAdmin">Apakah dia Seorang<span style="font-weight: bold;"> Administrator?</span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="form-group">
+                            <button class="btn btn-pill btn-outline-primary col-md-12 fs-6" type="submit"
+                                id="btnSendOrganisasi"><i class="bi bi-reply-all fs-5"></i> Buat</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
             </div>
         </div>
     </div>
@@ -143,11 +184,59 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ...
+                <form action="javascript:void(0)" enctype="multipart/form-data" method="POST" id="formAddDataOrganisasi">
+                    @csrf
+                    <input type="hidden" name="pembuat" value="{{ Auth::user()->name }}">
+                    <div class="row mb-4">
+                        <div class="col-lg-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Nama Organisasi</label>
+                                <input type="text" class="form-control" placeholder="Nama Organisasi" name="namaOrganisasi"
+                                    id="namaOrganisasi" autocomplete="off">
+                                <div class="invalid-feedback invalidNamaOrganisasi">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Deskripsi Organisasi</label>
+                                <textarea class="form-control" placeholder="Tuliskan deskripsi organisasi..."
+                                    name="deskripsiOrganisasi" rows="4" id="deskripsiOrganisasi"></textarea>
+                                <div class="invalid-feedback invalidDeskripsiOrganisasi">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-12 col-sm-6">
+                            <div class="form-group">
+                                <label class="form-label">Silahkan Masukkan Logo Organisasi</label>
+                                <input class="form-control" type="file" id="formFileLogoOrganisasi" name="logoOrganisasi">
+                                <div class="invalid-feedback invalidInputFileOrganisasi">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-lg-12 col-sm-6">
+                            <div class="form-group">
+                                <div id="alertLogoOrganisasi"></div>
+                                <img id="showLogoOrganisasi" src="/images/assets/insertHere.png" width="500" height="400">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="form-group">
+                            <button class="btn btn-pill btn-outline-primary col-md-12 fs-6" type="submit"
+                                id="btnSendOrganisasi"><i class="bi bi-reply-all fs-5"></i> Kirim</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Understood</button>
+                <button type="button" id="btnHideModalOrganisasi" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -156,6 +245,170 @@
 
 @section('js')
 <script>
+
+    $(document).ready(function(){
+
+        $('#formFileLogoOrganisasi').change(function() {
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                var reader = new FileReader();
+
+                reader.onload = function(e) {
+                    $('#showLogoOrganisasi').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+
+                $('#showLogoOrganisasi').show();
+                $('#formFileLogoOrganisasi').removeClass('is-invalid');
+                $('#formFileLogoOrganisasi').addClass('is-valid');
+                $('.invalidInputFileOrganisasi').hide();
+
+            } else {
+                $('#showLogoOrganisasi').hide();
+                $('#formFileLogoOrganisasi').removeClass('is-valid');
+                $('#formFileLogoOrganisasi').addClass('is-invalid');
+            }
+        });
+
+        $('#formAddDataOrganisasi').submit(function(e) {
+            e.preventDefault();
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('addOrganisasi') }}',
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data) {
+                    const result = JSON.parse(data);
+                    $('#modalAddOrganisasi').modal('hide').fadeOut(500).queue(function(next) {
+                        $('#formAddDataOrganisasi')[0].reset();
+                        $('#showLogoOrganisasi').attr('src', '/images/assets/insertHere.png');
+                        Swal.fire({
+                            icon: result.status,
+                            title: 'Menambahakan Data Organisasi',
+                            html: `<table>
+                                        <tr class="text-start">
+                                            <td>Nama Organisasi</td>
+                                            <td>:</td>
+                                            <td>${result.data.nama_organisasi}</td>
+                                        </tr>
+                                        <tr class="text-start">
+                                            <td>Deskripsi</td>
+                                            <td>:</td>
+                                            <td>${result.data.deskripsi}</td>
+                                        </tr>
+                                        <tr class="text-start">
+                                            <td>Pembuat</td>
+                                            <td>:</td>
+                                            <td>${result.data.pembuat}</td>
+                                        </tr>
+                                </table>`,
+                            imageUrl: `{{ asset('images/organisasi/${result.data.logo_organisasi}') }}`,
+                            imageWidth: 200,
+                            imageHeight: 200,
+                            imageAlt: 'Logo Organisasi',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                                selectDataOrganisasi();
+
+                            }
+                        });
+                        next();
+                    });
+                },
+                error: function(data) {
+                    const result = JSON.parse(data.responseText);
+                    const deskripsi = result.errors.deskripsiOrganisasi;
+                    const nama = result.errors.namaOrganisasi;
+                    const logo = result.errors.logoOrganisasi;
+
+                    if (nama) {
+                        $('#namaOrganisasi').addClass('is-invalid');
+                        $('.invalidNamaOrganisasi').show();
+                        $('.invalidNamaOrganisasi').text(nama);
+                    } else {
+                        $('#namaOrganisasi').removeClass('is-invalid');
+                        $('#namaOrganisasi').addClass('is-valid');
+                        $('.invalidNamaOrganisasi').hide();
+                    }
+
+                    if (deskripsi) {
+                        $('#deskripsiOrganisasi').addClass('is-invalid');
+                        $('.invalidDeskripsiOrganisasi').show();
+                        $('.invalidDeskripsiOrganisasi').text(deskripsi);
+                    } else {
+                        $('#deskripsiOrganisasi').removeClass('is-invalid');
+                        $('#deskripsiOrganisasi').addClass('is-valid');
+                        $('.invalidDeskripsiOrganisasi').hide();
+                    }
+
+                    if (logo) {
+                        $('#formFileLogoOrganisasi').addClass('is-invalid');
+                        $('.invalidInputFileOrganisasi').show();
+                        $('.invalidInputFileOrganisasi').text(logo);
+                    }
+                }
+            });
+
+        });
+
+        $('#chkIsAdmin').change(function() {
+            if ($(this).is(':checked')) {
+                $('#chkIsAdmin').val(true);
+            }else{
+                $('#chkIsAdmin').val(false);
+            }
+        });
+
+        $('#formAddNewAdmin').submit(function(e) {
+            e.preventDefault();
+            const token = $('meta[name="csrf-token"]').attr('content');
+            const formData = new FormData(this);
+            const isAdmin  = $('#chkIsAdmin').is(':checked');
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('addNewAdmin') }}',
+                data: [
+                    formData,
+                    isAdmin
+                ],
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function(data){
+                    const result = JSON.parse(data);
+                    // $('#modalAddAdmin').modal('hide').fadeOut(500).queue(function(next) {
+                    //     $('#formAddNewAdmin')[0].reset();
+                    //     Swal.fire({
+                    //         icon: result.status,
+                    //         title: 'Admin Baru',
+                    //     next();
+                    // });
+                    console.log(result.data);
+                },
+                error: function(data) {
+                    const result = JSON.parse(data);
+                    console.log(result);
+                }
+
+
+            });
+
+        });
+
+        selectDataAdmin();
+        selectDataOrganisasi();
+    });
+
     function showModalAddAdmin() {
         $('#modalAddAdmin').modal('show');
     }
@@ -203,9 +456,6 @@
 
     }
 
-    $(document).ready(function(){
-        selectDataAdmin();
-        selectDataOrganisasi();
-    });
+
 </script>
 @endsection

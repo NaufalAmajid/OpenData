@@ -11,6 +11,7 @@ use App\Models\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class DatasetController extends Controller
 {
@@ -87,5 +88,17 @@ class DatasetController extends Controller
             'message' => 'Dataset berhasil diupload, tunggu persetujuan administrator untuk publikasi',
             'data' => $dataset,
         ]);
+    }
+
+    public function showDataDataset()
+    {
+        $rowDataset = Dataset::join('organisasis', 'organisasis.kode_organisasi', '=', 'datasets.kode_organisasi')
+                ->join('sektorals', 'sektorals.kode_sektor', '=', 'datasets.kode_sektoral')
+                ->join('tags', 'tags.kode_tag', '=', 'datasets.kode_tag')
+                ->where('datasets.pembuat', '=', Auth::user()->name)
+                ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi', 'sektorals.nama_sektor', 'tags.nama_tag')
+                ->get();
+
+        return view('pagesAdmin.dataset.informasi.tableDataset', compact('rowDataset'));
     }
 }

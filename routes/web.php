@@ -42,6 +42,7 @@ Route::controller(LoginController::class)->group(function () {
 //ROUTE FOR DATASET
 Route::controller(DatasetController::class)->group(function(){
     Route::get('/dataset/data', 'index')->name('dataset')->middleware('auth');
+    Route::get('/dataset/tableDataset', 'showDataDataset')->name('showDataDataset')->middleware('auth');
     Route::post('/dataset/data', 'store')->name('createDataset')->middleware('auth');
 });
 
@@ -70,6 +71,10 @@ Route::controller(AdministratorController::class)->group(function () {
     Route::get('/administrator/dataset', 'admDataset')->name('admDataset')->middleware('is_admin');
     Route::get('/administrator/tableDataAdmin', 'showDataAdmin')->name('tableDataAdmin')->middleware('is_admin');
     Route::get('/administrator/tableDataOrganisasi', 'showDataOrganisasi')->name('tableDataOrganisasi')->middleware('is_admin');
+    Route::get('/administrator/tableDataTags', 'showDataTags')->name('tableDataTags')->middleware('is_admin');
+    Route::get('/administrator/tableDataSektoral', 'showDataSektoral')->name('tableDataSektoral')->middleware('is_admin');
+    Route::get('/administrator/tableDataset', 'showDataset')->name('tableDataset')->middleware('is_admin');
+    Route::post('/administrator/addNewAdmin', 'storeNewAdmin')->name('addNewAdmin')->middleware('is_admin');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

@@ -175,7 +175,7 @@
                             <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="showTableDataset">
 
                     </tbody>
                 </table>
@@ -189,12 +189,6 @@
 @section('js')
 <script>
     $(document).ready(function () {
-
-        $('#tableDataset').DataTable({
-            "language": {
-                "url": "/otherAsset/language/dataTables.indonesia.json"
-            }
-        });
 
         $('#optionMenuDataset').click(function() {
             $('.formDataset, .showTabelDataset, .showFormDataset, .tableDataset').toggleClass('d-none');
@@ -269,6 +263,19 @@
 
         });
 
+        showDataDataset();
+
     });
+
+    function showDataDataset(){
+        $.get('{{ route('showDataDataset') }}', function(data){
+            $('#showTableDataset').html(data);
+            $('#tableDataset').DataTable({
+                "language": {
+                    "url": "/otherAsset/language/dataTables.indonesia.json"
+                }
+            });
+        })
+    }
 </script>
 @endsection
