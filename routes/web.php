@@ -75,6 +75,8 @@ Route::controller(AdministratorController::class)->group(function () {
     Route::get('/administrator/tableDataSektoral', 'showDataSektoral')->name('tableDataSektoral')->middleware('is_admin');
     Route::get('/administrator/tableDataset', 'showDataset')->name('tableDataset')->middleware('is_admin');
     Route::post('/administrator/addNewAdmin', 'storeNewAdmin')->name('addNewAdmin')->middleware('is_admin');
+    Route::post('/administrator/acceptDataset', 'publishDataset')->name('acceptDataset')->middleware('is_admin');
+    Route::post('/administrator/acceptTag', 'acceptTag')->name('acceptTag')->middleware('is_admin');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

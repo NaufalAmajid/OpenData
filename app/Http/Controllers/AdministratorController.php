@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dataset;
 use App\Models\Organisasi;
 use App\Models\Sektoral;
 use App\Models\Tags;
@@ -105,6 +106,34 @@ class AdministratorController extends Controller
         $response = [
             'status' => 'success',
             'data' => $dataAdmin,
+        ];
+
+        return json_encode($response);
+    }
+
+    public function publishDataset(Request $request)
+    {
+        $getIdDataset = Dataset::findOrFail($request->id);
+        $getIdDataset->is_publish = 1;
+        $getIdDataset->save();
+
+        $response = [
+            'status' => 'success',
+            'data' => $getIdDataset,
+        ];
+
+        return json_encode($response);
+    }
+
+    public function acceptTag(Request $request)
+    {
+        $getIdTag = Tags::findOrFail($request->idTag);
+        $getIdTag->is_correct = 1;
+        $getIdTag->save();
+
+        $response = [
+            'status' => 'success',
+            'data' => $getIdTag,
         ];
 
         return json_encode($response);

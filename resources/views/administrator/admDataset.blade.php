@@ -40,19 +40,9 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-flush alignt-item-center" id="tableDataset">
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom" scope="col">Judul</th>
-                                    <th class="border-bottom" scope="col">Creator</th>
-                                    <th class="border-bottom" scope="col">Tgl Buat</th>
-                                    <th class="border-bottom" scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="showDataset">
+                        <div class="col-auto" id="showDataset">
 
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -72,18 +62,26 @@
                         </div>
                     </div>
                     <div class="table-responsive">
-                        <table class="table table-flush alignt-item-center" id="tableDataTags">
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom" scope="col">Tag</th>
-                                    <th class="border-bottom" scope="col">Creator</th>
-                                    <th class="border-bottom" scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="showDataTags">
+                        <div class="col-auto" id="showDataTags">
 
-                            </tbody>
-                        </table>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row align-item-center">
+                            <div class="col-lg-4 col-sm-12">
+                                <span class="p-2" style="font-size: 13px;"><i class="bi bi-clipboard-minus-fill text-warning fs-5"></i> Belum diSetujui</span>
+                            </div>
+                            <div class="col-lg-4 col-sm-12">
+                                <span class="p-2" style="font-size: 13px;"><i class="bi bi-clipboard-check-fill text-success fs-5"></i> diSetujui</span>
+                            </div>
+                            <div class="col-lg-4 col-sm-12">
+                                <span class="p-2" style="font-size: 13px;"><i class="bi bi-trash text-danger fs-5"></i> Hapus Tag</span>
+                            </div>
+                        </div>
+                        <div role="separator" class="row dropdown-divider mt-4 mb-3 border-dark"></div>
+                        <div class="row">
+                            <p class="p-2" style="font-size: 14px;">Klik tombol <span style="font-weight: bold; font-style: italic;">"Belum diSetujui"</span> untuk menampilkan Tag</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -148,7 +146,16 @@
         $.get('{{ route('tableDataset') }}',
             function (data) {
                 $('#showDataset').html(data);
-                DataTables('#tableDataset');
+                $('#tableDataset').DataTable({
+                    "language": {
+                        "url": "/otherAsset/language/dataTables.indonesia.json"
+                    },
+                    paging: false,
+                    scrollX: false,
+                    scrollY: '50vh',
+                    scrollCollapse: true,
+                    pageLength: 5,
+                });
             })
     }
 
@@ -159,10 +166,55 @@
             },
             paging: false,
             scrollX: false,
-            scrollY: '20vh',
+            scrollY: '50vh',
             scrollCollapse: true,
             pageLength: 5,
         });
+    }
+
+    function updateToPublished(id, number){
+        $('#loaderPublished-' + number).removeClass('d-none');
+        $('#statusPublished-' + number).addClass('d-none');
+        $.ajax({
+            url: '{{ route('acceptDataset') }}',
+            type: 'POST',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'id': id
+            },
+            success: function (data) {
+                selectDataset();
+            },
+            error: function (data) {
+                const res = JSON.parse(data);
+                console.error(res);
+            }
+        });
+    }
+
+    function updateTagAccept(id, number){
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('acceptTag') }}',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'idTag': id
+            },
+            beforeSend: function () {
+                $('.loaderAcceptTags-' + number).removeClass('d-none');
+                $('.rowDataTags-' + number).addClass('d-none');
+            },
+            success: function (data) {
+                selectDataTags();
+                $('.loaderAcceptTags-' + number).addClass('d-none');
+                $('.rowDataTags-' + number).removeClass('d-none');
+            },
+            error: function (data) {
+                const res = JSON.parse(data);
+                console.error(res);
+            }
+        })
     }
 
 </script>
