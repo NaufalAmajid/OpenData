@@ -195,7 +195,7 @@
                             <span class="sidebar-icon">
                                 <i class="bi bi-boxes fs-5"></i>
                             </span>
-                            <span class="sidebar-text p-2">Organisasi</span>
+                            <span class="sidebar-text p-2">Daftar Admin</span>
                         </span>
                     </a>
                 </li>

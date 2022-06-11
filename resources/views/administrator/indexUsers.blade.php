@@ -156,7 +156,7 @@
                     <div class="row mb-4">
                         <div class="col-lg-12 col-sm-12">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="chkIsAdmin" name="isAdmin">
+                                <input class="form-check-input" type="checkbox" id="chkIsAdmin" name="isAdmin" value="false">
                                 <label class="form-check-label" for="chkIsAdmin">Apakah dia Seorang<span style="font-weight: bold;"> Administrator?</span></label>
                             </div>
                         </div>
@@ -360,10 +360,10 @@
 
         });
 
-        $('#chkIsAdmin').change(function() {
+        $('#chkIsAdmin').on('click', function() {
             if ($(this).is(':checked')) {
                 $('#chkIsAdmin').val(true);
-            }else{
+            }else if ($(this).is(":not(:checked)")) {
                 $('#chkIsAdmin').val(false);
             }
         });
@@ -372,33 +372,88 @@
             e.preventDefault();
             const token = $('meta[name="csrf-token"]').attr('content');
             const formData = new FormData(this);
-            const isAdmin  = $('#chkIsAdmin').is(':checked');
 
             $.ajax({
                 type: 'POST',
                 url: '{{ route('addNewAdmin') }}',
-                data: [
-                    formData,
-                    isAdmin
-                ],
+                data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,
-                success: function(data){
-                    const result = JSON.parse(data);
-                    // $('#modalAddAdmin').modal('hide').fadeOut(500).queue(function(next) {
-                    //     $('#formAddNewAdmin')[0].reset();
-                    //     Swal.fire({
-                    //         icon: result.status,
-                    //         title: 'Admin Baru',
-                    //     next();
-                    // });
-                    console.log(result.data);
-                },
-                error: function(data) {
-                    const result = JSON.parse(data);
+                success: function(response){
+                    const result = JSON.parse(response);
+                    $('#modalAddAdmin').modal('hide').fadeOut(500).queue(function(next) {
+                        $('#formAddNewAdmin')[0].reset();
+                        Swal.fire({
+                            icon: result.status,
+                            title: `Admin ${result.data.name} berhasil ditambahkan`,
+                            confirmButtonText: 'OK'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                selectDataAdmin();
+                            }
+                        });
+                        next();
+                    });
                     console.log(result);
-                }
+                },
+                error: function(message) {
+                    const result = JSON.parse(message.responseText);
+                    const error = result.errors;
+                    const nama = error.namaLengkap;
+                    const org = error.organisasiAdmin;
+                    const pass = error.password;
+                    const user = error.username;
+
+                    if (nama) {
+                        $('.invalidNamaLengkap').show();
+                        $('.invalidNamaLengkap').text(nama);
+                        $('#namaLengkap').addClass('is-invalid');
+                        $('#namaLengkap').removeClass('is-valid');
+                    }else{
+                        $('#namaLengkap').removeClass('is-invalid');
+                        $('#namaLengkap').addClass('is-valid');
+                        $('.invalidNamaLengkap').hide();
+                    }
+
+                    if (org) {
+                        $('.invalidOrganisasiAdmin').show();
+                        $('.invalidOrganisasiAdmin').text(org);
+                        $('#organisasiAdmin').addClass('is-invalid');
+                        $('#organisasiAdmin').removeClass('is-valid');
+                    }else{
+                        $('#organisasiAdmin').removeClass('is-invalid');
+                        $('#organisasiAdmin').addClass('is-valid');
+                        $('.invalidOrganisasiAdmin').hide();
+                    }
+
+                    if (pass) {
+                        for(let i = 0; i < pass.length; i++){
+                            $('.invalidPassword').html(`<li>${pass[i]}</li>`);
+                        }
+                        $('.invalidPassword').show();
+                        $('#password').addClass('is-invalid');
+                        $('#password').removeClass('is-valid');
+
+                    }else{
+                        $('#password').removeClass('is-invalid');
+                        $('#password').addClass('is-valid');
+                        $('.invalidPassword').hide();
+                    }
+
+                    if (user) {
+                        $('.invalidUsername').show();
+                        $('.invalidUsername').text(user);
+                        $('#username').addClass('is-invalid');
+                        $('#username').removeClass('is-valid');
+                    }else{
+                        $('#username').removeClass('is-invalid');
+                        $('#username').addClass('is-valid');
+                        $('.invalidUsername').hide();
+                    }
+
+
+                },
 
 
             });

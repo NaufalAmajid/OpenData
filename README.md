@@ -9,7 +9,7 @@
 
 ## About Laravel
 
-My token to pull repository from github = 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
+My token to pull repository from github = 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
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 

@@ -87,14 +87,19 @@ class AdministratorController extends Controller
                 'password.regex' => 'Password harus mengandung huruf kapital, huruf kecil dan angka',
             ]);
 
-        $isAdminCek = $request->isAdmin == 'on' ? false : $request->isAdmin;
+
+        if($request->isAdmin == null){
+            $isAdmin = false;
+        }else{
+            $isAdmin = true;
+        }
 
         $dataAdmin = new User();
         $dataAdmin->name = $validate['namaLengkap'];
         $dataAdmin->kode_organisasi = $validate['organisasiAdmin'];
         $dataAdmin->username = $validate['username'];
         $dataAdmin->password = bcrypt($validate['password']);
-        $dataAdmin->is_admin = $isAdminCek;
+        $dataAdmin->is_admin = $isAdmin;
         $dataAdmin->save();
 
         $response = [

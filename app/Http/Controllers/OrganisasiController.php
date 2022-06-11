@@ -4,15 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Notifikasi;
 use App\Models\Organisasi;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OrganisasiController extends Controller
 {
     public function index(){
 
-        $rowOrganisasi = Organisasi::all()->where('is_correct', '=', 2);
+        $rowAdmin = User::join('organisasis', 'users.kode_organisasi', '=', 'organisasis.kode_organisasi')
+                    ->select('users.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi')
+                    ->orderBy('users.is_active', 'desc')
+                    ->get();
 
-        return view('pagesAdmin.organisasi.indexOrganisasi', compact('rowOrganisasi'));
+        return view('pagesAdmin.organisasi.indexOrganisasi', compact('rowAdmin'));
     }
 
     public function store(Request $request){
