@@ -68,7 +68,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h2 class="fs-5 fw-bold mb-0">Tabel Tags </h2>
+                                <h2 class="fs-5 fw-bold mb-0">Tabel Tags <span class="d-none" id="loaderEditTag"> <img src="/images/assets/loader.gif" alt="loader Tag"></span></h2>
                             </div>
                         </div>
                     </div>
@@ -141,10 +141,87 @@
                 paging: false,
                 width: '100%',
                 scrollX: true,
-                scrollY: '20vh',
+                scrollY: '30vh',
                 scrollCollapse: true,
                 pageLength: 5,
             });
+        });
+    }
+
+    function showDataToEditTag(id){
+
+        const token = $('meta[name="csrf-token"]').attr('content');
+        const namaTag = $('#namaTagUpdate-' + id).val();
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('editTag') }}',
+            data: {
+                '_token': token,
+                'id': id,
+                'namaTag': namaTag
+            },
+            beforeSend: function(){
+                $('#namaTagUpdate-' + id).attr('readonly', true);
+                $('#loaderEditTag').removeClass('d-none');
+            },
+            success: function(response){
+                const result = JSON.parse(response);
+                $('#loaderEditTag').addClass('d-none');
+                const notyf = new Notyf({
+                    position: {
+                        x: 'right',
+                        y: 'top',
+                    },
+                    types: [
+                        {
+                            type: 'info',
+                            background: '#0948B3',
+                            icon: {
+                                className: 'fas fa-info-circle',
+                                tagName: 'span',
+                                color: '#fff'
+                            },
+                            dismissible: false
+                        }
+                    ]
+                });
+                notyf.open({
+                    type: 'info',
+                    message: 'Tag berhasil diubah'
+                });
+                selectTag();
+            },
+            error: function(data){
+                const message = JSON.parse(data);
+                console.log(message);
+            }
+        })
+
+    }
+
+    function alertNotUpdate(){
+        const notyf = new Notyf({
+            position: {
+                x: 'right',
+                y: 'top',
+            },
+            types: [
+                {
+                    type: 'error',
+                    background: '#FA5252',
+                    icon: {
+                        className: 'fas fa-times',
+                        tagName: 'span',
+                        color: '#fff'
+                    },
+                    dismissible: false
+                }
+            ]
+        });
+        notyf.open({
+            type: 'error',
+            message: 'Edit gagal anda bukan creator tag ini.'
         });
     }
 </script>

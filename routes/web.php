@@ -77,6 +77,9 @@ Route::controller(AdministratorController::class)->group(function () {
     Route::post('/administrator/addNewAdmin', 'storeNewAdmin')->name('addNewAdmin')->middleware('is_admin');
     Route::post('/administrator/acceptDataset', 'publishDataset')->name('acceptDataset')->middleware('is_admin');
     Route::post('/administrator/acceptTag', 'acceptTag')->name('acceptTag')->middleware('is_admin');
+    Route::post('/administrator/editTagName', 'editTagName')->name('editTag')->middleware('is_admin');
+    Route::post('/administrator/checkBeforeDeleteTag', 'checkBeforeDeleteTag')->name('checkBfrDelTag')->middleware('is_admin');
+    Route::post('/administrator/deleteTag', 'deleteTag')->name('delTag')->middleware('is_admin');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

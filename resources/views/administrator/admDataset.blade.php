@@ -57,7 +57,7 @@
                     <div class="card-header">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h2 class="fs-5 fw-bold mb-0">Tabel Daftar Tags </h2>
+                                <h2 class="fs-5 fw-bold mb-0">Tabel Daftar Tags <span class="d-none loaderAcceptTags"><img src="/images/assets/loader.gif"></span> </h2>
                             </div>
                         </div>
                     </div>
@@ -192,7 +192,7 @@
         });
     }
 
-    function updateTagAccept(id, number){
+    function updateTagAccept(id){
 
         $.ajax({
             type: 'POST',
@@ -202,13 +202,124 @@
                 'idTag': id
             },
             beforeSend: function () {
-                $('.loaderAcceptTags-' + number).removeClass('d-none');
-                $('.rowDataTags-' + number).addClass('d-none');
+                $('.loaderAcceptTags').removeClass('d-none');
             },
             success: function (data) {
                 selectDataTags();
-                $('.loaderAcceptTags-' + number).addClass('d-none');
-                $('.rowDataTags-' + number).removeClass('d-none');
+                $('.loaderAcceptTags').addClass('d-none');
+            },
+            error: function (data) {
+                const res = JSON.parse(data);
+                console.error(res);
+            }
+        })
+    }
+
+    function deleteTag(id, kode){
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('checkBfrDelTag') }}',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'kodeTag': kode
+            },
+            beforeSend: function () {
+                $('.loaderAcceptTags').removeClass('d-none');
+            },
+            success: function (data) {
+
+                const res = JSON.parse(data);
+
+                if(res.status == 'success'){
+
+                    Swal.fire({
+                      title: 'Apakah anda yakin?',
+                      text: "Tag ini akan dihapus permanent!",
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Ya',
+                      cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('delTag') }}',
+                            data: {
+                                '_token': '{{ csrf_token() }}',
+                                'idTag': id,
+                                'kodeTag': kode
+                            },
+                            success: function (data) {
+                                const notyf = new Notyf({
+                                    position: {
+                                        x: 'right',
+                                        y: 'top',
+                                    },
+                                    types: [
+                                        {
+                                            type: 'info',
+                                            background: '#12c40c',
+                                            icon: {
+                                                className: 'fas fa-info-circle',
+                                                tagName: 'span',
+                                                color: '#fff'
+                                            },
+                                            dismissible: false
+                                        }
+                                    ]
+                                });
+                                notyf.open({
+                                    type: 'info',
+                                    message: 'Tag berhasil dihapus'
+                                });
+                                selectDataTags();
+                                $('.loaderAcceptTags').addClass('d-none');
+                            },
+                            error: function (data) {
+                                const res = JSON.parse(data);
+                                console.error(res);
+                            }
+                        });
+                      }else{
+                        $('.loaderAcceptTags').addClass('d-none');
+                      }
+                    })
+
+
+
+                }else{
+
+                    $('.loaderAcceptTags').addClass('d-none');
+                    const notyf = new Notyf({
+                        position: {
+                            x: 'right',
+                            y: 'top',
+                        },
+                        types: [
+                            {
+                                type: 'error',
+                                background: '#f02222',
+                                icon: {
+                                    className: 'fas fa-info-circle',
+                                    tagName: 'span',
+                                    color: '#fff'
+                                },
+                                dismissible: false
+                            }
+                        ]
+                    });
+                    notyf.open({
+                        type: 'error',
+                        message: 'Tag tidak dapat dihapus, karena masih ada dataset yang menggunakan tag ini',
+                        duration: 3000
+                    });
+
+                }
+
+
             },
             error: function (data) {
                 const res = JSON.parse(data);

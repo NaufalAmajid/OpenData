@@ -138,4 +138,55 @@ class AdministratorController extends Controller
 
         return json_encode($response);
     }
+
+    public function editTagName(Request $request)
+    {
+        $getIdTag = Tags::findOrFail($request->id);
+        $getIdTag->nama_tag = $request->namaTag;
+        $getIdTag->save();
+
+        $response = [
+            'status' => 'success',
+            'data' => $getIdTag,
+        ];
+
+        return json_encode($response);
+    }
+
+    public function checkBeforeDeleteTag(Request $request)
+    {
+        $chekcTag = Dataset::where('kode_tag', $request->kodeTag)->get();
+
+        if(count($chekcTag) > 0){
+
+            $response = [
+                'status' => 'error',
+                'message' => 'Tag ini masih digunakan',
+                'color' => '#f02222',
+            ];
+
+        }else{
+
+            $response = [
+                'status' => 'success',
+                'message' => 'Tag berhasil dihapus',
+                'color' => '#12c40c',
+            ];
+        }
+
+        return json_encode($response);
+    }
+
+    public function deleteTag(Request $request)
+    {
+        $getIdTag = Tags::findOrFail($request->idTag);
+        $getIdTag->delete();
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Tag berhasil dihapus',
+        ];
+
+        return json_encode($response);
+    }
 }
