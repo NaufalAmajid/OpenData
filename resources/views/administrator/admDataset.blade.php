@@ -98,19 +98,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="table-responsive">
-                        <table class="table table-flush alignt-item-center" id="tableDataSektoral">
-                            <thead>
-                                <tr>
-                                    <th class="border-bottom" scope="col">Sektoral</th>
-                                    <th class="border-bottom" scope="col">Creator</th>
-                                    <th class="border-bottom" scope="col"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="showDataSektoral">
+                    <div class="table-responsive" id="backgroundTrans">
+                        <div class="position-relative d-none" id="loaderTiktok">
+                            <div class="position-absolute start-50 translate-middle" style="top: 190px; z-index: 1; width: 100px; height: 100px;">
+                                <img src="/images/assets/loaderTiktok.gif" alt="loader">
+                            </div>
+                        </div>
+                        <div id="showDataSektoral">
 
-                            </tbody>
-                        </table>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -288,8 +284,6 @@
                       }
                     })
 
-
-
                 }else{
 
                     $('.loaderAcceptTags').addClass('d-none');
@@ -326,6 +320,147 @@
                 console.error(res);
             }
         })
+    }
+
+    function acceptSektoral(id){
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('acceptSektoral') }}',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'idSektoral': id
+            },
+            beforeSend: function () {
+                $('#backgroundTrans').css('background-color', 'rgba(0,0,0,0.6)');
+                $('#loaderTiktok').removeClass('d-none');
+            },
+            success: function (data) {
+                selectDataSektoral();
+                $('#backgroundTrans').css('background-color', 'rgba(0,0,0,0.0)');
+                $('#loaderTiktok').addClass('d-none');
+            },
+            error: function (data) {
+                const res = JSON.parse(data);
+                console.error(res);
+            }
+        })
+
+    }
+
+    function deleteSektoral(id, kodeSektor){
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('chckSektoralBfrDelete') }}',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'kodeSektor': kodeSektor
+            },
+            beforeSend: function () {
+                $('#backgroundTrans').css('background-color', 'rgba(0,0,0,0.6)');
+                $('#loaderTiktok').removeClass('d-none');
+            },
+            success: function (data) {
+
+                const res = JSON.parse(data);
+
+                if(res.status == 'success'){
+
+                    Swal.fire({
+                      title: 'Apakah anda yakin?',
+                      text: "Sektoral ini akan dihapus permanent!",
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Ya',
+                      cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('delSektoral') }}',
+                            data: {
+                                '_token': '{{ csrf_token() }}',
+                                'idSektoral': id
+                            },
+                            success: function (data) {
+                                const notyf = new Notyf({
+                                    position: {
+                                        x: 'right',
+                                        y: 'top',
+                                    },
+                                    types: [
+                                        {
+                                            type: 'info',
+                                            background: '#12c40c',
+                                            icon: {
+                                                className: 'fas fa-info-circle',
+                                                tagName: 'span',
+                                                color: '#fff'
+                                            },
+                                            dismissible: false
+                                        }
+                                    ]
+                                });
+                                notyf.open({
+                                    type: 'info',
+                                    message: 'Sektoral berhasil dihapus'
+                                });
+                                $('#loaderTiktok').addClass('d-none');
+                                $('#backgroundTrans').css('background-color', 'rgba(0,0,0,0.0)');
+                                selectDataSektoral();
+                            },
+                            error: function (data) {
+                                const res = JSON.parse(data);
+                                console.error(res);
+                            }
+                        });
+
+                      }else{
+
+                        $('#loaderTiktok').addClass('d-none');
+                        $('#backgroundTrans').css('background-color', 'rgba(0,0,0,0.0)');
+
+                      }
+                    })
+
+                }else{
+
+                    $('#loaderTiktok').addClass('d-none');
+                    $('#backgroundTrans').css('background-color', 'rgba(0,0,0,0.0)');
+
+                    const notyf = new Notyf({
+                        position: {
+                            x: 'right',
+                            y: 'top',
+                        },
+                        types: [
+                            {
+                                type: 'error',
+                                background: '#f02222',
+                                icon: {
+                                    className: 'fas fa-info-circle',
+                                    tagName: 'span',
+                                    color: '#fff'
+                                },
+                                dismissible: false
+                            }
+                        ]
+                    });
+                    notyf.open({
+                        type: 'error',
+                        message: 'Hapus Gagal, Sektoral masih digunakan dataset',
+                        duration: 3000
+                    });
+
+                }
+
+            }
+
+        })
+
     }
 
 </script>

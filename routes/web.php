@@ -56,6 +56,7 @@ Route::controller(TagsController::class)->group(function(){
 //ROUTE FOR SEKTORAL
 Route::controller(SektoralController::class)->group(function () {
     Route::get('/sektoral', 'index')->name('sektoral')->middleware('auth');
+    Route::get('/sektoral/detailSektoral/{kodeSektor}', 'detailSektoral')->name('detailSektoral')->middleware('auth');
     Route::post('/sektoral', 'store')->name('addSektoral')->middleware('auth');
 });
 
@@ -80,6 +81,9 @@ Route::controller(AdministratorController::class)->group(function () {
     Route::post('/administrator/editTagName', 'editTagName')->name('editTag')->middleware('is_admin');
     Route::post('/administrator/checkBeforeDeleteTag', 'checkBeforeDeleteTag')->name('checkBfrDelTag')->middleware('is_admin');
     Route::post('/administrator/deleteTag', 'deleteTag')->name('delTag')->middleware('is_admin');
+    Route::post('/administrator/acceptSektoral', 'acceptSektoral')->name('acceptSektoral')->middleware('is_admin');
+    Route::post('/administrator/checkSektoral', 'checkSektoralBeforeDelete')->name('chckSektoralBfrDelete')->middleware('is_admin');
+    Route::post('/administrator/deleteSektoral', 'deleteSektoral')->name('delSektoral')->middleware('is_admin');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

@@ -189,4 +189,52 @@ class AdministratorController extends Controller
 
         return json_encode($response);
     }
+
+    public function acceptSektoral(Request $request)
+    {
+        $getIdSektoral = Sektoral::findOrFail($request->idSektoral);
+        $getIdSektoral->is_correct = 1;
+        $getIdSektoral->save();
+
+        $response = [
+            'status' => 'success',
+            'data' => $getIdSektoral,
+        ];
+
+        return json_encode($response);
+    }
+
+    public function checkSektoralBeforeDelete(Request $request)
+    {
+        $getKodeSektor = Dataset::where('kode_sektoral', $request->kodeSektor)->get();
+
+        if(count($getKodeSektor) > 0){
+
+            $response = [
+                'status' => 'error',
+            ];
+
+        }else{
+
+            $response = [
+                'status' => 'success',
+            ];
+        }
+
+        return json_encode($response);
+
+    }
+
+    public function deleteSektoral(Request $request)
+    {
+        $getIdSektoral = Sektoral::findOrFail($request->idSektoral);
+        $getIdSektoral->delete();
+
+        $response = [
+            'status' => 'success',
+            'message' => 'Sektoral berhasil dihapus',
+        ];
+
+        return json_encode($response);
+    }
 }

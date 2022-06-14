@@ -20,7 +20,7 @@ class CreateSektoralsTable extends Migration
             $table->string('logo_sektor')->nullable();
             $table->text('deskripsi');
             $table->string('pembuat')->default('administrator');
-            $table->integer('is_correct')->default(2);
+            $table->integer('is_correct')->default(0);
             $table->timestamps();
         });
     }

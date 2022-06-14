@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dataset;
 use App\Models\Notifikasi;
 use App\Models\Sektoral;
 use Illuminate\Http\Request;
@@ -49,5 +50,14 @@ class SektoralController extends Controller
         ];
 
         return json_encode($respond);
+    }
+
+    public function detailSektoral($kodeSektor){
+
+        $sektoral = Sektoral::where('kode_sektor', '=', $kodeSektor)->first();
+
+        $countDataset = Dataset::where('kode_sektoral', '=', $kodeSektor)->count();
+
+        return view('pagesAdmin.sektoral.data.detailSektoral', compact('sektoral', 'countDataset'));
     }
 }

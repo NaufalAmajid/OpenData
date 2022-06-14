@@ -47,20 +47,20 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $item->nama_sektor }}</td>
-                            <td>{{ $item->deskripsi }}</td>
+                            <td>{{ substr($item->deskripsi,0,15) . '...' }}</td>
                             <td><span
                                     class="fw-extrabold text-success">{{ $item->is_correct = 2 ? 'Published' : '' }}</span>
                             </td>
                             <td>
-                                <a href="#" class="btn btn-sm btn-info" onclick="test()" @if ($item->pembuat !=
-                                    Auth::user()->name) style="cursor: not-allowed; pointer-events:none" @endif><i
-                                        class="bi bi-pencil-square"></i></a>
-                                <a href="#" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></a>
+                                <a class="btn btn-sm btn-info" onclick="detailSektoral('{{ $item->kode_sektor }}')" data-bs-toggle="tooltip" title="Detail Sektoral"><i class="bi bi-file-earmark-medical-fill"></i></a>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
+            </div>
+            <div id="placeModalDetailSektoral">
+
             </div>
         </div>
     </div>
@@ -138,9 +138,6 @@
 
 @section('js')
 <script>
-    function test() {
-        alert('test');
-    }
     $(document).ready(function () {
 
         $('#tableSektoral').DataTable({
@@ -187,7 +184,6 @@
                     "Tambah Data Sektoral";
             });
         });
-
 
         $('#formAddDataSektoral').submit(function(e) {
             e.preventDefault();
@@ -270,5 +266,34 @@
 
         });
     });
+
+    function detailSektoral(kodeSektor){
+        $.get('{{ url('/sektoral/detailSektoral') }}/' + kodeSektor, function(data){
+            $('#placeModalDetailSektoral').html(data);
+            $('#modalDetailSektoral').modal('show');
+            $('#editLogoSektoral').change(function() {
+                var input = this;
+                var url = $(this).val();
+                var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+
+                if (input.files && input.files[0] && (ext == "png" || ext == "jpeg" || ext == "jpg")) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $('#editShowLogoSektoral').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+
+                    $('#editShowLogoSektoral').show();
+                    $('#editLogoSektoral').removeClass('is-invalid');
+                    $('#editLogoSektoral').addClass('is-valid');
+
+                } else {
+                    $('#editShowLogoSektoral').attr('src', '/images/assets/sektoral.png');
+                }
+            });
+        })
+    }
 </script>
 @endsection
