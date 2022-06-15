@@ -164,7 +164,7 @@
                     <div class="row mt-4">
                         <div class="form-group">
                             <button class="btn btn-pill btn-outline-primary col-md-12 fs-6" type="submit"
-                                id="btnSendOrganisasi"><i class="bi bi-reply-all fs-5"></i> Buat</button>
+                                id="btnSendAdmin"><i class="bi bi-reply-all fs-5"></i> Buat</button>
                         </div>
                     </div>
                 </form>
@@ -485,11 +485,11 @@
                     "url": "/otherAsset/language/dataTables.indonesia.json"
                 },
                 paging: false,
-                scrollX: true,
                 scrollY: '20vh',
                 scrollCollapse: true,
                 pageLength: 5,
             });
+
         });
 
     }
@@ -518,6 +518,57 @@
         $.get('{{ url('/administrator/detailAdmin') }}/' + id, function(data){
             $('#placeModalDetailAdmin').html(data);
             $('#modalDetailAdmin').modal('show');
+            $('#editIsAdmin').on('change', function() {
+                if ($(this).is(':checked')) {
+                    $('#editIsAdmin').val(1);
+                }else {
+                    $('#editIsAdmin').val(0);
+                }
+            });
+            $('#formEditAdmin').submit(function(e){
+                e.preventDefault();
+                const token = $('meta[name="csrf-token"]').attr('content');
+                const formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('editAdmin') }}',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        $('#modalDetailAdmin').modal('hide').fadeOut(500).queue(function(next) {
+                            $('#formEditAdmin')[0].reset();
+                            const notyf = new Notyf({
+                                    position: {
+                                        x: 'left',
+                                        y: 'top',
+                                    },
+                                    types: [
+                                        {
+                                            type: 'info',
+                                            background: '#008ebd',
+                                            icon: {
+                                                className: 'fas fa-info-circle',
+                                                tagName: 'span',
+                                                color: '#fff'
+                                            },
+                                            dismissible: false
+                                        }
+                                    ]
+                                });
+                                notyf.open({
+                                    type: 'info',
+                                    message: 'Admin berhasil diubah'
+                                });
+                            selectDataAdmin();
+                            next();
+                        });
+                    },
+                });
+
+            });
         });
     }
 

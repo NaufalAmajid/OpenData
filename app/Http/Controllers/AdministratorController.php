@@ -51,7 +51,9 @@ class AdministratorController extends Controller
     }
 
     public function showDataSektoral(){
-        $dataSektoral = Sektoral::all();
+
+        $dataSektoral = DB::table('sektorals')->join('users', 'sektorals.pembuat', '=', 'users.kode_admin')->select('sektorals.*', 'users.name')->get();
+
 
         return view('administrator.data.tableDataSektoral', compact('dataSektoral'));
     }
@@ -239,7 +241,7 @@ class AdministratorController extends Controller
         return json_encode($response);
     }
 
-    public function detailAdmin($id, $admin)
+    public function detailAdmin($id)
     {
         $dataAdmin = User::findOrFail($id);
 
@@ -247,6 +249,35 @@ class AdministratorController extends Controller
 
         $organisasiAdmin = Organisasi::where('kode_organisasi', $dataAdmin->kode_organisasi)->first();
 
-        return view('administrator.extra.detailAdmin', compact('dataAdmin', 'organisasi', 'organisasiAdmin'));
+        $countDatasetUserCreate = Dataset::where('pembuat', $dataAdmin->kode_admin)->count();
+
+        $countSektoralUserCreate = Sektoral::where('pembuat', $dataAdmin->kode_admin)->count();
+
+        $countTagUserCreate = Tags::where('pembuat', $dataAdmin->kode_admin)->count();
+
+        return view('administrator.extra.detailAdmin', compact('dataAdmin', 'organisasi', 'organisasiAdmin', 'countDatasetUserCreate', 'countSektoralUserCreate', 'countTagUserCreate'));
+    }
+
+    public function editAdmin(Request $request)
+    {
+        $validate = $request->validate([
+            'editNamaLengkap' => 'required',
+            'editOrganisasiAdmin' => 'required',
+            'editUsername' => 'required',
+        ]);
+        if($request->editIsAdmin == 1){
+            $isAdmin = true;
+        }else{
+            $isAdmin = false;
+        }
+
+        $getIdAdmin = User::findOrFail($request->idAdmin);
+        $getIdAdmin->name = $validate['editNamaLengkap'];
+        $getIdAdmin->kode_organisasi = $validate['editOrganisasiAdmin'];
+        $getIdAdmin->username = $validate['editUsername'];
+        $getIdAdmin->is_admin = $isAdmin;
+        $getIdAdmin->save();
+
+        return response()->json('success');
     }
 }
