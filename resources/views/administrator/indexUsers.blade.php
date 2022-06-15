@@ -241,6 +241,9 @@
         </div>
     </div>
 </div>
+<div id="placeModalDetailAdmin">
+
+</div>
 @endsection
 
 @section('js')
@@ -511,6 +514,12 @@
 
     }
 
+    function detailAdmin(id){
+        $.get('{{ url('/administrator/detailAdmin') }}/' + id, function(data){
+            $('#placeModalDetailAdmin').html(data);
+            $('#modalDetailAdmin').modal('show');
+        });
+    }
 
 </script>
 @endsection

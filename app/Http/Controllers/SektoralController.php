@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Dataset;
 use App\Models\Notifikasi;
 use App\Models\Sektoral;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class SektoralController extends Controller
 {
@@ -58,6 +60,53 @@ class SektoralController extends Controller
 
         $countDataset = Dataset::where('kode_sektoral', '=', $kodeSektor)->count();
 
-        return view('pagesAdmin.sektoral.data.detailSektoral', compact('sektoral', 'countDataset'));
+        $getAdmin = User::where('kode_admin', '=', $sektoral->pembuat)->first();
+
+        return view('pagesAdmin.sektoral.data.detailSektoral', compact('sektoral', 'countDataset', 'getAdmin'));
+    }
+
+    public function update(Request $request){
+        $validation = $request->validate([
+            'namaSektoral' => 'required',
+            'deskripsi' => 'required',
+            'nameLogoSektoralOld' => 'required'
+        ]);
+
+        if($request->hasFile('editlogoSektoral')){
+
+            $editLogo = $request->validate([
+                'editlogoSektoral' => 'required|image|mimes:jpeg,png,jpg,svg|max:2048'
+            ]);
+            $editLogo = $editLogo['editlogoSektoral']->getClientOriginalExtension();
+            $editLogo = Str::random(10).'.'.$editLogo;
+
+            //delete old logo
+            $path = public_path('images/sektoral/'.$validation['nameLogoSektoralOld']);
+            unlink($path);
+
+            //upload new logo
+            $request->file('editlogoSektoral')->move(public_path('images/sektoral'), $editLogo);
+
+        }else{
+
+            $editLogo = $validation['nameLogoSektoralOld'];
+        }
+
+        $sektoral = Sektoral::where('id', $request->idSektoral)->first();
+        $sektoral->nama_sektor = $validation['namaSektoral'];
+        $sektoral->deskripsi = $validation['deskripsi'];
+        $sektoral->logo_sektor = $editLogo;
+        $sektoral->update();
+
+
+
+        return response()->json('success');
+    }
+
+    public function showDataSektoral(){
+
+        $rowSektoral = Sektoral::all();
+
+        return view('pagesAdmin.sektoral.data.tableSektoral', compact('rowSektoral'));
     }
 }

@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         // Create a user
         User::create(
             [
+                'kode_admin' => 'ADM'.date('YmdHis'),
                 'name'     => 'Naufal Amajid',
                 'username' => 'naufal',
                 'password' => Hash::make('123'),
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
         );
         User::create(
             [
+                'kode_admin' => 'ADM'.date('YmdHis')+1,
                 'name'     => 'Adinda Nur R',
                 'username' => 'adinda',
                 'password' => Hash::make('456'),
@@ -36,6 +38,7 @@ class DatabaseSeeder extends Seeder
         );
         User::create(
             [
+                'kode_admin' => 'ADM'.date('YmdHis')+2,
                 'name'     => 'Naruto Uzumaki',
                 'username' => 'naruto',
                 'password' => Hash::make('321'),
@@ -44,6 +47,7 @@ class DatabaseSeeder extends Seeder
         );
         User::create(
             [
+                'kode_admin' => 'ADM'.date('YmdHis')+3,
                 'name'     => 'Sasuke Uchiha',
                 'username' => 'sasuke',
                 'password' => Hash::make('654'),

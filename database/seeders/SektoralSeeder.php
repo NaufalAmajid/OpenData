@@ -20,6 +20,7 @@ class SektoralSeeder extends Seeder
                 'kode_sektor' => 'idpw682361',
                 'deskripsi' => '-',
                 'nama_sektor' => 'Infrasruktur dan Pengembangan Wilayah',
+                'pembuat' => 'ADM'.date('YmdHis')
             ],
         );
 
@@ -28,6 +29,7 @@ class SektoralSeeder extends Seeder
                 'kode_sektor' => 'pdpm235801',
                 'deskripsi' => '-',
                 'nama_sektor' => 'Pemerintahan dan Pembangunan Manusia',
+                'pembuat' => 'ADM'.date('YmdHis')
             ]
         );
 
@@ -36,6 +38,7 @@ class SektoralSeeder extends Seeder
                 'kode_sektor' => 'pdk3920124',
                 'deskripsi' => '-',
                 'nama_sektor' => 'Pendidikan dan Kesehatan',
+                'pembuat' => 'ADM'.date('YmdHis')
             ]
         );
 
@@ -44,6 +47,7 @@ class SektoralSeeder extends Seeder
                 'kode_sektor' => 'pdsda61230',
                 'deskripsi' => '-',
                 'nama_sektor' => 'Perekonomian dan Sumber Daya Alam',
+                'pembuat' => 'ADM'.date('YmdHis')
             ]
         );
     }

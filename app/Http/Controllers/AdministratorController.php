@@ -96,6 +96,7 @@ class AdministratorController extends Controller
         }
 
         $dataAdmin = new User();
+        $dataAdmin->kode_admin = 'ADM'.date('YmdHis');
         $dataAdmin->name = $validate['namaLengkap'];
         $dataAdmin->kode_organisasi = $validate['organisasiAdmin'];
         $dataAdmin->username = $validate['username'];
@@ -236,5 +237,16 @@ class AdministratorController extends Controller
         ];
 
         return json_encode($response);
+    }
+
+    public function detailAdmin($id, $admin)
+    {
+        $dataAdmin = User::findOrFail($id);
+
+        $organisasi = Organisasi::all();
+
+        $organisasiAdmin = Organisasi::where('kode_organisasi', $dataAdmin->kode_organisasi)->first();
+
+        return view('administrator.extra.detailAdmin', compact('dataAdmin', 'organisasi', 'organisasiAdmin'));
     }
 }

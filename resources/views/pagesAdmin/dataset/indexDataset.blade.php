@@ -45,7 +45,7 @@
         <div class="card-body">
             <form action="javascript:void(0)" enctype="multipart/form-data" method="POST" id="formCreateDataset">
                 @csrf
-                <input type="hidden" name="pembuat" value="{{ Auth::user()->name }}">
+                <input type="hidden" name="pembuat" value="{{ Auth::user()->kode_admin }}">
                 <div class="row mb-4">
                     <div class="col-lg-12 col-sm-12">
                         <div class="form-group">

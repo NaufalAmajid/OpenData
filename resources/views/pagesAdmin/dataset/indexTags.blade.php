@@ -43,7 +43,7 @@
                                 <div class="input-group">
                                     <input type="text" class="form-control" id="nameOfTags" placeholder="Nama Tag ..."
                                         name="namaTags" autocomplete="off">
-                                    <input type="hidden" name="pembuat" value="{{ Auth::user()->name }}">
+                                    <input type="hidden" name="pembuat" value="{{ Auth::user()->kode_admin }}">
                                     <span class="input-group-text" id="basic-addon3">
                                         <i class="bi bi-bookmark-check-fill"></i>
                                     </span>

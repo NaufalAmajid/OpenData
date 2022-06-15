@@ -31,33 +31,9 @@
     <div class="card border-0 shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-striped table-bordered" id="tableSektoral" width="100%"
-                    cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Nama Sektoral</th>
-                            <th>Deskripsi</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($rowSektoral as $item)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $item->nama_sektor }}</td>
-                            <td>{{ substr($item->deskripsi,0,15) . '...' }}</td>
-                            <td><span
-                                    class="fw-extrabold text-success">{{ $item->is_correct = 2 ? 'Published' : '' }}</span>
-                            </td>
-                            <td>
-                                <a class="btn btn-sm btn-info" onclick="detailSektoral('{{ $item->kode_sektor }}')" data-bs-toggle="tooltip" title="Detail Sektoral"><i class="bi bi-file-earmark-medical-fill"></i></a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                <div id="placeTableSektoral">
+
+                </div>
             </div>
             <div id="placeModalDetailSektoral">
 
@@ -83,7 +59,7 @@
         <div class="card-body">
             <form action="javascript:void(0)" enctype="multipart/form-data" method="POST" id="formAddDataSektoral">
                 @csrf
-                <input type="hidden" name="pembuat" value="{{ Auth::user()->name }}">
+                <input type="hidden" name="pembuat" value="{{ Auth::user()->kode_admin }}">
                 <div class="row mb-4">
                     <div class="col-lg-12 col-sm-6">
                         <div class="form-group">
@@ -139,12 +115,6 @@
 @section('js')
 <script>
     $(document).ready(function () {
-
-        $('#tableSektoral').DataTable({
-            "language": {
-                "url": "/otherAsset/language/dataTables.indonesia.json"
-            }
-        });
 
         $('.addDataSektoral').text(function(i, text) {
             return text == "" ? "Tambah Data Sektoral" :
@@ -202,23 +172,7 @@
                     Swal.fire({
                         icon: result.status,
                         title: 'Menambahakan Data Sektoral',
-                        html: `<table>
-                                    <tr class="text-start">
-                                        <td>Nama Sektoral</td>
-                                        <td>:</td>
-                                        <td>${result.data.nama_sektor}</td>
-                                    </tr>
-                                    <tr class="text-start">
-                                        <td>Deskripsi</td>
-                                        <td>:</td>
-                                        <td>${result.data.deskripsi}</td>
-                                    </tr>
-                                    <tr class="text-start">
-                                        <td>Pembuat</td>
-                                        <td>:</td>
-                                        <td>${result.data.pembuat}</td>
-                                    </tr>
-                               </table>`,
+                        html: `<strong>${result.data.nama_sektor}</strong>`,
                         imageUrl: `{{ asset('images/sektoral/${result.data.logo_sektor}') }}`,
                         imageWidth: 200,
                         imageHeight: 200,
@@ -265,6 +219,8 @@
             });
 
         });
+
+        tableSektoral();
     });
 
     function detailSektoral(kodeSektor){
@@ -293,7 +249,69 @@
                     $('#editShowLogoSektoral').attr('src', '/images/assets/sektoral.png');
                 }
             });
-        })
+
+            $('#formEditDataSektoral').submit(function(e) {
+                e.preventDefault();
+                const token = $('meta[name="csrf-token"]').attr('content');
+                const formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('updateSektoral') }}',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(data){
+                        if(data == 'success'){
+                            $('#modalDetailSektoral').modal('hide').queue(function(){
+                                tableSektoral();
+                            });
+                        }
+                    },
+                    error: function(data){
+                        const result = JSON.parse(data.responseText);
+                        console.log(result);
+                    }
+                })
+            });
+        });
+    }
+
+    function notAlloweUpdateSektoral(){
+        const notyf = new Notyf({
+            position: {
+                x: 'right',
+                y: 'top',
+            },
+            types: [
+                {
+                    type: 'error',
+                    background: '#FA5252',
+                    icon: {
+                        className: 'fas fa-info-circle',
+                        tagName: 'span',
+                        color: '#fff'
+                    },
+                    dismissible: false
+                }
+            ]
+        });
+        notyf.open({
+            type: 'error',
+            message: 'Edit gagal anda bukan creator sektoral ini'
+        });
+    }
+
+    function tableSektoral(){
+        $.get('{{ route('tableSektoral') }}', function(data){
+            $('#placeTableSektoral').html(data);
+            $('#tableSektoral').DataTable({
+                "language": {
+                    "url": "/otherAsset/language/dataTables.indonesia.json"
+                }
+            });
+        });
     }
 </script>
 @endsection
