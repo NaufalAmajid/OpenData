@@ -26,7 +26,6 @@
             </td>
             <td>
                 <span style="cursor: pointer;" onclick="detailAdmin('{{ $item->id }}')"><i class="bi bi-bookmark-star-fill text-info fs-5"></i></span>
-                <span style="cursor: pointer;"><i class="bi bi-trash text-danger fs-5"></i></span>
             </td>
         </tr>
         @endforeach

@@ -24,7 +24,7 @@
                                     <div class="col-lg-4">
                                         <input type="hidden" name="idSektoral" value="{{ $sektoral->id }}">
                                         <input type="hidden" name="nameLogoSektoralOld" id="nameLogoSektoralOld" value="{{ $sektoral->logo_sektor }}">
-                                        <input type="file" class="form-control" name="editlogoSektoral" id="editLogoSektoral" @if ($sektoral->pembuat != Auth::user()->name) disabled @endif>
+                                        <input type="file" class="form-control" name="editlogoSektoral" id="editLogoSektoral" @if ($sektoral->pembuat != Auth::user()->kode_admin) disabled @endif>
                                     </div>
                                 </div>
                             </div>
@@ -34,12 +34,12 @@
                                         <tr>
                                             <td class="text-end">Nama Sektoral</td>
                                             <td class="p-3">:</td>
-                                            <td><input type="text" class="form-control-plaintext" name="namaSektoral" id="namaSektoralEdit" value="{{ $sektoral->nama_sektor }}" @if ($sektoral->pembuat != Auth::user()->name) readonly @endif></td>
+                                            <td><input type="text" class="form-control-plaintext" name="namaSektoral" id="namaSektoralEdit" value="{{ $sektoral->nama_sektor }}" @if ($sektoral->pembuat != Auth::user()->kode_admin) readonly @endif></td>
                                         </tr>
                                         <tr>
                                             <td class="text-end">Deskripsi</td>
                                             <td class="p-3">:</td>
-                                            <td><textarea class="form-control-plaintext" name="deskripsi" id="deskripsiSektoralEdit" cols="30" style="overflow-y: hidden;" @if ($sektoral->pembuat != Auth::user()->name) readonly @endif>{{ $sektoral->deskripsi }}</textarea></td>
+                                            <td><textarea class="form-control-plaintext" name="deskripsi" id="deskripsiSektoralEdit" cols="30" style="overflow-y: hidden;" @if ($sektoral->pembuat != Auth::user()->kode_admin) readonly @endif>{{ $sektoral->deskripsi }}</textarea></td>
                                         </tr>
                                         <tr>
                                             <td class="text-end">Tgl Buat</td>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button @if($sektoral->pembuat != Auth::user()->name) type="button" @else type="submit" @endif class="btn btn-primary" @if($sektoral->pembuat != Auth::user()->name) onclick="notAlloweUpdateSektoral()" @endif>Edit</button>
+                    <button @if($sektoral->pembuat != Auth::user()->kode_admin) type="button" @else type="submit" @endif class="btn btn-primary" @if($sektoral->pembuat != Auth::user()->kode_admin) onclick="notAlloweUpdateSektoral()" @endif>Edit</button>
                 </div>
             </div>
         </form>

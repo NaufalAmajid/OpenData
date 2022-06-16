@@ -50,7 +50,8 @@ class AdministratorController extends Controller
         return view('administrator.data.tableDataTags', compact('dataTag'));
     }
 
-    public function showDataSektoral(){
+    public function showDataSektoral()
+    {
 
         $dataSektoral = DB::table('sektorals')->join('users', 'sektorals.pembuat', '=', 'users.kode_admin')->select('sektorals.*', 'users.name')->get();
 
@@ -231,6 +232,13 @@ class AdministratorController extends Controller
     public function deleteSektoral(Request $request)
     {
         $getIdSektoral = Sektoral::findOrFail($request->idSektoral);
+
+        //delete logo sektoral
+        if($getIdSektoral->logo_sektor != ''){
+            $path = public_path('/images/sektoral/'.$getIdSektoral->logo_sektor);
+            unlink($path);
+        }
+
         $getIdSektoral->delete();
 
         $response = [
@@ -279,5 +287,67 @@ class AdministratorController extends Controller
         $getIdAdmin->save();
 
         return response()->json('success');
+    }
+
+    public function detailOrganisasi($id)
+    {
+        $dataOrganisasi = Organisasi::findOrFail($id);
+        $countDataset  = Dataset::where('kode_organisasi', $dataOrganisasi->kode_organisasi)->count();
+        $countUser = User::where('kode_organisasi', $dataOrganisasi->kode_organisasi)->count();
+        return view('administrator.extra.detailOrganisasi', compact('dataOrganisasi', 'countDataset', 'countUser'));
+    }
+
+    public function checkOrganisasiBeforeDelete(Request $request)
+    {
+        $getKodeOrganisasiUser = User::where('kode_organisasi', $request->kodeOrg)->get();
+        $getKodeOrganisasiDataset = Dataset::where('kode_organisasi', $request->kodeOrg)->get();
+
+        if(count($getKodeOrganisasiDataset) > 0 ){
+
+            $response = [
+                'status' => 'error',
+                'message' => 'Masih ada Dataset yang menggunakan organisasi ini',
+                'color' => '#f02222',
+            ];
+
+        }else if(count($getKodeOrganisasiUser) > 0){
+
+            $response = [
+                'status' => 'error',
+                'message' => 'Organisasi tidak dapat dihapus karena masih memiliki user',
+                'color' => '#fa1100',
+            ];
+
+        }else{
+
+                $response = [
+                    'status' => 'success',
+                    'message' => 'Organisasi berhasil dihapus',
+                    'color' => '#12c40c',
+                ];
+        }
+
+        return json_encode($response);
+
+    }
+
+    public function deleteOrganisasi(Request $request)
+    {
+        $getKodeOrganisasi = Organisasi::where('kode_organisasi', $request->kodeOrg)->first();
+
+        // delete logo organisasi
+        if($getKodeOrganisasi->logo_organisasi != ''){
+            $path = public_path('/images/organisasi/'.$getKodeOrganisasi->logo_organisasi);
+            unlink($path);
+        }
+
+        $getKodeOrganisasi->delete();
+
+        return response()->json(
+            [
+                'status' => 'success',
+                'message' => 'Organisasi berhasil dihapus',
+            ]
+        );
     }
 }

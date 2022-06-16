@@ -10,7 +10,7 @@
         @foreach ($dataSektoral as $item)
             <tr style="cursor: pointer; z-index: 1;">
                 <td>{{ $item->nama_sektor }}</td>
-                <td>{{ $item->pembuat }}</td>
+                <td>{{ $item->name }}</td>
                 <td style="z-index: 2;">
                     @switch($item->is_correct)
                         @case(0)

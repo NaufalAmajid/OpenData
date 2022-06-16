@@ -244,6 +244,9 @@
 <div id="placeModalDetailAdmin">
 
 </div>
+<div id="placeModalDetailOrganisasi">
+
+</div>
 @endsection
 
 @section('js')
@@ -505,7 +508,6 @@
                 },
                 paging: false,
                 width: '100%',
-                scrollX: true,
                 scrollY: '20vh',
                 scrollCollapse: true,
                 pageLength: 5,
@@ -571,6 +573,112 @@
             });
         });
     }
+
+    function detailOrganisasi(id){
+        $.get('{{ url('/administrator/detailOrganisasi') }}/' + id, function(response){
+            $('#placeModalDetailOrganisasi').html(response);
+            $('#modalDetailOrganisasi').modal('show');
+
+        })
+    }
+
+    function deleteOrganisasi(kodeOrg){
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('chkOrganisasi') }}',
+            data: {
+                '_token': '{{ csrf_token() }}',
+                'kodeOrg': kodeOrg,
+            },
+            success: function(response){
+                const result = JSON.parse(response);
+                if (result.status == 'success'){
+
+                    Swal.fire({
+                      title: 'Apakah anda yakin?',
+                      text: "Organisasi ini akan dihapus permanent!",
+                      icon: 'warning',
+                      showCancelButton: true,
+                      confirmButtonColor: '#3085d6',
+                      cancelButtonColor: '#d33',
+                      confirmButtonText: 'Ya',
+                      cancelButtonText: 'Tidak'
+                    }).then((result) => {
+                        if(result.isConfirmed){
+                            $.ajax({
+                                type: 'POST',
+                                url: '{{ route('delOrganisasi') }}',
+                                data: {
+                                    '_token': '{{ csrf_token() }}',
+                                    'kodeOrg': kodeOrg,
+                                },
+                                success: function(response){
+                                    $('#modalDetailOrganisasi').modal('hide').fadeOut(500).queue(function(next) {
+                                        selectDataOrganisasi();
+                                        const notyf = new Notyf({
+                                                position: {
+                                                    x: 'center',
+                                                    y: 'center',
+                                                },
+                                                types: [
+                                                    {
+                                                        type: response.status,
+                                                        background: '#08c90b',
+                                                        icon: {
+                                                            className: 'fas fa-info-circle',
+                                                            tagName: 'span',
+                                                            color: '#fff'
+                                                        },
+                                                        dismissible: false
+                                                    }
+                                                ]
+                                            });
+                                        notyf.open({
+                                            type: response.status,
+                                            message: response.message
+                                        });
+                                    });
+                                },
+                                error: function(err){
+                                    console.log(err);
+                                }
+                            });
+                        }
+                    });
+
+                }else{
+
+                    const notyf = new Notyf({
+                        position: {
+                            x: 'center',
+                            y: 'center',
+                        },
+                        types: [
+                            {
+                                type: 'info',
+                                background: result.color,
+                                icon: {
+                                    className: 'fas fa-info-circle',
+                                    tagName: 'span',
+                                    color: '#fff'
+                                },
+                                dismissible: false
+                            }
+                        ]
+                    });
+                    notyf.open({
+                        type: 'info',
+                        message: result.message
+                    });
+                }
+            },
+            error: function(response){
+                console.log(response);
+            }
+        })
+    }
+
+
 
 </script>
 @endsection
