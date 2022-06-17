@@ -1,0 +1,15 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class FileDataset extends Model
+{
+    use HasFactory;
+
+    protected $table = 'filedatasets';
+
+    protected $guarded = ['id'];
+}

@@ -43,6 +43,7 @@ Route::controller(LoginController::class)->group(function () {
 Route::controller(DatasetController::class)->group(function(){
     Route::get('/dataset/data', 'index')->name('dataset')->middleware('auth');
     Route::get('/dataset/tableDataset', 'showDataDataset')->name('showDataDataset')->middleware('auth');
+    Route::get('/dataset/detailDataset/{id}', 'detailDataset')->name('detailDataset')->middleware('auth');
     Route::post('/dataset/data', 'store')->name('createDataset')->middleware('auth');
 });
 

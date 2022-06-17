@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Activity;
 use App\Models\Dataset;
+use App\Models\FileDataset;
 use App\Models\Notifikasi;
 use App\Models\Organisasi;
 use App\Models\Sektoral;
@@ -44,27 +45,31 @@ class DatasetController extends Controller
             'dataResources.*.mimes' => 'Data Resources harus berupa file dengan format pdf, doc, docx, xls, xlsx'
         ]);
 
-        $getName = '';
+        $kodeDataset = 'DATASET-'.date('YmdHis');
         $file = $request->file('dataResources');
 
         for ($i = 0; $i < count($file); $i++) {
 
-            $randName = rand(1, 1000) . '_' . Str::random(10);
-            $fileNewName = $randName . '.' . $file[$i]->getClientOriginalExtension();
-            $fileNameSave = $randName . '.' . $file[$i]->getClientOriginalExtension();
-            $getName .= $fileNewName . ';';
-            $file[$i]->storeAs('public/datasetFile', $fileNameSave);
+            $randName = Str::random(10) . '_' . rand(1, 100);
+            $getFileExtension = $file[$i]->getClientOriginalExtension();
+            $fileNewName = $randName . '.' . $getFileExtension;
+            $file[$i]->storeAs('public/datasetFile', $fileNewName);
+
+            $saveFile = new FileDataset();
+            $saveFile->nama_file = $fileNewName;
+            $saveFile->kode_dataset = $kodeDataset;
+            $saveFile->ekstensi_file = $getFileExtension;
+            $saveFile->save();
 
         }
 
         $dataset = new Dataset();
-        $dataset->kode_dataset =Str::random(5) . rand(1, 10000);
+        $dataset->kode_dataset = $kodeDataset;
         $dataset->judul_dataset = $validationData['judulDataset'];
         $dataset->kode_organisasi = Auth::user()->kode_organisasi;
         $dataset->kode_sektoral = $validationData['sektoralDataset'];
         $dataset->kode_tag = $validationData['tagDataset'];
-        $dataset->file_dataset = $getName;
-        $dataset->pembuat = Auth::user()->name;
+        $dataset->pembuat = Auth::user()->kode_admin;
         $dataset->sumber = $request->sumberDataset;
         $dataset->pengelola = $request->pengelolaDataset;
         $dataset->lisensi = $request->lisensiDataset;
@@ -95,10 +100,29 @@ class DatasetController extends Controller
         $rowDataset = Dataset::join('organisasis', 'organisasis.kode_organisasi', '=', 'datasets.kode_organisasi')
                 ->join('sektorals', 'sektorals.kode_sektor', '=', 'datasets.kode_sektoral')
                 ->join('tags', 'tags.kode_tag', '=', 'datasets.kode_tag')
-                ->where('datasets.pembuat', '=', Auth::user()->name)
-                ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi', 'sektorals.nama_sektor', 'tags.nama_tag')
+                ->join('users', 'users.kode_admin', '=', 'datasets.pembuat')
+                ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi', 'sektorals.nama_sektor', 'tags.nama_tag', 'users.name')
                 ->get();
 
         return view('pagesAdmin.dataset.informasi.tableDataset', compact('rowDataset'));
+    }
+
+    public function detailDataset($id)
+    {
+        $rowDataset = DB::table('datasets')
+                ->join('organisasis', 'organisasis.kode_organisasi', '=', 'datasets.kode_organisasi')
+                ->join('sektorals', 'sektorals.kode_sektor', '=', 'datasets.kode_sektoral')
+                ->join('tags', 'tags.kode_tag', '=', 'datasets.kode_tag')
+                ->join('users', 'users.kode_admin', '=', 'datasets.pembuat')
+                ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi', 'sektorals.nama_sektor', 'tags.nama_tag', 'users.name')
+                ->where('datasets.id', '=', $id)
+                ->first();
+        //count file dataset
+
+        $rowFile = FileDataset::where('kode_dataset', '=', $rowDataset->kode_dataset)->get();
+
+
+
+        return view('pagesAdmin.dataset.informasi.detailDataset', compact('rowDataset', 'rowFile'));
     }
 }

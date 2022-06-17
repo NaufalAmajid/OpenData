@@ -31,7 +31,7 @@ class TagsController extends Controller
         ]);
 
         $tag = new Tags();
-        $tag->kode_tag = rand(1, 100) . Str::random(5);
+        $tag->kode_tag = 'tag'.date('YmdHis');
         $tag->nama_tag = $validationData['namaTags'];
         $tag->pembuat = $request->pembuat;
 

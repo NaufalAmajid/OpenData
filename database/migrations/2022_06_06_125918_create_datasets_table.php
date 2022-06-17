@@ -22,7 +22,6 @@ class CreateDatasetsTable extends Migration
             $table->string('kode_organisasi');
             $table->string('kode_tag');
             $table->string('versi_dataset')->default('1.0');
-            $table->text('file_dataset');
             $table->string('pengelola')->nullable();
             $table->string('lisensi')->nullable();
             $table->string('sumber')->nullable();
