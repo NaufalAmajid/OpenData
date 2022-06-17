@@ -9,6 +9,7 @@ use App\Models\Tags;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class AdministratorController extends Controller
 {
@@ -349,5 +350,40 @@ class AdministratorController extends Controller
                 'message' => 'Organisasi berhasil dihapus',
             ]
         );
+    }
+
+    public function updateOrganisasi(Request $request)
+    {
+        $validate = $request->validate([
+            'namaOrganisasiEdit' => 'required',
+            'deskripsiOrganisasiEdit' => 'required',
+        ]);
+
+        if($request->editLogoOrganisasi != ''){
+
+            $logoOrganisasi = $request->validate([
+                'editLogoOrganisasi' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+            ]);
+
+            $fileName = Str::random(10).'.'.$logoOrganisasi['editLogoOrganisasi']->getClientOriginalExtension();
+
+            //delete logo organisasi
+            $path = public_path('/images/organisasi/'.$request->nameLogoOrganisasiOld);
+            unlink($path);
+
+            $request->file('editLogoOrganisasi')->move(public_path('/images/organisasi'), $fileName);
+        }else{
+
+            $fileName = $request->nameLogoOrganisasiOld;
+
+        }
+
+        $getIdOrganisasi = Organisasi::findOrFail($request->idOrganisasi);
+        $getIdOrganisasi->nama_organisasi = $validate['namaOrganisasiEdit'];
+        $getIdOrganisasi->deskripsi = $validate['deskripsiOrganisasiEdit'];
+        $getIdOrganisasi->logo_organisasi = $fileName;
+        $getIdOrganisasi->save();
+
+        return response()->json('success');
     }
 }

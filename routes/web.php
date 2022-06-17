@@ -91,6 +91,7 @@ Route::controller(AdministratorController::class)->group(function () {
     Route::get('/administrator/detailOrganisasi/{id}', 'detailOrganisasi')->name('detailOrganisasi')->middleware('is_admin');
     Route::post('/administrator/checkOrganisasiBeforeDelete', 'checkOrganisasiBeforeDelete')->name('chkOrganisasi')->middleware('is_admin');
     Route::post('/administrator/deleteOrganisasi', 'deleteOrganisasi')->name('delOrganisasi')->middleware('is_admin');
+    Route::post('/administrator/updateOrganisasi', 'updateOrganisasi')->name('updateOrganisasi')->middleware('is_admin');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

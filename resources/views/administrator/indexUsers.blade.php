@@ -578,6 +578,54 @@
         $.get('{{ url('/administrator/detailOrganisasi') }}/' + id, function(response){
             $('#placeModalDetailOrganisasi').html(response);
             $('#modalDetailOrganisasi').modal('show');
+            $('#formEditDataOrganisasi').submit(function(e){
+                e.preventDefault();
+                const token = $('meta[name="csrf-token"]').attr('content');
+                const formData = new FormData(this);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('updateOrganisasi') }}',
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function(response){
+                        if (response == 'success'){
+                            $('#modalDetailOrganisasi').modal('hide').fadeOut(500).queue(function(next) {
+                                $('#formEditDataOrganisasi')[0].reset();
+                                const notyf = new Notyf({
+                                        position: {
+                                            x: 'center',
+                                            y: 'center',
+                                        },
+                                        types: [
+                                            {
+                                                type: 'info',
+                                                background: '#008ebd',
+                                                icon: {
+                                                    className: 'fas fa-info-circle',
+                                                    tagName: 'span',
+                                                    color: '#fff'
+                                                },
+                                                dismissible: false
+                                            }
+                                        ]
+                                    });
+                                    notyf.open({
+                                        type: 'info',
+                                        message: 'Organisasi berhasil diubah'
+                                    });
+                                selectDataOrganisasi();
+                                next();
+                            });
+                        }
+                    },
+                    error: function(error){
+                        console.log(error);
+                    }
+                });
+            })
 
         })
     }
