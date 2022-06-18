@@ -114,15 +114,21 @@ class DatasetController extends Controller
                 ->join('sektorals', 'sektorals.kode_sektor', '=', 'datasets.kode_sektoral')
                 ->join('tags', 'tags.kode_tag', '=', 'datasets.kode_tag')
                 ->join('users', 'users.kode_admin', '=', 'datasets.pembuat')
-                ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi', 'sektorals.nama_sektor', 'tags.nama_tag', 'users.name')
+                ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi' , 'organisasis.deskripsi as deskOrg' , 'organisasis.created_at as tglCreateOrg' , 'sektorals.nama_sektor', 'tags.nama_tag', 'users.name')
                 ->where('datasets.id', '=', $id)
                 ->first();
-        //count file dataset
 
         $rowFile = FileDataset::where('kode_dataset', '=', $rowDataset->kode_dataset)->get();
 
+        $rowSektoral = Sektoral::all();
 
+        $rowTag = Tags::all();
 
-        return view('pagesAdmin.dataset.informasi.detailDataset', compact('rowDataset', 'rowFile'));
+        return view('pagesAdmin.dataset.informasi.detailDataset', compact('rowDataset', 'rowFile', 'rowSektoral', 'rowTag'));
+    }
+
+    public function previewFileDataset($id)
+    {
+        return view('pagesAdmin.dataset.informasi.previewFileDataset');
     }
 }

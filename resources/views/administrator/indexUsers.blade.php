@@ -299,23 +299,6 @@
                         Swal.fire({
                             icon: result.status,
                             title: 'Menambahakan Data Organisasi',
-                            html: `<table>
-                                        <tr class="text-start">
-                                            <td>Nama Organisasi</td>
-                                            <td>:</td>
-                                            <td>${result.data.nama_organisasi}</td>
-                                        </tr>
-                                        <tr class="text-start">
-                                            <td>Deskripsi</td>
-                                            <td>:</td>
-                                            <td>${result.data.deskripsi}</td>
-                                        </tr>
-                                        <tr class="text-start">
-                                            <td>Pembuat</td>
-                                            <td>:</td>
-                                            <td>${result.data.pembuat}</td>
-                                        </tr>
-                                </table>`,
                             imageUrl: `{{ asset('images/organisasi/${result.data.logo_organisasi}') }}`,
                             imageWidth: 200,
                             imageHeight: 200,

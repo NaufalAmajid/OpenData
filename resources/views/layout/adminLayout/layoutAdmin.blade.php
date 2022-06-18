@@ -73,7 +73,9 @@
     <link rel="stylesheet" href="/otherAsset/css/bootstrap-icons.css">
     <link rel="stylesheet" href="/otherAsset/css/dataTables.jqueryui.min.css">
     <link rel="stylesheet" href="/otherAsset/themes/jquery-ui-themes-1.13.1/themes/pepper-grinder/jquery-ui.css">
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.2/font/bootstrap-icons.css"> --}}
+
+    {{-- CSS CUSTOM --}}
+    <link rel="stylesheet" href="/template/forAdmin/css/custom.css">
 </head>
 
 <body>

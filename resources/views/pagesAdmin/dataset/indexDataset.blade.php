@@ -187,6 +187,8 @@
 {{-- {{ THIS FOR DETAIL DATASET }} --}}
 <div id="showDetailDataset">
 </div>
+<div id="placeModalPreview">
+</div>
 
 @endsection
 
@@ -286,28 +288,15 @@
 
         $.get('{{ url('/dataset/detailDataset') }}/' + id, function(data){
             $('#showDetailDataset').html(data);
-            $('#btnLook'+iteration).addClass('d-none');
-            $('#btnUnlook'+iteration).removeClass('d-none');
-
-            $('#btnUnlook'+iteration).click(function(){
-                $('#btnLook'+iteration).removeClass('d-none');
-                $('#btnUnlook'+iteration).addClass('d-none');
-                $('#showDetailDataset').html('');
-            });
-
-            $('#btnLook'+iteration).click(function(){
-
-                const getDataNameUnlook = document.querySelector('[data-name="unlook"]');
-                const getDataNameLook = document.querySelector('[data-name="look"]');
-
-                getDataNameUnlook.addClass('d-none');
-                getDataNameLook.removeClass('d-none');
-
-                detailDataset(id, iteration);
-            });
-
-
         })
     }
+
+    function previewFile(id){
+        $.get('{{ url('/dataset/previewFile') }}/' + id, function(data){
+            $('#placeModalPreview').html(data);
+            $('#modalPreviewFile').modal('show');
+        })
+    }
+
 </script>
 @endsection
