@@ -47,6 +47,11 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div id="placeModal">
+
+            </div>
+        </div>
     </div>
 </div>
 <div class="row">
@@ -461,6 +466,13 @@
 
         })
 
+    }
+
+    function detailDataset(id){
+        $.get('{{ url('/administrator/detailDataset') }}/' + id, function (data) {
+            $('#placeModal').html(data);
+            $('#modalDetailDataset').modal('show');
+        });
     }
 
 </script>

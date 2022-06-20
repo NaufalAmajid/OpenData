@@ -44,7 +44,6 @@ Route::controller(DatasetController::class)->group(function(){
     Route::get('/dataset/data', 'index')->name('dataset')->middleware('auth');
     Route::get('/dataset/tableDataset', 'showDataDataset')->name('showDataDataset')->middleware('auth');
     Route::get('/dataset/detailDataset/{id}', 'detailDataset')->name('detailDataset')->middleware('auth');
-    Route::get('/dataset/previewFile/{id}', 'previewFileDataset')->name('prevFile')->middleware('auth');
     Route::post('/dataset/data', 'store')->name('createDataset')->middleware('auth');
 });
 
@@ -94,6 +93,7 @@ Route::controller(AdministratorController::class)->group(function () {
     Route::post('/administrator/checkOrganisasiBeforeDelete', 'checkOrganisasiBeforeDelete')->name('chkOrganisasi')->middleware('is_admin');
     Route::post('/administrator/deleteOrganisasi', 'deleteOrganisasi')->name('delOrganisasi')->middleware('is_admin');
     Route::post('/administrator/updateOrganisasi', 'updateOrganisasi')->name('updateOrganisasi')->middleware('is_admin');
+    Route::get('/administrator/detailDataset/{id}', 'detailDataset')->name('detailDatasetAdm')->middleware('is_admin');
 });
 
 // END ADMIN PAGES ROUTES =======================================================================================================================

@@ -160,7 +160,7 @@
                                         @break
                                 @endswitch
                                 <div class="card-body">
-                                  <p class="card-text" id="identificationFileDataset" onclick="previewFile('{{ $item->id }}')">Dataset File - {{ $loop->iteration }}</p>
+                                  <a href="/storage/datasetFile/{{ $item->nama_file }}" class="card-text" id="identificationFileDataset" target="_black">Dataset File - {{ $loop->iteration }}</a>
                                   <div class="row mb-2">
                                     <label for="editFileDataset" class="form-label" style="font-size: 12px;">Edit diSini :</label>
                                     <input type="file" id="editFileDataset" name="editFileDataset" class="form-control col-lg-3">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dataset;
+use App\Models\FileDataset;
 use App\Models\Organisasi;
 use App\Models\Sektoral;
 use App\Models\Tags;
@@ -385,5 +386,21 @@ class AdministratorController extends Controller
         $getIdOrganisasi->save();
 
         return response()->json('success');
+    }
+
+    public function detailDataset($id){
+
+        $rowDataset = DB::table('datasets')
+                ->join('organisasis', 'organisasis.kode_organisasi', '=', 'datasets.kode_organisasi')
+                ->join('sektorals', 'sektorals.kode_sektor', '=', 'datasets.kode_sektoral')
+                ->join('tags', 'tags.kode_tag', '=', 'datasets.kode_tag')
+                ->join('users', 'users.kode_admin', '=', 'datasets.pembuat')
+                ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi' , 'organisasis.deskripsi as deskOrg' , 'organisasis.created_at as tglCreateOrg' , 'sektorals.nama_sektor', 'tags.nama_tag', 'users.name')
+                ->where('datasets.id', '=', $id)
+                ->first();
+
+        $rowFile = FileDataset::where('kode_dataset', '=', $rowDataset->kode_dataset)->get();
+
+        return view('administrator.extra.detailDataset', compact('rowDataset', 'rowFile'));
     }
 }

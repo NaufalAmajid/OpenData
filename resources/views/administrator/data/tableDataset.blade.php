@@ -35,9 +35,7 @@
                 @endswitch
             </td>
             <td>
-                <span class="p-2" style="cursor: pointer;"><i class="bi bi-eye text-info fs-5"></i></span>
-                <span class="p-2" style="cursor: pointer;"><i class="bi bi-chat-right-text-fill fs-5 text-secondary"></i></span>
-
+                <span class="p-2" style="cursor: pointer;" onclick="detailDataset('{{ $item->id }}')"><i class="bi bi-eye text-info fs-5"></i></span>
             </td>
         </tr>
         @endforeach

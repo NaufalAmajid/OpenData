@@ -127,8 +127,4 @@ class DatasetController extends Controller
         return view('pagesAdmin.dataset.informasi.detailDataset', compact('rowDataset', 'rowFile', 'rowSektoral', 'rowTag'));
     }
 
-    public function previewFileDataset($id)
-    {
-        return view('pagesAdmin.dataset.informasi.previewFileDataset');
-    }
 }

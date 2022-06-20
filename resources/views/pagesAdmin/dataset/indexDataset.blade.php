@@ -291,12 +291,5 @@
         })
     }
 
-    function previewFile(id){
-        $.get('{{ url('/dataset/previewFile') }}/' + id, function(data){
-            $('#placeModalPreview').html(data);
-            $('#modalPreviewFile').modal('show');
-        })
-    }
-
 </script>
 @endsection
