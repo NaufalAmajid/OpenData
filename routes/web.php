@@ -8,6 +8,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SektoralController;
 use App\Http\Controllers\OrganisasiController;
 use App\Http\Controllers\TagsController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,12 +21,18 @@ use App\Http\Controllers\TagsController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
-Route::get('/test', function () {
-    return view('mainPage');
+// USER PAGES ROUTE =========================================================================================================================
+Route::controller(UserController::class)->group(function () {
+    Route::get('/', 'index')->name('user.index');
+    Route::get('/main', 'home')->name('user.index');
+    Route::get('/user/dataset', 'dataset')->name('user.dataset');
+    Route::get('/user/organisasi', 'organisasi')->name('user.organisasi');
+    Route::get('/user/sektoral', 'sektoral')->name('user.sektoral');
+    Route::get('/user/tentang', 'tentang')->name('user.tentang');
 });
 
 // ADMIN PAGES ROUTES =======================================================================================================================

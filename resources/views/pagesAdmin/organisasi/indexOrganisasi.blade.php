@@ -76,7 +76,11 @@
         $('#tableOrganisasi').DataTable({
             "language": {
                 "url": "/otherAsset/language/dataTables.indonesia.json"
-            }
+            },
+            scrollX: false,
+            scrollY: '50vh',
+            scrollCollapse: true,
+            pageLength: 5,
         });
 
     });

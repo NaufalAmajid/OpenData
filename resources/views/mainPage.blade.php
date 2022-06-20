@@ -1,6 +1,3 @@
-@extends('layout.userLayout.layoutUser')
-
-@section('content')
 
     <div class="homepage layout-1">
         <div class="container">
@@ -31,7 +28,7 @@
                             <section class="featured media-overlay hidden-xs">
 
                                 <a class="media-image" href="#">
-                                    <img class="img-responsive" src="{{ asset('template/forUser/base/images/placeholder-420x220.png') }}"
+                                    <img class="img-responsive" src="template/forUser/base/images/placeholder-420x220.png"
                                         alt="Placeholder" width="420" height="220">
                                 </a>
 
@@ -41,7 +38,7 @@
                     <div class="col-md-6 col1">
                         <div class="box stats">
                             <div class="inner">
-                                <h3>Open Data Kabupaten Bogor Statistik</h3>
+                                <h3>Open Data Kabupaten Klaten</h3>
                                 <ul>
 
                                     <li>
@@ -100,7 +97,7 @@
                 <div class="row">
                     <div class="span12 col1">
                         <a class="image">
-                            <img src="{{ asset('template/forUser/base/images/pancakarsa-kab-bogor.jpg') }}">
+                            <img src="template/forUser/base/images/pancakarsa-kab-bogor.jpg">
                         </a>
                     </div>
                 </div>
@@ -108,4 +105,4 @@
         </div>
     </div>
 
-@endsection
+
