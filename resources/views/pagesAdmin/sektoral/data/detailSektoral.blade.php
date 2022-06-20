@@ -14,7 +14,7 @@
                         <div class="col-lg-12 col-sm-12">
                             <div class="row mb-4">
                                 <div class="d-flex justify-content-center">
-                                    @if ($sektoral->logo_sektoral != '')
+                                    @if ($sektoral->logo_sektor != '')
                                         <img src="{{ asset('images/sektoral/' . $sektoral->logo_sektor) }}" id="editShowLogoSektoral" class="shadow" alt="Icon sektoral" style="width: 200px; height: 200px;">
                                     @else
                                         <img src="{{ asset('images/assets/sektoral.png') }}" id="editShowLogoSektoral" class="shadow" alt="Icon sektoral" style="width: 200px; height: 200px;">
