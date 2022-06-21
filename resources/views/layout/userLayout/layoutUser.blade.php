@@ -115,10 +115,10 @@
     <script type="text/javascript"
         src="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/jquery.min.js"></script>
     <script type="text/javascript"
-        src="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/bundlebootstrap/js/bootstrap.min.js/select2.min.js') }}">
+        src="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/bundlebootstrap/js/bootstrap.min.js/select2.min.js'">
     </script>
     <script type="text/javascript"
-        src="/template/forUser/fanstatic/base/version2021-04-06T024817.49/bundleplugins/jquery.inherit/jquery.proxy-all/jquery.url-helpers/jquery.date-helpers/followers-counter.js') }}">
+        src="/template/forUser/fanstatic/base/version2021-04-06T024817.49/bundleplugins/jquery.inherit/jquery.proxy-all/jquery.url-helpers/jquery.date-helpers/followers-counter.js'">
     </script>
     <script>
         $(document).ready(function() {
