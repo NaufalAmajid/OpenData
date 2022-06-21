@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Dataset;
+use App\Models\Organisasi;
+use App\Models\Sektoral;
+use App\Models\Tags;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,12 +17,21 @@ class UserController extends Controller
 
     public function home()
     {
-        return view('mainPage');
+        $countDataset = Dataset::where('is_publish', 1)->count();
+        $countOrganisasi = Organisasi::where('is_correct', 1)->count();
+        $countSektoral = Sektoral::where('is_correct', 1)->count();
+
+        return view('mainPage', compact('countDataset', 'countOrganisasi', 'countSektoral'));
     }
 
     public function dataset()
     {
-        return view('pagesUser.dataset');
+        $dataset = Dataset::where('is_publish', 1)->get();
+        $organisasi = Organisasi::all();
+        $sektoral = Sektoral::where('is_correct', 1)->get();
+        $tag = Tags::where('is_correct', 1)->get();
+
+        return view('pagesUser.dataset', compact('dataset', 'organisasi', 'sektoral', 'tag'));
     }
 
     public function organisasi()
