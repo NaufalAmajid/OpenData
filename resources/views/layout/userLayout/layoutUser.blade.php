@@ -101,10 +101,6 @@
                 </div>
                 <div class="col-md-4 attribution" style="text-align: center;">
 
-                    <p><strong>Total Kunjungan</strong></p>
-                    <p>
-                        <script type="text/javascript" src="/template/forUser/count/7vsp"></script>
-                    </p>
                     <p>© {{ date('Y') }} Kabupaten Klaten</p>
 
                 </div>
@@ -119,10 +115,10 @@
     <script type="text/javascript"
         src="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/jquery.min.js"></script>
     <script type="text/javascript"
-        src="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/bundlebootstrap/js/bootstrap.min.js%3Bjed.min.js%3Bmoment-with-locales.min.js%3Bselect2/select2.min.js') }}">
+        src="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/bundlebootstrap/js/bootstrap.min.js/select2.min.js') }}">
     </script>
     <script type="text/javascript"
-        src="/template/forUser/fanstatic/base/version2021-04-06T024817.49/bundleplugins/jquery.inherit.min.js%3Bplugins/jquery.proxy-all.min.js%3Bplugins/jquery.url-helpers.min.js%3Bplugins/jquery.date-helpers.min.js%3Bplugins/followers-counter..js') }}">
+        src="/template/forUser/fanstatic/base/version2021-04-06T024817.49/bundleplugins/jquery.inherit/jquery.proxy-all/jquery.url-helpers/jquery.date-helpers/followers-counter.js') }}">
     </script>
     <script>
         $(document).ready(function() {
