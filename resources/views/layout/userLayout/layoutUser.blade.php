@@ -5,16 +5,16 @@
 <!--<![endif]-->
 
 <head>
+    <meta charset="utf-8">
+    <meta name="generator" content="ckan 2.8.7">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="token-csrf" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css"
         href="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/select2/select2.min.css">
     <link rel="stylesheet" type="text/css"
         href="/template/forUser/fanstatic/css/version2021-04-08T061538.15/main.min.css">
     <link rel="stylesheet" type="text/css"
         href="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/font-awesome/css/font-awesome.min.css">
-
-    <meta charset="utf-8">
-    <meta name="generator" content="ckan 2.8.7">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Open Data Kabupaten Klaten</title>
 
 
@@ -134,7 +134,7 @@
                 url: '{{ route('user.home') }}',
                 type: 'GET',
                 data: {
-                    '_token': '{{ csrf_token() }}'
+                    '_token': {{ csrf_token() }}''
                 },
                 success: response => {
                     $('#content').html(response);
