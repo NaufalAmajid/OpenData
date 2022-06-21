@@ -126,11 +126,14 @@
         });
 
         function PageHome(){
+
+            const token = $('meta[name="token-csrf"]').attr('content');
+
             $.ajax({
                 url: '{{ route('user.home') }}',
                 type: 'GET',
                 data: {
-                    '_token': {{ csrf_token() }}''
+                    _token: token
                 },
                 success: response => {
                     $('#content').html(response);
