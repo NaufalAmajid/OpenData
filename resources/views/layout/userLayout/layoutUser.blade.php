@@ -6,6 +6,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
     <meta name="generator" content="ckan 2.8.7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="token-csrf" content="{{ csrf_token() }}">
