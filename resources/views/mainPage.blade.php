@@ -42,20 +42,20 @@
                                 <ul>
 
                                     <li>
-                                        <a href="dataset.html">
-                                            <strong><span>546</span></strong>
+                                        <a href="javascript:PageDataset()">
+                                            <strong><span>{{ $countDataset }}</span></strong>
                                             Dataset
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="organization.html">
-                                            <strong><span>76</span></strong>
+                                        <a href="javascript:PageOrganisasi()">
+                                            <strong><span>{{ $countOrganisasi }}</span></strong>
                                             Organisasi
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="group.html">
-                                            <strong><span>3</span></strong>
+                                        <a href="javascript:PageSektoral()">
+                                            <strong><span>{{ $countSektoral }}</span></strong>
                                             Sektoral
                                         </a>
                                     </li>
@@ -64,30 +64,13 @@
                             </div>
                         </div>
                         <div class="module module-search module-narrow module-shallow box">
-                            <form class="module-content search-form" method="get" action="/dataset">
-                                <h3 class="heading">Cari Dataset ..</h3>
-                                <div class="search-input form-group search-giant">
-                                    <input aria-label="Search datasets" id="field-main-search" type="text"
-                                        class="form-control" name="q" value="" autocomplete="off"
-                                        placeholder="E.g. ekonomi, infrastruktur, dll ..">
-                                    <button type="submit">
-                                        <i class="fa fa-search"></i>
-                                        <span class="sr-only">Search</span>
-                                    </button>
-                                </div>
-                            </form>
                             <div class="tags">
                                 <h3>Populer tag</h3>
-
                                 <a class="tag" href="dataset-1.html?tags=infrastruktur">infrastruktur</a>
-
                                 <a class="tag" href="dataset-2.html?tags=Aset+Desa">Aset Desa</a>
-
                                 <a class="tag" href="dataset-2.html?tags=aset+desa">aset desa</a>
-
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
