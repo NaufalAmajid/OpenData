@@ -127,23 +127,10 @@
         });
 
         function PageHome(){
-
-            const token = $('meta[name="token-csrf"]').attr('content');
-
-            $.ajax({
-                url: '{{ route('user.home') }}',
-                type: 'GET',
-                data: {
-                    _token: token
-                },
-                success: response => {
-                    $('#content').html(response);
-                    $('#btnDataset, #btnOrganisasi, #btnSektoral, #btnTentang').removeClass('active');
-                },
-                error: error => {
-                    console.log(error);
-                }
-            })
+            $.get('{{ route('user.home') }}', function(data){
+                $('#content').html(data);
+                $('#btnDataset, #btnOrganisasi, #btnSektoral, #btnTentang').removeClass('active');
+            });
         }
 
         function PageDataset() {
