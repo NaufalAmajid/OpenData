@@ -7,8 +7,8 @@
         </div>
         <div class="toolbar">
             <ol class="breadcrumb">
-                <li class="home"><a href="javascript:PageHome()"><i class="fa fa-home"></i><span> Home</span></a></li>
-                <li class="active"><a href="javascript:PageDataset()">Datasets</a></li>
+                <li class="home"><a href="{{ route('user.index') }}"><i class="fa fa-home"></i><span> Home</span></a></li>
+                <li class="active"><a href="{{ route('user.dataset') }}">Datasets</a></li>
             </ol>
         </div>
         <div class="row wrapper">
@@ -91,8 +91,8 @@
                     <div class="module-content">
                         <form id="dataset-search-form" class="search-form" method="get" data-module="select-switch">
                             <div class="input-group search-input-group">
-                                <input aria-label="Cari datasets..." id="field-giant-search" type="text"
-                                    class="form-control input-lg" name="q" value="" autocomplete="off"
+                                <input aria-label="Cari datasets..." id="searchDataset" type="text"
+                                    class="form-control input-lg" name="searchDataset" autocomplete="off"
                                     placeholder="Cari datasets...">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default btn-lg" type="submit" value="search">
@@ -100,43 +100,13 @@
                                     </button>
                                 </span>
                             </div>
-                            <div class="form-select form-group control-order-by">
-                                <label for="field-order-by">Urut berdasarkan</label>
-                                <select id="field-order-by" name="sort" class="form-control">
-                                    <option value="score desc, metadata_modified desc" selected="selected">Relevansi
-                                    </option>
-                                    <option value="title_string asc">Nama Urutkan Naik</option>
-                                    <option value="title_string desc">Nama Urutkan Turun</option>
-                                    <option value="metadata_modified desc">Terakhir Dimodifikasi</option>
-                                </select>
-                                <button class="btn btn-default js-hide" type="submit">Go</button>
-                            </div>
-                            <h2>
-                                {{ $dataset->count() }} dataset ditemukan</h2>
-                            <p class="filter-list">
-                            </p>
-                            <a class="show-filters btn btn-default">Filter Results</a>
+                            <h2 id="textDatasetFind"></h2>
                         </form>
                         <ul class="dataset-list list-unstyled">
-                            @foreach ($dataset as $item)
-                            <li class="dataset-item">
-                                <div class="dataset-content">
-                                    <h3 class="dataset-heading">
-                                        <a href="dataset/data-umum-2-kecamatan-nanggung.html">{{ $item->judul_dataset }}</a>
-                                    </h3>
-                                    <p class="empty">This dataset has no description</p>
-                                </div>
-                                <ul class="dataset-resources list-unstyled">
-                                    <li>
-                                        <a href="dataset/data-umum-2-kecamatan-nanggung.html"
-                                            class="label label-default" data-format="xlsx">XLSX</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            @endforeach
+                            <div class="listDataset"></div>
                         </ul>
                     </div>
-                    <div class='pagination-wrapper'>
+                    {{-- <div class='pagination-wrapper'>
                         <ul class='pagination'>
                             <li><a href="dataset-24.html?page=1">«</a></li>
                             <li class="active"><a href="dataset-24.html?page=1">1</a></li>
@@ -147,10 +117,46 @@
                             <li><a href="dataset-27.html?page=28">28</a></li>
                             <li><a href="dataset-26.html?page=3">»</a></li>
                         </ul>
-                    </div>
+                    </div> --}}
                 </section>
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+
+    <script>
+        $(document).ready(function () {
+            listDataset();
+            $('#searchDataset').keyup(function () {
+                listDataset();
+            });
+        });
+
+        function listDataset(){
+
+            var search = $('#searchDataset').val();
+            var value = search.replace(/\b\w/g, function(l) {
+                return l.toUpperCase();
+            }).replace(/\s+/g, function(l) {
+                return l.toUpperCase();
+            });
+
+            $.ajax({
+                url: "{{ route('user.datasetList') }}",
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    search: search
+                },
+                success: function(data){
+                    $('.listDataset').html(data.view);
+                    $('#textDatasetFind').html(data.dataset.length + ' dataset ditemukan');
+                }
+            });
+        }
+    </script>
+
 @endsection

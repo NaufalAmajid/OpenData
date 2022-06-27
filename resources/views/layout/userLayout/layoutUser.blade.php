@@ -61,10 +61,10 @@
 
                 <nav class="section navigation">
                     <ul class="nav nav-pills">
-                        <li id="btnDataset"><a href="{{ route('user.dataset') }}">Dataset</a></li>
-                        <li id="btnOrganisasi"><a href="{{ route('user.organisasi') }}">Organisasi</a></li>
-                        <li id="btnSektoral"><a href="{{ route('user.sektoral') }}">Sektoral</a></li>
-                        <li id="btnTentang"><a href="{{ route('user.tentang') }}">Tentang</a></li>
+                        <li class="{{ Request::is('user/dataset*') ? 'active' : '' }}"><a href="{{ route('user.dataset') }}">Dataset</a></li>
+                        <li class="{{ Request::is('user/organisasi*') ? 'active' : '' }}"><a href="{{ route('user.organisasi') }}">Organisasi</a></li>
+                        <li class="{{ Request::is('user/sektoral*')  ? 'active' : ''}}"><a href="{{ route('user.sektoral') }}">Sektoral</a></li>
+                        <li class="{{ Request::is('user/tentang*') ? 'active' : '' }}"><a href="{{ route('user.tentang') }}">Tentang</a></li>
                     </ul>
                 </nav>
 
@@ -120,51 +120,7 @@
     <script type="text/javascript"
         src="/template/forUser/fanstatic/base/version2021-04-06T024817.49/bundleplugins/jquery.inherit/jquery.proxy-all/jquery.url-helpers/jquery.date-helpers/followers-counter.js">
     </script>
-    <script>
-        $(document).ready(function() {
-            PageHome();
-        });
-
-        function PageHome(){
-            $.get('{{ route('user.home') }}', function(data){
-                $('#content').html(data);
-                $('#btnDataset, #btnOrganisasi, #btnSektoral, #btnTentang').removeClass('active');
-            });
-        }
-
-        function PageDataset() {
-            $.get('{{ route('user.dataset') }}', function(data) {
-                $('#content').html(data);
-                $('#btnDataset').addClass('active');
-                $('#btnOrganisasi, #btnSektoral, #btnTentang').removeClass('active');
-            });
-        }
-
-        function PageOrganisasi() {
-            $.get('{{ route('user.organisasi') }}', function(data) {
-                $('#content').html(data);
-                $('#btnOrganisasi').addClass('active');
-                $('#btnDataset, #btnSektoral, #btnTentang').removeClass('active');
-            });
-        }
-
-        function PageSektoral() {
-            $.get('{{ route('user.sektoral') }}', function(data) {
-                $('#content').html(data);
-                $('#btnSektoral').addClass('active');
-                $('#btnDataset, #btnOrganisasi, #btnTentang').removeClass('active');
-            });
-        }
-
-        function PageTentang() {
-            $.get('{{ route('user.tentang') }}', function(data) {
-                $('#content').html(data);
-                $('#btnTentang').addClass('active');
-                $('#btnDataset, #btnOrganisasi, #btnSektoral').removeClass('active');
-            });
-        }
-
-    </script>
+    @yield('script')
 </body>
 
 </html>

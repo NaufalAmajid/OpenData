@@ -28,10 +28,12 @@ use App\Http\Controllers\UserController;
 // USER PAGES ROUTE =========================================================================================================================
 Route::controller(UserController::class)->group(function () {
     Route::get('/', 'index')->name('user.index');
-    Route::get('/main', 'home')->name('user.home');
     Route::get('/user/dataset', 'dataset')->name('user.dataset');
+    Route::post('/user/dataset/list', 'datasetList')->name('user.datasetList');
     Route::get('/user/organisasi', 'organisasi')->name('user.organisasi');
+    route::post('/user/organisasi/list', 'organisasiList')->name('user.organisasiList');
     Route::get('/user/sektoral', 'sektoral')->name('user.sektoral');
+    route::post('/user/sektoral/list', 'sektoralList')->name('user.sektoralList');
     Route::get('/user/tentang', 'tentang')->name('user.tentang');
 });
 

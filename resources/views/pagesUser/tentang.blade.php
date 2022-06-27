@@ -7,8 +7,8 @@
         </div>
         <div class="toolbar">
             <ol class="breadcrumb">
-                <li class="home"><a href="javascript:PageHome()"><i class="fa fa-home"></i><span> Home</span></a></li>
-                <li class="active"><a class=" active" href="javascript:PageTentang()">Tentang</a></li>
+                <li class="home"><a href="{{ route('user.index') }}"><i class="fa fa-home"></i><span> Home</span></a></li>
+                <li class="active"><a class=" active" href="{{ route('user.tentang') }}">Tentang</a></li>
             </ol>
         </div>
         <div class="row wrapper no-nav">
