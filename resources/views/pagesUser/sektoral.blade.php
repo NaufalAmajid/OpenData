@@ -1,4 +1,8 @@
-<div role="main">
+@extends('layout.userLayout.layoutUser')
+
+@section('content')
+
+@endsection<div role="main">
     <div id="content" class="container">
         <div class="flash-messages">
 

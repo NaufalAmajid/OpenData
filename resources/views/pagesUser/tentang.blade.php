@@ -1,3 +1,6 @@
+@extends('layout.userLayout.layoutUser')
+
+@section('content')
 <div role="main">
     <div id="content" class="container">
         <div class="flash-messages">
@@ -33,3 +36,4 @@
         </div>
     </div>
 </div>
+@endsection

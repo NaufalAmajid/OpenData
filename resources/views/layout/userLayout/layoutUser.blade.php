@@ -61,10 +61,10 @@
 
                 <nav class="section navigation">
                     <ul class="nav nav-pills">
-                        <li id="btnDataset"><a href="javascript:PageDataset()">Dataset</a></li>
-                        <li id="btnOrganisasi"><a href="javascript:PageOrganisasi()">Organisasi</a></li>
-                        <li id="btnSektoral"><a href="javascript:PageSektoral()">Sektoral</a></li>
-                        <li id="btnTentang"><a href="javascript:PageTentang()">Tentang</a></li>
+                        <li id="btnDataset"><a href="{{ route('user.dataset') }}">Dataset</a></li>
+                        <li id="btnOrganisasi"><a href="{{ route('user.organisasi') }}">Organisasi</a></li>
+                        <li id="btnSektoral"><a href="{{ route('user.sektoral') }}">Sektoral</a></li>
+                        <li id="btnTentang"><a href="{{ route('user.tentang') }}">Tentang</a></li>
                     </ul>
                 </nav>
 
@@ -72,9 +72,7 @@
         </div>
     </header>
 
-    <div class="content" id="content">
-
-    </div>
+    @yield('content')
 
     <footer class="site-footer">
         <div class="container">
