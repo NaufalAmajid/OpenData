@@ -81,9 +81,5 @@
             }
         });
     }
-
-    function detailSektoral(kodeSektoral){
-
-    }
 </script>
 @endsection

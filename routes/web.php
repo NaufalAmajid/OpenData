@@ -30,10 +30,15 @@ Route::controller(UserController::class)->group(function () {
     Route::get('/', 'index')->name('user.index');
     Route::get('/user/dataset', 'dataset')->name('user.dataset');
     Route::post('/user/dataset/list', 'datasetList')->name('user.datasetList');
+    Route::get('/user/dataset/detail/{kodeDataset}', 'detailDataset')->name('user.datasetDetail');
+    Route::post('/user/dataset/extra/', 'extraDataset')->name('user.datasetExtra');
+    Route::get('/user/dataset/file/{id}', 'detailFileDataset')->name('user.datasetDetailFile');
     Route::get('/user/organisasi', 'organisasi')->name('user.organisasi');
     route::post('/user/organisasi/list', 'organisasiList')->name('user.organisasiList');
+    route::get('/user/organisasi/detail/{kodeOrganisasi}', 'detailOrganisasi')->name('user.organisasiDetail');
     Route::get('/user/sektoral', 'sektoral')->name('user.sektoral');
     route::post('/user/sektoral/list', 'sektoralList')->name('user.sektoralList');
+    route::get('/user/sektoral/detail/{id}', 'detailSektoral')->name('user.sektoralDetail');
     Route::get('/user/tentang', 'tentang')->name('user.tentang');
 });
 

@@ -9,7 +9,7 @@
     @endif
     <h3 class="media-heading">{{ $item->nama_organisasi }}</h3>
     <strong class="count">{{ $dataset->where('kode_organisasi', $item->kode_organisasi)->count() }} Datasets</strong>
-    <a href="#"
+    <a href="{{ route('user.organisasiDetail', $item->kode_organisasi) }}"
         title="{{ $item->nama_organisasi }}" class="media-view">
         <span>{{ $item->nama_organisasi }}</span>
     </a>

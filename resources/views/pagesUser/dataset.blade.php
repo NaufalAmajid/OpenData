@@ -106,18 +106,6 @@
                             <div class="listDataset"></div>
                         </ul>
                     </div>
-                    {{-- <div class='pagination-wrapper'>
-                        <ul class='pagination'>
-                            <li><a href="dataset-24.html?page=1">«</a></li>
-                            <li class="active"><a href="dataset-24.html?page=1">1</a></li>
-                            <li><a href="dataset-25.html?page=2">2</a></li>
-                            <li><a href="dataset-26.html?page=3">3</a></li>
-                            <li><a href="dataset-213.html?page=4">4</a></li>
-                            <li class="disabled"><a href="#">...</a></li>
-                            <li><a href="dataset-27.html?page=28">28</a></li>
-                            <li><a href="dataset-26.html?page=3">»</a></li>
-                        </ul>
-                    </div> --}}
                 </section>
             </div>
         </div>
