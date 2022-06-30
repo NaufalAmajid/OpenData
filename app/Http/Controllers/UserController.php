@@ -82,10 +82,11 @@ class UserController extends Controller
         $fileDataset = FileDataset::find($id);
         $dataset = Dataset::join('organisasis', 'datasets.kode_organisasi', '=', 'organisasis.kode_organisasi')
                     ->where('datasets.kode_dataset', $fileDataset->kode_dataset)
-                    ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi', 'organisasis.kode_organisasi', 'organisasis.deskripsi as deskOrg')
+                    ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi', 'organisasis.deskripsi as deskOrg')
                     ->first();
 
         return view('pagesUser.extra.detailFileDataset', compact('dataset', 'fileDataset'));
+
     }
 
     public function organisasi()

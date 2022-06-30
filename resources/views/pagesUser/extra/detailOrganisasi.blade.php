@@ -126,13 +126,13 @@
                             <li class="dataset-item">
                                 <div class="dataset-content">
                                     <h3 class="dataset-heading">
-                                        <a href="#">{{ $ds->judul_dataset }}</a>
+                                        <a href="{{ route('user.datasetDetail', $ds->kode_dataset) }}">{{ $ds->judul_dataset }}</a>
                                     </h3>
                                     <p class="empty">This dataset has no description</p>
                                 </div>
                                 <ul class="dataset-resources list-unstyled">
                                     <li>
-                                        <a href="#" style="cursor: context-menu" class="label label-default"
+                                        <a href="{{ route('user.datasetDetail', $ds->kode_dataset) }}" style="cursor: context-menu" class="label label-default"
                                             data-format="xlsx">{{ $file->where('kode_dataset', $ds->kode_dataset)->count() }} file</a>
                                     </li>
                                 </ul>

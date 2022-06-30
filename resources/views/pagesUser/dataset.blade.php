@@ -24,7 +24,7 @@
                                 <ul class="list-unstyled nav nav-simple nav-facet">
                                     @foreach ($organisasi as $org)
                                     <li class="nav-item">
-                                        <a href="dataset-3.html?organization=dinas-kesehatan" title="">
+                                        <a href="javascript:filterDataset('organisasi', '{{ $loop->iteration }}')" title="organisasi" id="listOrganisasi">
                                             <span class="item-label">{{ $org->nama_organisasi }}</span>
                                             <span class="hidden separator"> - </span>
                                             <span class="item-count badge">{{ $dataset->where('kode_organisasi', $org->kode_organisasi)->count() }}</span>
@@ -33,11 +33,11 @@
                                     @endforeach
                                 </ul>
                             </nav>
-                            <p class="module-footer">
+                            {{-- <p class="module-footer">
                                 <a href="dataset-13.html?_organization_limit=0" class="read-more">Show More
                                     Organisasi</a>
 
-                            </p>
+                            </p> --}}
                         </section>
                         <section class="module module-narrow module-shallow">
                             <h2 class="module-heading">
@@ -47,9 +47,9 @@
                             <nav>
                                 <ul class="list-unstyled nav nav-simple nav-facet">
                                     @foreach ($sektoral as $sek)
-                                    <li class="nav-item">
-                                        <a href="dataset-14.html?groups=pemerintahan-dan-pembangunan-manusia"
-                                            title="Pemerintahan dan Pembangunan Manusia">
+                                    <li class="nav-item" id="listSektoral{{ $loop->iteration }}">
+                                        <a href="javascript:filterDataset('sektoral', '{{ $loop->iteration }}')"
+                                            title="sektoral">
                                             <span class="item-label">{{ $sek->nama_sektor }}</span>
                                             <span class="hidden separator"> - </span>
                                             <span class="item-count badge">{{ $dataset->where('kode_sektoral', $sek->kode_sektor)->count() }}</span>
@@ -67,8 +67,8 @@
                             <nav>
                                 <ul class="list-unstyled nav nav-simple nav-facet">
                                     @foreach ($tag as $tag)
-                                    <li class="nav-item">
-                                        <a href="dataset-1.html?tags=infrastruktur" title="">
+                                    <li class="nav-item" id="listTag{{ $loop->iteration }}">
+                                        <a href="javascript:filterDataset('tag', '{{ $loop->iteration }}')" title="tag">
                                             <span class="item-label">{{ $tag->nama_tag }}</span>
                                             <span class="hidden separator"> - </span>
                                             <span class="item-count badge">{{ $dataset->where('kode_tag', $tag->kode_tag)->count() }}</span>

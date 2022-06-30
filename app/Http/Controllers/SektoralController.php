@@ -13,9 +13,7 @@ class SektoralController extends Controller
 {
     public function index(){
 
-        $rowSektoral = Sektoral::all();
-
-        return view('pagesAdmin.sektoral.indexSektoral', compact('rowSektoral'));
+        return view('pagesAdmin.sektoral.indexSektoral');
     }
 
     public function store(Request $request){

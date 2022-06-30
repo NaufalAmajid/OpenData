@@ -18,6 +18,7 @@ class CreateFileDatasetsTable extends Migration
             $table->string('nama_file');
             $table->string('kode_dataset');
             $table->string('ekstensi_file');
+            $table->text('link_file')->nullable();
             $table->timestamps();
         });
     }

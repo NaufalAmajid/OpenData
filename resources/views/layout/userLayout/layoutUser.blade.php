@@ -26,13 +26,7 @@
 </head>
 
 
-<body data-site-root="http://opendata.bogorkab.go.id/" data-locale-root="http://opendata.bogorkab.go.id/">
-
-
-    <div class="sr-only sr-only-focusable"><a href="#content">Skip to content</a></div>
-
-
-
+<body>
 
     <header class="account-masthead">
         <div class="container">
@@ -86,8 +80,6 @@
 
                     </ul>
                     <ul class="list-unstyled">
-
-
                         <li><a href="https://bogorkab.go.id/">Pemerintah Kabupaten Bogor</a></li>
                         <li><a href="https://bogorkab.bps.go.id/">Badan Pusat Statistik Kabupaten Bogor</a></li>
                         <li><a href="https://data.go.id/">Satu Data Indonesia</a></li>

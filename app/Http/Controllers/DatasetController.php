@@ -18,8 +18,8 @@ class DatasetController extends Controller
 {
     public function index()
     {
-        $tag = Tags::all();
-        $sektoral = Sektoral::all();
+        $tag = Tags::where('is_correct', '=', '1')->orderBy('created_at', 'desc')->get();
+        $sektoral = Sektoral::where('is_correct', '=', '1')->orderBy('created_at', 'desc')->get();
         $organisasiName = Organisasi::where('kode_organisasi', '=', Auth::user()->kode_organisasi)->first();
 
         return view('pagesAdmin.dataset.indexDataset', compact('tag', 'sektoral', 'organisasiName'));
@@ -47,10 +47,13 @@ class DatasetController extends Controller
 
         $kodeDataset = 'DATASET-'.date('YmdHis');
         $file = $request->file('dataResources');
+        $addName = preg_replace("/[^a-zA-Z0-9]/", " ", $validationData['judulDataset']);
+        $addName = strtolower($addName);
+        $addName = Str::slug($addName, '-');
 
         for ($i = 0; $i < count($file); $i++) {
 
-            $randName = Str::random(10) . '_' . rand(1, 100);
+            $randName = 'File-'.$i.' '.$addName;
             $getFileExtension = $file[$i]->getClientOriginalExtension();
             $fileNewName = $randName . '.' . $getFileExtension;
             $file[$i]->storeAs('public/datasetFile', $fileNewName);
@@ -120,9 +123,9 @@ class DatasetController extends Controller
 
         $rowFile = FileDataset::where('kode_dataset', '=', $rowDataset->kode_dataset)->get();
 
-        $rowSektoral = Sektoral::all();
+        $rowSektoral = Sektoral::where('is_correct', '=', 1)->get();
 
-        $rowTag = Tags::all();
+        $rowTag = Tags::where('is_correct', '=', 1)->get();
 
         return view('pagesAdmin.dataset.informasi.detailDataset', compact('rowDataset', 'rowFile', 'rowSektoral', 'rowTag'));
     }

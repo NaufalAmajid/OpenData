@@ -3,7 +3,7 @@
    ===================================================== */
 body {
     font-family: 'Open Sans', sans-serif;
-    font-size: 14px;    
+    font-size: 14px;
 }
 a {
     color: #009B4C;
@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color: inherit;
 }
 .account-masthead {
-  background-color: #009B4C;
+  background-color: #00d1e0;
 }
 /* The "bubble" containing the number of new notifications. */
 .account-masthead .account .notifications a span {
@@ -39,18 +39,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
    ======================================================================== */
 
 .masthead {
-  background-color: #0C5439;
+  background-color: #008d97;
 }
 /* The "navigation pills" in the masthead (the links to Datasets,
    Organizations, etc) when the user's pointer hovers over them. */
 .masthead .navigation .nav-pills li a:hover {
-  background-color: #F0A817;
+  background-color: #f05417;
   color: white;
 }
 /* The "active" navigation pill (for example, when you're on the /dataset page
    the "Datasets" link is active). */
 .masthead .navigation .nav-pills li.active a {
-  background-color: #F0A817;
+  background-color: #f05417;
 }
 /* The "box shadow" effect that appears around the search box when it
    has the keyboard cursor's focus. */
@@ -70,10 +70,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   border: none;
 }
 .image {
-  text-align: center; 
-  display: block; 
+  text-align: center;
+  display: block;
   margin-left: auto;
-  margin-right: auto;  
+  margin-right: auto;
 }
 .container {
   margin-right: auto;
@@ -90,15 +90,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .hero {
   height: 450px;
   border: none;
-  text-decoration: none;  
+  text-decoration: none;
   background: url("../images/cover-infografis-statistik-kab-bogor.jpg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  
+
 }
 .hero .box {
-  border: none;  
+  border: none;
 }
 /* Change the colors of the "Search Your Data" box. */
 .module-content {
@@ -113,7 +113,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 /* Change the background color of the "Popular Tags" box. */
 .homepage .module-search .tags {
-  background-color: #009B4C;
+  background-color: #00d1e0;
 }
 /* Remove some padding. This makes the bottom edges of the "Welcome to CKAN"
    and "Search Your Data" boxes line up. */
@@ -148,7 +148,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   background-color: #009B4C;
   font-size: 13px;
   color: #fff;
-  
+
 }
 .search-form {
  border-bottom: none;
@@ -159,7 +159,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .site-footer,
 body {
-  background-color: #0C5439;
+  background-color: #008d97;
 }
 /* The text in the footer. */
 .site-footer,

@@ -16,7 +16,7 @@
             <td>{{ $item->nama_sektor }}</td>
             <td>{{ substr($item->deskripsi,0,15) . '...' }}</td>
             <td><span
-                    class="fw-extrabold text-success">{{ $item->is_correct = 2 ? 'Published' : '' }}</span>
+                    class="fw-extrabold text-{{ $item->is_correct == 2 ? 'success' : 'danger' }}">{{ $item->is_correct == 2 ? 'Confirmed' : 'Unconfirmed' }}</span>
             </td>
             <td>
                 <a class="btn btn-sm btn-info" onclick="detailSektoral('{{ $item->kode_sektor }}')" data-bs-toggle="tooltip" title="Detail Sektoral"><i class="bi bi-file-earmark-medical-fill"></i></a>

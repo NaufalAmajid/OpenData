@@ -7,13 +7,11 @@
         </div>
         <div class="toolbar">
             <ol class="breadcrumb">
-                <li class="home"><a href="../../../index.htm"><i class="fa fa-home"></i><span> Home</span></a></li>
-                <li><a href="../../../organization.html">Organisasi</a></li>
-                <li><a href="../../../organization/badan-pengelola-keuangan-dan-aset-daerah.html">BADAN PENGELOLA
-                        KEUANGAN ...</a></li>
-                <li><a href="../../data-rekapitulasi-status-penggunaan-barang-milik-daerah.html">Data Rekapitulasi
-                        Status ...</a></li>
-                <li class="active"><a href="">Data Rekapitulasi Status ...</a></li>
+                <li class="home"><a href="{{ route('user.index') }}"><i class="fa fa-home"></i><span> Home</span></a></li>
+                <li><a href="{{ route('user.organisasi') }}">Organisasi</a></li>
+                <li><a href="{{ route('user.organisasiDetail', $dataset->kode_organisasi) }}">{{ substr($dataset->nama_organisasi,0,18) . '...' }}</a></li>
+                <li><a href="{{ route('user.datasetDetail', $dataset->kode_dataset) }}">{{ substr($dataset->judul_dataset,0,17) . '...' }}</a></li>
+                <li class="active"><a href="{{ route('user.datasetDetail', $dataset->kode_dataset) }}">{{ substr($dataset->judul_dataset,0,17) . '...' }}</a></li>
             </ol>
         </div>
         <div class="row wrapper no-nav">
@@ -24,92 +22,47 @@
                             <li>
                                 <div class="btn-group">
                                     <a class="btn btn-primary resource-url-analytics resource-type-None"
-                                        href="../../e3cba57b-59da-4d32-8498-e7e3b30f76f4/resource/92eceffb-4c2b-4a88-b6d5-3966af5204e1/download/data-rekapitulasi-status-penggunaan-barang-milik-daerah-thn-2010-2020.pdf">
+                                        href="/storage/datasetFile/{{ $fileDataset->nama_file }}" download>
                                         <i class="fa fa-arrow-circle-o-down"></i> Download
                                     </a>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                    <h1 class="page-heading">Data Rekapitulasi Status Penggunaan Barang ...</h1>
+                    <h1 class="page-heading">{{ $dataset->judul_dataset }}</h1>
                     <div class="prose notes" property="rdfs:label">
-                        <p>Data Rekapitulasi Status Penggunaan Barang Milik Daerah Tahun 2010-2020</p>
+                        <p>{{ strtolower($dataset->judul_dataset) }}</p>
                     </div>
                     <ul class="nav nav-tabs nav-tabs-plain">
-                        <li class=" active" data-id="830b30c6-a3c9-4d9e-a4b8-3123ee5e684e">
-                            <a href="92eceffb-4c2b-4a88-b6d5-3966af5204e1-1.html?view_id=830b30c6-a3c9-4d9e-a4b8-3123ee5e684e"
-                                data-id="830b30c6-a3c9-4d9e-a4b8-3123ee5e684e">
-                                <i class="fa icon fa-file-pdf-o"></i>
-                                PDF
+                        <li class=" active" data-id="#">
+                            <a href="#"
+                                data-id="#">
+                                @switch(strtolower($fileDataset->ekstensi_file))
+                                    @case('pdf')
+                                        <i class="fa icon fa-file-pdf-o"></i>
+                                        @break
+                                    @case('doc')
+                                    @case('docx')
+                                        <i class="fa icon fa-file-word-o"></i>
+                                        @break
+                                    @case('xls')
+                                    @case('csv')
+                                    @case('xlsx')
+                                        <i class="fa icon fa-file-excel-o"></i>
+                                        @break
+                                    @default
+                                        <i class="fa icon fa-file-o"></i>
+                                        @break
+                                @endswitch
+                                {{ strtoupper($fileDataset->ekstensi_file) }}
                             </a>
                         </li>
                     </ul>
                     <div class="resource-view">
-                        <div id="view-830b30c6-a3c9-4d9e-a4b8-3123ee5e684e" class="resource-view"
-                            data-id="830b30c6-a3c9-4d9e-a4b8-3123ee5e684e" data-title="PDF" data-description="">
-                            <div class="actions">
-                                <a class="btn btn-default" target="_blank"
-                                    href="92eceffb-4c2b-4a88-b6d5-3966af5204e1/view/830b30c6-a3c9-4d9e-a4b8-3123ee5e684e.html">
-                                    <i class="fa fa-arrows-alt"></i>
-                                    Fullscreen
-                                </a>
-                                <a class="btn btn-default" href="#embed-830b30c6-a3c9-4d9e-a4b8-3123ee5e684e"
-                                    data-module="resource-view-embed"
-                                    data-module-id="830b30c6-a3c9-4d9e-a4b8-3123ee5e684e"
-                                    data-module-url="http://opendata.bogorkab.go.id/dataset/data-rekapitulasi-status-penggunaan-barang-milik-daerah/resource/92eceffb-4c2b-4a88-b6d5-3966af5204e1/view/830b30c6-a3c9-4d9e-a4b8-3123ee5e684e">
-                                    <i class="fa fa-code"></i>
-                                    Embed
-                                </a>
-                            </div>
+                        <div class="resource-view">
                             <p class="desc"></p>
                             <div class="m-top ckanext-datapreview">
-                                <object
-                                    style="margin:auto; max-height:100%; min-height:100vh; min-width:100%; display:block"
-                                    data="../../e3cba57b-59da-4d32-8498-e7e3b30f76f4/resource/92eceffb-4c2b-4a88-b6d5-3966af5204e1/download/data-rekapitulasi-status-penggunaan-barang-milik-daerah-thn-2010-2020.pdf"
-                                    type="application/pdf">
-                                    <p>Your browser does not support object tags.</p>
-                                </object>
-                            </div>
-                            <div id="embed-830b30c6-a3c9-4d9e-a4b8-3123ee5e684e" class="modal fade resource-view-embed">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h3>Embed resource view</h3>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p class="embed-content">You can copy and paste the embed code into a CMS or
-                                                blog software that supports raw HTML</p>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="form-group control-full">
-                                                        <label class="control-label" for="width">Width</label>
-                                                        <div class="controls ">
-                                                            <input id="width" type="text" name="width" value="700"
-                                                                placeholder="" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="form-group control-full">
-                                                        <label class="control-label" for="height">Height</label>
-                                                        <div class="controls ">
-                                                            <input id="height" type="text" name="height" value="400"
-                                                                placeholder="" class="form-control">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="form-group pre control-full">
-                                                <label class="control-label" for="code">Code</label>
-                                                <div class="controls ">
-                                                    <textarea id="code" name="code" cols="20" rows="3" placeholder=""
-                                                        class="form-control"></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <iframe src="https://docs.google.com/spreadsheets/d/1zOsjHTz-r-0fj88VyYDNS5Wlsku-0rg5il3KAdw57vg/edit?usp=sharing" frameborder="0" style="margin:auto; max-height:100%; min-height:100vh; min-width:100%;"></iframe>
                             </div>
                         </div>
                     </div>
@@ -121,8 +74,7 @@
                     <ul class="list-unstyled nav nav-simple">
                         <li class="nav-item active">
                             <a class=" active"
-                                href="92eceffb-4c2b-4a88-b6d5-3966af5204e1-2.html?inner_span=True"><span>Data
-                                    Rekapitulasi ...</span></a>
+                                href="{{ route('user.datasetDetailFile', $fileDataset->id) }}"><span>{{ substr($dataset->judul_dataset,0,14) . '...' }}</span></a>
                         </li>
                     </ul>
                 </section>
@@ -153,54 +105,25 @@
                             <tbody>
                                 <tr>
                                     <th scope="row">Data last updated</th>
-                                    <td>April 23, 2021</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">Metadata last updated</th>
-                                    <td>April 23, 2021</td>
+                                    <td>{{ $dataset->updated_at->format('M d, Y') }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Created</th>
-                                    <td>April 23, 2021</td>
+                                    <td>{{ $dataset->created_at->format('M d, Y') }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Format</th>
-                                    <td>PDF</td>
+                                    <td>{{ strtoupper($fileDataset->ekstensi_file) }}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">License</th>
                                     <td>
-                                        <a href="http://www.opendefinition.org/licenses/cc-by" rel="dc:rights">Creative
-                                            Commons Attribution</a>
+                                        <a rel="dc:rights">{{ $dataset->lisensi }}</a>
                                     </td>
                                 </tr>
                                 <tr class="toggle-more">
-                                    <th scope="row">Has views</th>
-                                    <td>True</td>
-                                </tr>
-                                <tr class="toggle-more">
-                                    <th scope="row">Id</th>
-                                    <td>92eceffb-4c2b-4a88-b6d5-3966af5204e1</td>
-                                </tr>
-                                <tr class="toggle-more">
                                     <th scope="row">Mimetype</th>
-                                    <td>application/pdf</td>
-                                </tr>
-                                <tr class="toggle-more">
-                                    <th scope="row">On same domain</th>
-                                    <td>True</td>
-                                </tr>
-                                <tr class="toggle-more">
-                                    <th scope="row">Package id</th>
-                                    <td>e3cba57b-59da-4d32-8498-e7e3b30f76f4</td>
-                                </tr>
-                                <tr class="toggle-more">
-                                    <th scope="row">Revision id</th>
-                                    <td>a777c5fc-e53a-4138-820b-8ae64cf4d014</td>
-                                </tr>
-                                <tr class="toggle-more">
-                                    <th scope="row">Size</th>
-                                    <td>539.9 KiB</td>
+                                    <td>application/{{ strtolower($fileDataset->ekstensi_file) }}</td>
                                 </tr>
                                 <tr class="toggle-more">
                                     <th scope="row">State</th>

@@ -19,7 +19,7 @@ class TagsController extends Controller
 
     public function read()
     {
-        $tags = Tags::orderBy('created_at', 'desc')->first()->all();
+        $tags = Tags::all();
 
         return view('pagesAdmin.dataset.tags.tableTags', compact('tags'));
     }

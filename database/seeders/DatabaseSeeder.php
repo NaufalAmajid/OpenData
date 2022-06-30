@@ -20,11 +20,10 @@ class DatabaseSeeder extends Seeder
         User::create(
             [
                 'kode_admin' => 'ADM20220617185211',
-                'name'     => 'Naufal Amajid',
-                'username' => 'naufal',
+                'name'     => 'Nam Joo Seng',
+                'username' => 'namjoo',
                 'password' => Hash::make('123'),
                 'kode_organisasi' => 'adm824302',
-                'is_admin' => true,
             ]
         );
         User::create(
@@ -34,13 +33,14 @@ class DatabaseSeeder extends Seeder
                 'username' => 'adinda',
                 'password' => Hash::make('456'),
                 'kode_organisasi' => 'bpad524013',
+                'is_admin' => true,
             ]
         );
         User::create(
             [
                 'kode_admin' => 'ADM20220617185213',
-                'name'     => 'Naruto Uzumaki',
-                'username' => 'naruto',
+                'name'     => 'Kim Jong Un',
+                'username' => 'kimjongun',
                 'password' => Hash::make('321'),
                 'kode_organisasi' => 'bkpdp62343',
             ]
@@ -48,8 +48,8 @@ class DatabaseSeeder extends Seeder
         User::create(
             [
                 'kode_admin' => 'ADM20220617185214',
-                'name'     => 'Sasuke Uchiha',
-                'username' => 'sasuke',
+                'name'     => 'Tan Ah Kow',
+                'username' => 'tanahkow',
                 'password' => Hash::make('654'),
                 'kode_organisasi' => 'bpppdpd824',
             ]
