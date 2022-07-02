@@ -5,23 +5,23 @@
 <!--<![endif]-->
 
 <head>
-    <meta charset="utf-8">
+    {{-- <meta charset="utf-8"> --}}
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    {{-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> --}}
     <meta name="generator" content="ckan 2.8.7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="token-csrf" content="{{ csrf_token() }}">
     <link rel="stylesheet" type="text/css"
-        href="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/select2/select2.min.css">
+        href="{{ asset('template/forUser/fanstatic/vendor/version2021-04-07T081732.64/select2/select2.min.css') }}">
     <link rel="stylesheet" type="text/css"
-        href="/template/forUser/fanstatic/css/version2021-04-08T061538.15/main.min.css">
+        href="{{ asset('template/forUser/fanstatic/css/version2021-04-08T061538.15/main.min.css') }}">
     <link rel="stylesheet" type="text/css"
-        href="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/font-awesome/css/font-awesome.min.css">
+        href="{{ asset('template/forUser/fanstatic/vendor/version2021-04-07T081732.64/font-awesome/css/font-awesome.min.css') }}">
     <title>Open Data Kabupaten Klaten</title>
 
 
-    <link rel="shortcut icon" href="/template/forUser/base/images/logo-kab-bogor.ico">
-    <link rel="stylesheet" href="/template/forUser/base/css/custom.css">
+    <link rel="shortcut icon" href="{{ asset('template/forUser/base/images/logo-kab-bogor.ico') }}">
+    <link rel="stylesheet" href="{{ asset('template/forUser/base/css/custom.css') }}">
 
 </head>
 
@@ -105,12 +105,12 @@
         document.getElementsByTagName('html')[0].className += ' js';
     </script>
     <script type="text/javascript"
-        src="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/jquery.min.js"></script>
+        src="{{ asset('template/forUser/fanstatic/vendor/version2021-04-07T081732.64/jquery.min.js') }}"></script>
     <script type="text/javascript"
-        src="/template/forUser/fanstatic/vendor/version2021-04-07T081732.64/bundlebootstrap/js/bootstrap.min.js/select2.min.js">
+        src="{{ asset('template/forUser/fanstatic/vendor/version2021-04-07T081732.64/bundlebootstrap/js/bootstrap.min.js/select2.min.js') }}">
     </script>
     <script type="text/javascript"
-        src="/template/forUser/fanstatic/base/version2021-04-06T024817.49/bundleplugins/jquery.inherit/jquery.proxy-all/jquery.url-helpers/jquery.date-helpers/followers-counter.js">
+        src="{{ asset('template/forUser/fanstatic/base/version2021-04-06T024817.49/bundleplugins/jquery.inherit/jquery.proxy-all/jquery.url-helpers/jquery.date-helpers/followers-counter.js') }}">
     </script>
     @yield('script')
 </body>

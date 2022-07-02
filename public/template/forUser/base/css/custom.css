@@ -1,6 +1,13 @@
 /* =====================================================
    The "account masthead" bar across the top of the site
    ===================================================== */
+@media screen and (max-width: 500px) {
+    #fotoBuWa{
+        width: 350px;
+        height: auto;
+    }
+}
+
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 14px;

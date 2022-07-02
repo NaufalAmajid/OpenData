@@ -83,7 +83,7 @@
             <div class="row">
                 <div class="span12 col1">
                     <a class="image">
-                        <img src="{{ asset('template/forUser/assets/bupatiwakil.png') }}">
+                        <img src="{{ asset('template/forUser/assets/bupatiwakil.png') }}" id="fotoBuWa">
                     </a>
                 </div>
             </div>
