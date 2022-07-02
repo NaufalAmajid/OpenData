@@ -519,7 +519,7 @@
                             success: function(data) {
                                 const result = JSON.parse(data);
                                 if (result.status == 'success') {
-                                    window.location.href = result.url;
+                                    window.open(result.url, '_self');
                                 }
                             }
                         });
