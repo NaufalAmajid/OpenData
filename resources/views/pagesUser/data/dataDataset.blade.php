@@ -7,9 +7,12 @@
         <p class="empty">This dataset has no description</p>
     </div>
     <ul class="dataset-resources list-unstyled">
+        @php
+            $resources = $file->where('kode_dataset', $item->kode_dataset)->count();
+        @endphp
         <li>
             <a href="{{ route('user.datasetDetail', $item->kode_dataset) }}"
-                class="label label-default" data-format="xlsx">XLSX</a>
+                class="label label-default" data-format="xlsx">{{ $resources }} Files</a>
         </li>
     </ul>
 </li>

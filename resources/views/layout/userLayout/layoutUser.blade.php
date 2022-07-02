@@ -45,9 +45,9 @@
             </div>
             <hgroup class="header-image navbar-left">
 
-                <a class="logo" href="index.htm"><img
-                        src="template/forUser/uploads/admin/2021-04-07-082521.948376logo-open-data-kab-bogor.png"
-                        alt="Open Data Kabupaten Bogor" title="Open Data Kabupaten Bogor"></a>
+                <a class="logo" href="{{ route('user.index') }}"><img
+                        src="{{ asset('template/forUser/assets/header.png') }}"
+                        alt="Open Data Kabupaten Klaten" title="Open Data Kabupaten Klaten"></a>
 
             </hgroup>
 
@@ -72,7 +72,7 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-md-8 footer-links">
+                {{-- <div class="col-md-8 footer-links">
 
                     <ul class="list-unstyled">
 
@@ -90,7 +90,7 @@
 
                     </ul>
 
-                </div>
+                </div> --}}
                 <div class="col-md-4 attribution" style="text-align: center;">
 
                     <p>© {{ date('Y') }} Kabupaten Klaten</p>

@@ -7,7 +7,7 @@
         </div>
         <div class="toolbar">
             <ol class="breadcrumb">
-                <li class="home"><a href="../index.htm"><i class="fa fa-home"></i><span> Home</span></a></li>
+                <li class="home"><a href="{{ route('user.index') }}"><i class="fa fa-home"></i><span> Home</span></a></li>
                 <li><a href="{{ route('user.sektoral') }}">Sektoral</a></li>
                 <li class="active"><a class=" active" href="{{ route('user.sektoralDetail', $sektoral->id) }}">{{ $sektoral->nama_sektor }}</a></li>
             </ol>

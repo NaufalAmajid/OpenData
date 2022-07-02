@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $countDataset = Dataset::where('is_publish', 1)->count();
-        $countOrganisasi = Organisasi::where('is_correct', 1)->count();
+        $countOrganisasi = Organisasi::where('is_correct', 2)->count();
         $countSektoral = Sektoral::where('is_correct', 1)->count();
 
         return view('mainPage', compact('countDataset', 'countOrganisasi', 'countSektoral'));
@@ -33,12 +33,17 @@ class UserController extends Controller
 
     public function datasetList(Request $request)
     {
+        // get parameter url tag or organisasi or sektoral
+        $tag = $request->tag ?? '';
         $title = $request->search ?? '';
-        $dataset = Dataset::where('is_publish', 1)->where('judul_dataset', 'like', '%' . $title . '%')->get();
+        $dataset = Dataset::where('is_publish', 1)->where('judul_dataset', 'like', '%' . $title . '%')->where('kode_tag', 'like', '%' . $tag . '%')->get();
+        $file = FileDataset::all();
+        $getNameTag = Tags::where('kode_tag', $tag)->first();
 
         return response()->json([
             'dataset' => $dataset,
-            'view' => view('pagesUser.data.dataDataset', compact('dataset'))->render()
+            'namaTag' => $getNameTag,
+            'view' => view('pagesUser.data.dataDataset', compact('dataset', 'file'))->render()
         ]);
     }
 

@@ -89,9 +89,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
    boxes. */
 .hero {
   height: 450px;
+  width: 100%;
   border: none;
   text-decoration: none;
-  background: url("../images/cover-infografis-statistik-kab-bogor.jpg");
+  background: url("../../assets/banner.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;

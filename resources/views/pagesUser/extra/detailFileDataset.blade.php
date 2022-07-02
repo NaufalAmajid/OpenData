@@ -22,7 +22,7 @@
                             <li>
                                 <div class="btn-group">
                                     <a class="btn btn-primary resource-url-analytics resource-type-None"
-                                        href="/storage/datasetFile/{{ $fileDataset->nama_file }}" download>
+                                        href="{{ asset('storage/datasetFile/' . $fileDataset->nama_file) }}" target="_blank">
                                         <i class="fa fa-arrow-circle-o-down"></i> Download
                                     </a>
                                 </div>

@@ -29,8 +29,8 @@
                         </a>
                     </li>
                     <li>
-                        <a href="dbd7b250-dbb6-4e40-94f3-13ccc081bfb5/resource/68c1e64b-91a8-42d7-a71f-f4609c2feb6c/download/status-perkembangan-desa-pasirgaok.xlsx"
-                            class="resource-url-analytics" target="_blank">
+                        <a href="{{ asset('storage/datasetFile/' . $item->nama_file) }}"
+                            class="resource-url-analytics" target="_blank" download>
                             <i class="fa fa-arrow-circle-o-down"></i>
                             Download
                         </a>

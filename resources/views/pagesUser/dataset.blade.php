@@ -7,7 +7,8 @@
         </div>
         <div class="toolbar">
             <ol class="breadcrumb">
-                <li class="home"><a href="{{ route('user.index') }}"><i class="fa fa-home"></i><span> Home</span></a></li>
+                <li class="home"><a href="{{ route('user.index') }}"><i class="fa fa-home"></i><span> Home</span></a>
+                </li>
                 <li class="active"><a href="{{ route('user.dataset') }}">Datasets</a></li>
             </ol>
         </div>
@@ -23,11 +24,13 @@
                             <nav>
                                 <ul class="list-unstyled nav nav-simple nav-facet">
                                     @foreach ($organisasi as $org)
-                                    <li class="nav-item">
-                                        <a href="javascript:filterDataset('organisasi', '{{ $loop->iteration }}')" title="organisasi" id="listOrganisasi">
+                                    <li class="nav-item" id="listorganisasi{{ $loop->iteration }}">
+                                        <a href="{{ route('user.organisasiDetail', $org->kode_organisasi) }}"
+                                            title="organisasi" id="listOrganisasi">
                                             <span class="item-label">{{ $org->nama_organisasi }}</span>
                                             <span class="hidden separator"> - </span>
-                                            <span class="item-count badge">{{ $dataset->where('kode_organisasi', $org->kode_organisasi)->count() }}</span>
+                                            <span
+                                                class="item-count badge">{{ $dataset->where('kode_organisasi', $org->kode_organisasi)->count() }}</span>
                                         </a>
                                     </li>
                                     @endforeach
@@ -47,12 +50,12 @@
                             <nav>
                                 <ul class="list-unstyled nav nav-simple nav-facet">
                                     @foreach ($sektoral as $sek)
-                                    <li class="nav-item" id="listSektoral{{ $loop->iteration }}">
-                                        <a href="javascript:filterDataset('sektoral', '{{ $loop->iteration }}')"
-                                            title="sektoral">
+                                    <li class="nav-item" id="listsektoral{{ $loop->iteration }}">
+                                        <a href="{{ route('user.sektoralDetail', $sek->id) }}" title="sektoral">
                                             <span class="item-label">{{ $sek->nama_sektor }}</span>
                                             <span class="hidden separator"> - </span>
-                                            <span class="item-count badge">{{ $dataset->where('kode_sektoral', $sek->kode_sektor)->count() }}</span>
+                                            <span
+                                                class="item-count badge">{{ $dataset->where('kode_sektoral', $sek->kode_sektor)->count() }}</span>
                                         </a>
                                     </li>
                                     @endforeach
@@ -67,11 +70,13 @@
                             <nav>
                                 <ul class="list-unstyled nav nav-simple nav-facet">
                                     @foreach ($tag as $tag)
-                                    <li class="nav-item" id="listTag{{ $loop->iteration }}">
-                                        <a href="javascript:filterDataset('tag', '{{ $loop->iteration }}')" title="tag">
+                                    <li class="nav-item" id="{{ $tag->kode_tag }}">
+                                        <a href="javascript:filterDataset('tag', '{{ $tag->kode_tag }}')"
+                                            title="tag">
                                             <span class="item-label">{{ $tag->nama_tag }}</span>
                                             <span class="hidden separator"> - </span>
-                                            <span class="item-count badge">{{ $dataset->where('kode_tag', $tag->kode_tag)->count() }}</span>
+                                            <span
+                                                class="item-count badge">{{ $dataset->where('kode_tag', $tag->kode_tag)->count() }}</span>
                                         </a>
                                     </li>
                                     @endforeach
@@ -101,6 +106,9 @@
                                 </span>
                             </div>
                             <h2 id="textDatasetFind"></h2>
+                            <p class="filter-list" id="textFilter">
+
+                            </p>
                         </form>
                         <ul class="dataset-list list-unstyled">
                             <div class="listDataset"></div>
@@ -115,36 +123,86 @@
 
 @section('script')
 
-    <script>
-        $(document).ready(function () {
+<script>
+    $(document).ready(function () {
+        listDataset();
+        addElementFilter();
+        $('#searchDataset').keyup(function () {
             listDataset();
-            $('#searchDataset').keyup(function () {
-                listDataset();
-            });
+        });
+    });
+
+    function listDataset() {
+
+        var search = $('#searchDataset').val();
+        var value = search.replace(/\b\w/g, function (l) {
+            return l.toUpperCase();
+        }).replace(/\s+/g, function (l) {
+            return l.toUpperCase();
         });
 
-        function listDataset(){
+        $.ajax({
+            url: "{{ route('user.datasetList') }}",
+            type: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                search: search
+            },
+            success: function (data) {
+                $('.listDataset').html(data.view);
+                $('#textDatasetFind').html(data.dataset.length + ' dataset ditemukan');
+            }
+        });
+    }
 
-            var search = $('#searchDataset').val();
-            var value = search.replace(/\b\w/g, function(l) {
-                return l.toUpperCase();
-            }).replace(/\s+/g, function(l) {
-                return l.toUpperCase();
-            });
+    function filterDataset(type, code) {
+        var url = new URL(window.location.href);
+        var search = url.searchParams.get(type);
+        if (search == null) {
+            url.searchParams.append(type, code);
+        } else {
+            url.searchParams.set(type, code);
+        }
+        window.location.href = url.href;
+
+    }
+
+    function addElementFilter(){
+        var url = new URL(window.location.href);
+        var getTag = url.searchParams.get('tag');
+
+        if (getTag != null) {
 
             $.ajax({
                 url: "{{ route('user.datasetList') }}",
                 type: "POST",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    search: search
+                    tag: getTag
                 },
-                success: function(data){
+                success: function (data) {
                     $('.listDataset').html(data.view);
                     $('#textDatasetFind').html(data.dataset.length + ' dataset ditemukan');
+                    $('#'+getTag).addClass('active');
+                    $('#textFilter').html(`
+                        <span class="facet">Tag:</span>
+                        <span class="filtered pill">${data.namaTag.nama_tag}
+                            <a href="javascript:removeFilter('tag')" class="remove" title="Remove"><i class="fa fa-times"></i></a>
+                        </span>
+                        `);
                 }
             });
+
         }
-    </script>
+
+    }
+
+    function removeFilter(type) {
+        var url = new URL(window.location.href);
+        url.searchParams.delete(type);
+        window.location.href = url.href;
+    }
+
+</script>
 
 @endsection
