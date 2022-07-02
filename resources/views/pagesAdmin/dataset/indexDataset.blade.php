@@ -198,6 +198,7 @@
 
         $('#optionMenuDataset').click(function() {
             $('.formDataset, .showTabelDataset, .showFormDataset, .tableDataset').toggleClass('d-none');
+            $('#showDetailDataset').html('');
         });
 
         $('#formCreateDataset').submit(function(e) {
@@ -291,5 +292,13 @@
         })
     }
 
+    function editFile(idFile, row){
+        var value = $('#editFileDataset'+row).val();
+        $('#btnEditFileDataset'+row).removeClass('d-none').attr('onclick', `updateFile(${idFile}, ${row}, '${value}')`);;
+    }
+
+    function updateFile(id, row, value){
+        console.log(id);
+    }
 </script>
 @endsection

@@ -145,7 +145,7 @@
                         @foreach ($rowFile as $item)
                         <div class="col-lg-6">
                             <div class="card mb-2" style="width: 18rem;">
-                                @switch($item->ekstensi_file)
+                                @switch(strtolower($item->ekstensi_file))
                                     @case('pdf')
                                         <img src="/images/assets/pdfIcon.png" class="card-img-top" alt="PDF Icon">
                                         @break
@@ -162,8 +162,11 @@
                                 <div class="card-body">
                                   <a href="/storage/datasetFile/{{ $item->nama_file }}" class="card-text" id="identificationFileDataset" target="_black">Dataset File - {{ $loop->iteration }}</a>
                                   <div class="row mb-2">
-                                    <label for="editFileDataset" class="form-label" style="font-size: 12px;">Edit diSini :</label>
-                                    <input type="file" id="editFileDataset" name="editFileDataset" class="form-control col-lg-3">
+                                    <label for="editFileDataset{{ $loop->iteration }}" class="form-label" style="font-size: 12px;">Edit diSini :</label>
+                                    <input type="file" id="editFileDataset{{ $loop->iteration }}" name="editFileDataset{{ $loop->iteration }}" class="form-control col-lg-3" onchange="editFile('{{ $item->id }}', '{{ $loop->iteration }}')">
+                                  </div>
+                                  <div class="row mb-2">
+                                    <button class="btn btn-info d-none" id="btnEditFileDataset{{ $loop->iteration }}">Edit</button>
                                   </div>
                                 </div>
                             </div>

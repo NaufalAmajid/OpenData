@@ -279,7 +279,7 @@
                         error: function(data) {
                             swal.fire({
                                 icon: 'warning',
-                                text: data.responseJSON.message,
+                                text: 'Something went wrong',
                                 type: 'warning',
                                 confirmButtonText: 'OK'
                             });
