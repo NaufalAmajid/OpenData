@@ -163,10 +163,23 @@
                                   <a href="/storage/datasetFile/{{ $item->nama_file }}" class="card-text" id="identificationFileDataset" target="_black">Dataset File - {{ $loop->iteration }}</a>
                                   <div class="row mb-2">
                                     <label for="editFileDataset{{ $loop->iteration }}" class="form-label" style="font-size: 12px;">Edit diSini :</label>
-                                    <input type="file" id="editFileDataset{{ $loop->iteration }}" name="editFileDataset{{ $loop->iteration }}" class="form-control col-lg-3" onchange="editFile('{{ $item->id }}', '{{ $loop->iteration }}')">
+                                    <input type="file" id="editFileDataset{{ $loop->iteration }}" name="editFileDataset{{ $loop->iteration }}" class="form-control col-lg-3" onchange="editFile('{{ $item->id }}', '{{ $loop->iteration }}', '{{ $rowDataset->id }}')">
+                                  </div>
+                                  <div class="row mb-2">
+                                    <p class="text-tambah-link" onclick="showModalAddLink('{{ $item->id }}', '{{ $rowDataset->id }}', '{{ $item->link_file }}')">
+                                        @if ($item->link_file != null)
+                                        ubah
+                                        @else
+                                        tambahkan
+                                        @endif
+                                        link google drive file</p>
                                   </div>
                                   <div class="row mb-2">
                                     <button class="btn btn-info d-none" id="btnEditFileDataset{{ $loop->iteration }}">Edit</button>
+                                    <button class="btn btn-info d-none" type="button" id="btnSpinEditFileDataset{{ $loop->iteration }}" disabled>
+                                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
                                   </div>
                                 </div>
                             </div>
@@ -183,6 +196,35 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                {{-- Modal Add Link Gdrive --}}
+                <div class="modal fade" id="modalAddLink" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <details>
+                            <summary>Link Google Drive File</summary>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <p class="mt-2 mb-2">Link Google Drive digunakan untuk menampilkan file ini ke halaman user.</p>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="linkGdriveFile" name="linkGdriveFile" placeholder="Masukkan Link Google Drive File">
+                                    </div>
+                                    <a class="mb-2 mt-2" id="oldLink" target="_blank"></a>
+                                </div>
+                            </div>
+                          </details>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary" id="btnAddLink">Kirim</button>
+                        </div>
+                      </div>
                     </div>
                 </div>
             </div>

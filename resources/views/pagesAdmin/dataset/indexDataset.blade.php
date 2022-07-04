@@ -285,20 +285,130 @@
         })
     }
 
-    function detailDataset(id, iteration){
+    function detailDataset(id){
 
         $.get('{{ url('/dataset/detailDataset') }}/' + id, function(data){
             $('#showDetailDataset').html(data);
         })
     }
 
-    function editFile(idFile, row){
-        var value = $('#editFileDataset'+row).val();
-        $('#btnEditFileDataset'+row).removeClass('d-none').attr('onclick', `updateFile(${idFile}, ${row}, '${value}')`);;
+    function editFile(idFile, row, idDataset){
+        var value = $('#editFileDataset'+row)[0].files[0];
+
+        if(value != undefined){
+            $('#btnEditFileDataset'+row).removeClass('d-none');
+            $('#btnEditFileDataset'+row).attr('onclick', 'updateFile('+idFile+', '+row+', '+idDataset+')');
+        }else{
+            $('#btnEditFileDataset'+row).addClass('d-none');
+        }
     }
 
-    function updateFile(id, row, value){
-        console.log(id);
+    function updateFile(id, row, idDataset){
+        //action update file
+        $('#btnSpinEditFileDataset'+row).removeClass('d-none');
+        $('#btnEditFileDataset'+row).addClass('d-none');
+
+        //data to send
+        var value = $('#editFileDataset'+row)[0].files[0];
+        var formData = new FormData();
+        formData.append('file', value);
+        formData.append('idFile', id);
+        formData.append('_token', '{{ csrf_token() }}');
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('editFileDataset') }}',
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: response => {
+                $('#btnSpinEditFileDataset'+row).addClass('d-none');
+                $('#editFileDataset'+row).val('');
+                detailDataset(idDataset);
+                const notyf = new Notyf({
+                    position: {
+                        x: 'left',
+                        y: 'top',
+                    },
+                    types: [
+                        {
+                            type: 'success',
+                            background: '#0b49e6',
+                            icon: {
+                                className: 'fas fa-times',
+                                tagName: 'span',
+                                color: '#fff'
+                            },
+                            dismissible: false
+                        }
+                    ]
+                });
+                notyf.open({
+                    type: 'success',
+                    message: 'File Dataset Berhasil diUpdate.'
+                });
+            },
+            error: response => {
+                console.log(response);
+            }
+        })
     }
+
+    function showModalAddLink(idFile, idDataset, linkOld){
+        $('#modalAddLink').modal('show');
+        $('#btnAddLink').attr('onclick', 'addLink('+idFile+', '+idDataset+')');
+        $('#oldLink').attr('href', linkOld).text('Link lama : ' + linkOld);
+    }
+
+    function addLink(idFile, idDataset){
+        var link = $('#linkGdriveFile').val();
+        var formData = new FormData();
+        formData.append('link', link);
+        formData.append('idFile', idFile);
+        formData.append('_token', '{{ csrf_token() }}');
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('addLink') }}',
+            data: formData,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: response => {
+                $('#modalAddLink').modal('hide').queue(function(){
+
+                    $('#linkGdriveFile').val('');
+                    detailDataset(idDataset);
+                    const notyf = new Notyf({
+                        position: {
+                            x: 'left',
+                            y: 'top',
+                        },
+                        types: [
+                            {
+                                type: 'success',
+                                background: '#0b49e6',
+                                icon: {
+                                    className: 'fas fa-times',
+                                    tagName: 'span',
+                                    color: '#fff'
+                                },
+                                dismissible: false
+                            }
+                        ]
+                    });
+                    notyf.open({
+                        type: 'success',
+                        message: 'Link File Berhasil ditambahkan.'
+                    });
+                });
+            },
+            error: response => {
+                console.log(response);
+            }
+        })
+    }
+
 </script>
 @endsection

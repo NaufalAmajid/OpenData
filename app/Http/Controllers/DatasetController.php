@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class DatasetController extends Controller
 {
@@ -130,4 +131,54 @@ class DatasetController extends Controller
         return view('pagesAdmin.dataset.informasi.detailDataset', compact('rowDataset', 'rowFile', 'rowSektoral', 'rowTag'));
     }
 
+    public function editFileDataset(Request $request)
+    {
+        $validationData = $request->validate([
+            'file' => 'required|mimes:pdf,doc,docx,xls,xlsx'
+        ]);
+
+        $fileOld = FileDataset::where('id', '=', $request->idFile)->first();
+        $dataset = Dataset::where('kode_dataset', '=', $fileOld->kode_dataset)->first();
+
+        //delete old file
+        Storage::delete('public/datasetFile/'.$fileOld->nama_file);
+
+        //name new file and save in storage
+        $addName = preg_replace("/[^a-zA-Z0-9]/", " ", $dataset->judul_dataset);
+        $addName = strtolower($addName);
+        $addName = Str::slug($addName, '-');
+        $addName = Rand(100,999).'-New File-'.$addName;
+        $getFileExtension = $request->file('file')->getClientOriginalExtension();
+        $fileNewName = $addName . '.' . $getFileExtension;
+        $validationData['file']->storeAs('public/datasetFile', $fileNewName);
+
+        //update new file
+        $fileOld->nama_file = $fileNewName;
+        $fileOld->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'File berhasil diubah',
+            'data' => $fileOld,
+        ]);
+
+    }
+
+    public function addLinkFile(Request $req)
+    {
+        $validationData = $req->validate([
+            'link' => 'required'
+        ]);
+
+        $fileOld = FileDataset::where('id', '=', $req->idFile)->first();
+
+        //save link in database
+        $fileOld->link_file = $validationData['link'];
+        $fileOld->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Link berhasil disimpan',
+        ]);
+    }
 }

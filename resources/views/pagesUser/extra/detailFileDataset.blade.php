@@ -62,7 +62,7 @@
                         <div class="resource-view">
                             <p class="desc"></p>
                             <div class="m-top ckanext-datapreview">
-                                <iframe src="https://docs.google.com/spreadsheets/d/1zOsjHTz-r-0fj88VyYDNS5Wlsku-0rg5il3KAdw57vg/edit?usp=sharing" frameborder="0" style="margin:auto; max-height:100%; min-height:100vh; min-width:100%;"></iframe>
+                                <iframe src="{{ $fileDataset->link_file }}" frameborder="0" style="margin:auto; max-height:100%; min-height:100vh; min-width:100%;"></iframe>
                             </div>
                         </div>
                     </div>

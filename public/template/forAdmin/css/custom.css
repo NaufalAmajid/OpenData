@@ -6,3 +6,24 @@
     color: #016394;
     text-decoration: underline;
 }
+
+.text-tambah-link {
+    cursor: pointer;
+    font-size: 12px;
+    text-decoration: underline;
+}
+
+.text-tambah-link:hover {
+    color: #05d105;
+}
+
+#oldLink {
+    font-size: 15px;
+    color: #043ca5;
+}
+
+#oldLink:hover {
+    color: #0126a0;
+    text-decoration: underline;
+    font-size: 20px;
+}
