@@ -61,6 +61,8 @@ Route::controller(DatasetController::class)->group(function(){
     Route::post('/dataset/data', 'store')->name('createDataset')->middleware('auth');
     Route::post('/dataset/data/editFile', 'editFileDataset')->name('editFileDataset')->middleware('auth');
     Route::post('/dataset/data/addLinkFile', 'addLinkFile')->name('addLink')->middleware('auth');
+    Route::post('/dataset/data/deleteDataset', 'deleteDataset')->name('deleteDataset')->middleware('auth');
+    Route::post('/dataset/data/addNewFileDataset', 'addNewFileDataset')->name('addNewFileDataset')->middleware('auth');
 });
 
 // ROUTES FOR TAGS

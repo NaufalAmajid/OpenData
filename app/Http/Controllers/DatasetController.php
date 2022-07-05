@@ -154,6 +154,7 @@ class DatasetController extends Controller
 
         //update new file
         $fileOld->nama_file = $fileNewName;
+        $fileOld->ekstensi_file = $getFileExtension;
         $fileOld->save();
 
         return response()->json([
@@ -179,6 +180,57 @@ class DatasetController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Link berhasil disimpan',
+        ]);
+    }
+
+    public function deleteDataset(Request $req)
+    {
+        $dataset = Dataset::where('id', '=', $req->idDataset)->first();
+        $fileDataset = FileDataset::where('kode_dataset', '=', $dataset->kode_dataset)->get();
+
+        foreach ($fileDataset as $file) {
+            Storage::delete('public/datasetFile/'.$file->nama_file);
+
+            $file->delete();
+        }
+
+        $dataset->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Dataset berhasil dihapus',
+        ]);
+
+    }
+
+    public function addNewFileDataset(Request $req)
+    {
+        $validationData = $req->validate([
+            'file' => 'required|mimes:pdf,doc,docx,xls,xlsx'
+        ]);
+
+        $dataset = Dataset::where('kode_dataset', '=', $req->kodeDataset)->first();
+
+        //name new file and save in storage
+        $addName = preg_replace("/[^a-zA-Z0-9]/", " ", $dataset->judul_dataset);
+        $addName = strtolower($addName);
+        $addName = Str::slug($addName, '-');
+        $addName = Rand(100,999).'-New File-'.$addName;
+        $getFileExtension = $validationData['file']->getClientOriginalExtension();
+        $fileNewName = $addName . '.' . $getFileExtension;
+        $validationData['file']->storeAs('public/datasetFile', $fileNewName);
+
+        //save new file in database
+        $fileNew = new FileDataset();
+        $fileNew->kode_dataset = $req->kodeDataset;
+        $fileNew->nama_file = $fileNewName;
+        $fileNew->ekstensi_file = $getFileExtension;
+        $fileNew->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'File berhasil ditambahkan',
+            'data' => $fileNew,
         ]);
     }
 }

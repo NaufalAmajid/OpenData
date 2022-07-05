@@ -62,7 +62,16 @@
                         <div class="resource-view">
                             <p class="desc"></p>
                             <div class="m-top ckanext-datapreview">
-                                <iframe src="{{ $fileDataset->link_file }}" frameborder="0" style="margin:auto; max-height:100%; min-height:100vh; min-width:100%;"></iframe>
+                                @switch(strtolower($fileDataset->ekstensi_file))
+                                    @case('pdf')
+                                        <object data="{{ asset('storage/datasetFile/' . $fileDataset->nama_file) }}" type="application/pdf" width="100%" height="100%">
+                                            <p>It appears you don't have a PDF plugin for this browser.
+                                                No worries, you can <a href="{{ asset('storage/datasetFile/' . $fileDataset->nama_file) }}">click here to download the PDF file.</a></p>
+                                        @break
+                                    @default
+                                        <iframe src="{{ $fileDataset->link_file }}" frameborder="0" style="margin:auto; max-height:100%; min-height:100vh; min-width:100%;"></iframe>
+                                        @break
+                                @endswitch
                             </div>
                         </div>
                     </div>

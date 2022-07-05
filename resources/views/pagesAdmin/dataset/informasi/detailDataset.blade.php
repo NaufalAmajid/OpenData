@@ -163,9 +163,10 @@
                                   <a href="/storage/datasetFile/{{ $item->nama_file }}" class="card-text" id="identificationFileDataset" target="_black">Dataset File - {{ $loop->iteration }}</a>
                                   <div class="row mb-2">
                                     <label for="editFileDataset{{ $loop->iteration }}" class="form-label" style="font-size: 12px;">Edit diSini :</label>
-                                    <input type="file" id="editFileDataset{{ $loop->iteration }}" name="editFileDataset{{ $loop->iteration }}" class="form-control col-lg-3" onchange="editFile('{{ $item->id }}', '{{ $loop->iteration }}', '{{ $rowDataset->id }}')">
+                                    <input type="file" id="editFileDataset{{ $loop->iteration }}" name="editFileDataset{{ $loop->iteration }}" class="form-control col-lg-3" @if ($rowDataset->pembuat != Auth::user()->kode_admin) readonly @else onchange="editFile('{{ $item->id }}', '{{ $loop->iteration }}', '{{ $rowDataset->id }}')" @endif>
                                   </div>
                                   <div class="row mb-2">
+                                    @if ($rowDataset->pembuat == Auth::user()->kode_admin)
                                     <p class="text-tambah-link" onclick="showModalAddLink('{{ $item->id }}', '{{ $rowDataset->id }}', '{{ $item->link_file }}')">
                                         @if ($item->link_file != null)
                                         ubah
@@ -173,6 +174,7 @@
                                         tambahkan
                                         @endif
                                         link google drive file</p>
+                                    @endif
                                   </div>
                                   <div class="row mb-2">
                                     <button class="btn btn-info d-none" id="btnEditFileDataset{{ $loop->iteration }}">Edit</button>
@@ -191,7 +193,14 @@
                                 <div class="card-body">
                                   <p class="card-text">Tambah File :</p>
                                   <div class="row mb-2">
-                                    <input type="file" name="addFileDataset" class="form-control col-lg-3">
+                                    <input type="file" name="addFileDataset" id="addFileDataset" class="form-control col-lg-3" @if ($rowDataset->pembuat != Auth::user()->kode_admin) readonly @else onchange="addNewFileDataset('{{ $rowDataset->kode_dataset }}', '{{ $rowDataset->id }}')" @endif>
+                                  </div>
+                                  <div class="row">
+                                    <button class="btn btn-success d-none" id="btnAddNewFileDataset">Tambah</button>
+                                    <button class="btn btn-info d-none" type="button" id="btnSpinAddFileDataset" disabled>
+                                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                                        Loading...
+                                    </button>
                                   </div>
                                 </div>
                             </div>

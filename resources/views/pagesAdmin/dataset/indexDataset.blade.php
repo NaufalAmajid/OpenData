@@ -164,21 +164,7 @@
     <div class="card border-0 shadow mb-4">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-hover table-striped table-bordered" id="tableDataset" width="100%"
-                    cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Judul Dataset</th>
-                            <th>Pembuat</th>
-                            <th>Status</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="showTableDataset">
-
-                    </tbody>
-                </table>
+                <div id="showTableDataset"></div>
             </div>
         </div>
     </div>
@@ -221,7 +207,12 @@
                             text: result.message,
                             icon: 'success'
                         }).then(function() {
-                            location.reload();
+                            // location.reload();
+                            $('#formCreateDataset')[0].reset();
+                            $('.formDataset, .showTabelDataset, .showFormDataset, .tableDataset').toggleClass('d-none');
+                            $('#showDetailDataset').html('');
+
+                            showDataDataset();
                         });
                     }
                 },
@@ -410,5 +401,117 @@
         })
     }
 
+    function deleteDataset(idDataset){
+        Swal.fire({
+            title: 'Apakah anda yakin?',
+            text: "Data Dataset ini akan dihapus!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('deleteDataset') }}',
+                    data: {
+                        '_token': '{{ csrf_token() }}',
+                        'idDataset': idDataset
+                    },
+                    success: response => {
+                        const notyf = new Notyf({
+                            position: {
+                                x: 'left',
+                                y: 'top',
+                            },
+                            types: [
+                                {
+                                    type: 'success',
+                                    background: '#0b49e6',
+                                    icon: {
+                                        className: 'fas fa-times',
+                                        tagName: 'span',
+                                        color: '#fff'
+                                    },
+                                    dismissible: false
+                                }
+                            ]
+                        });
+                        notyf.open({
+                            type: 'success',
+                            message: 'Data Dataset Berhasil dihapus.'
+                        });
+                        showDataDataset();
+                    }
+                });
+            }
+        });
+    }
+
+    function addNewFileDataset(kodeDataset, idDataset){
+        var value = $('#addFileDataset')[0].files[0];
+
+        if(value != undefined){
+            $('#btnAddNewFileDataset').removeClass('d-none');
+            $('#btnAddNewFileDataset').attr('onclick', `submitNewFileDataset('${kodeDataset}', ${idDataset})`);
+        }else{
+            $('#btnAddNewFileDataset').addClass('d-none');
+        }
+
+    }
+
+    function submitNewFileDataset(kodeDataset, idDataset){
+        var value = $('#addFileDataset')[0].files[0];
+        var formData = new FormData();
+        formData.append('file', value);
+        formData.append('kodeDataset', kodeDataset);
+        formData.append('_token', '{{ csrf_token() }}');
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('addNewFileDataset') }}',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: formData,
+            success: res => {
+                $('#addFileDataset').val('');
+                $('#btnAddNewFileDataset').addClass('d-none');
+                detailDataset(idDataset);
+                const notyf = new Notyf({
+                    position: {
+                        x: 'left',
+                        y: 'top',
+                    },
+                    types: [
+                        {
+                            type: 'success',
+                            background: '#0b49e6',
+                            icon: {
+                                className: 'fas fa-times',
+                                tagName: 'span',
+                                color: '#fff'
+                            },
+                            dismissible: false
+                        }
+                    ]
+                });
+                notyf.open({
+                    type: 'success',
+                    message: 'File Dataset Berhasil ditambahkan.'
+                });
+            },
+            error: err => {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'File gagal diunggah.',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                });
+                console.log(err);
+            }
+        })
+    }
 </script>
 @endsection
