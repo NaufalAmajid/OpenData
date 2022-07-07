@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('kode_admin');
             $table->string('name');
-            $table->string('username')->unique();
+            $table->string('username');
             $table->string('password');
             $table->string('kode_organisasi');
             $table->boolean('is_admin')->default(false);

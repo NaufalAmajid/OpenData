@@ -15,7 +15,7 @@ class CreateOrganisasisTable extends Migration
     {
         Schema::create('organisasis', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_organisasi')->unique();
+            $table->string('kode_organisasi');
             $table->string('nama_organisasi');
             $table->string('logo_organisasi')->nullable();
             $table->string('pembuat')->default('administrator');

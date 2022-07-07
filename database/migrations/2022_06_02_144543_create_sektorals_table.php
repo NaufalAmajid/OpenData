@@ -15,7 +15,7 @@ class CreateSektoralsTable extends Migration
     {
         Schema::create('sektorals', function (Blueprint $table) {
             $table->id();
-            $table->string('kode_sektor')->unique();
+            $table->string('kode_sektor');
             $table->string('nama_sektor');
             $table->string('logo_sektor')->nullable();
             $table->text('deskripsi');
