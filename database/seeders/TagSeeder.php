@@ -20,35 +20,40 @@ class TagSeeder extends Seeder
             'kode_tag' => rand(1, 100) . Str::random(5),
             'nama_tag' => 'Pendidikan',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'pembuat' => 'ADM20220617185211',
         ]);
 
         Tags::create([
             'kode_tag' => rand(1, 100) . Str::random(5),
             'nama_tag' => 'Aset Desa',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'pembuat' => 'ADM20220617185212',
         ]);
 
         Tags::create([
             'kode_tag' => rand(1, 100) . Str::random(5),
             'nama_tag' => 'Data Umum Kecamatan',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'pembuat' => 'ADM20220617185213',
         ]);
 
         Tags::create([
             'kode_tag' => rand(1, 100) . Str::random(5),
             'nama_tag' => 'Jumlah Tempat Ibadah',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'pembuat' => 'ADM20220617185211',
         ]);
 
         Tags::create([
             'kode_tag' => rand(1, 100) . Str::random(5),
             'nama_tag' => 'Status Desa',
             'created_at' => now(),
-            'updated_at' => now()
+            'updated_at' => now(),
+            'pembuat' => 'ADM20220617185212',
         ]);
     }
 }

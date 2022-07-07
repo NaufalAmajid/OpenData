@@ -12,7 +12,7 @@
         @foreach ($dataDataset as $item)
         <tr>
             <td>{{ $item->judul_dataset }}</td>
-            <td>{{ $item->pembuat }}</td>
+            <td>{{ $item->name }}</td>
             <td>{{ $item->created_at }}</td>
             <td>
                 @switch($item->is_publish)

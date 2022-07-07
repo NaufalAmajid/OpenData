@@ -443,6 +443,8 @@
                             message: 'Data Dataset Berhasil dihapus.'
                         });
                         showDataDataset();
+                        $('#showDetailDataset').html('');
+
                     }
                 });
             }
@@ -511,6 +513,70 @@
                 });
                 console.log(err);
             }
+        })
+    }
+
+    function showBtnEditInformation(idDataset){
+        $('#btnEditInformationDataset').removeClass('d-none');
+        $('#btnEditInformationDataset').attr('onclick', `editInformation('${idDataset}')`);
+    }
+
+    function editInformation(idDataset){
+
+        $('#btnSpinEditInformationDataset').removeClass('d-none');
+        $('#btnEditInformationDataset').addClass('d-none');
+
+        const judul = $('#editJudulDataset').val();
+        const sektoral = $('#editSektoralDataset').val();
+        const tag = $('#editTagDataset').val();
+        const sumber = $('#editSumberDataset').val();
+        const pengelola = $('#editPengelolaDataset').val();
+        const lisensi = $('#editLisensiDataset').val();
+        const versi = $('#editVersiDataset').val();
+        const formData = new FormData();
+        formData.append('idDataset', idDataset);
+        formData.append('judul', judul);
+        formData.append('sektoral', sektoral);
+        formData.append('tag', tag);
+        formData.append('sumber', sumber);
+        formData.append('pengelola', pengelola);
+        formData.append('lisensi', lisensi);
+        formData.append('versi', versi);
+        formData.append('_token', '{{ csrf_token() }}');
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ route('editInformationDataset') }}',
+            data: formData,
+            contentType: false,
+            processData: false,
+            cache: false,
+            success: response => {
+                const notyf = new Notyf({
+                    position: {
+                        x: 'left',
+                        y: 'top',
+                    },
+                    types: [
+                        {
+                            type: 'success',
+                            background: '#0b49e6',
+                            icon: {
+                                className: 'fas fa-times',
+                                tagName: 'span',
+                                color: '#fff'
+                            },
+                            dismissible: false
+                        }
+                    ]
+                });
+                notyf.open({
+                    type: 'success',
+                    message: 'Data Dataset Berhasil diubah.'
+                });
+                $('#btnSpinEditInformationDataset').removeClass('d-none');
+                detailDataset(idDataset);
+            },
         })
     }
 </script>

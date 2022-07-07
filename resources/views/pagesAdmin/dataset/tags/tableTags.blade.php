@@ -10,8 +10,8 @@
     <tbody>
         @foreach ($tags as $item)
         <tr>
-            <td><input type="text" class="form-control-plaintext" id="namaTagUpdate-{{ $item->id }}" value="{{ $item->nama_tag }}" @if ($item->pembuat != Auth::user()->name) readonly @endif></td>
-            <td>{{ $item->pembuat }}</td>
+            <td><input type="text" class="form-control-plaintext" id="namaTagUpdate-{{ $item->id }}" value="{{ $item->nama_tag }}" @if ($item->pembuat != Auth::user()->kode_admin) readonly @endif></td>
+            <td>{{ $item->name }}</td>
             <td>
                 @switch($item->is_correct)
                     @case(0)
@@ -26,7 +26,7 @@
                 @endswitch
             </td>
             <td>
-                <span style="cursor: pointer;" onclick="@if($item->pembuat == Auth::user()->name) showDataToEditTag('{{ $item->id }}') @else alertNotUpdate() @endif"><i class="bi bi-pencil-square text-info fs-5"></i></span>
+                <span style="cursor: pointer;" onclick="@if($item->pembuat == Auth::user()->kode_admin) showDataToEditTag('{{ $item->id }}') @else alertNotUpdate() @endif"><i class="bi bi-pencil-square text-info fs-5"></i></span>
             </td>
         </tr>
         @endforeach

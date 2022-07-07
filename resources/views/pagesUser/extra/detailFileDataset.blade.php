@@ -62,6 +62,7 @@
                         <div class="resource-view">
                             <p class="desc"></p>
                             <div class="m-top ckanext-datapreview">
+                                @if ($fileDataset->link_file != null)
                                 @switch(strtolower($fileDataset->ekstensi_file))
                                     @case('pdf')
                                         <object data="{{ asset('storage/datasetFile/' . $fileDataset->nama_file) }}" type="application/pdf" width="100%" height="100%">
@@ -72,6 +73,9 @@
                                         <iframe src="{{ $fileDataset->link_file }}" frameborder="0" style="margin:auto; max-height:100%; min-height:100vh; min-width:100%;"></iframe>
                                         @break
                                 @endswitch
+                                @else
+                                    <h4 style="color: rgb(102, 28, 28)">Admin Belum Menampilkan Data Secara Realtime Silahkan download terlebih dahulu untuk melihat data.</h4>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -91,10 +95,10 @@
                     <h2 class="module-heading"><i class="fa fa-share-square-o"></i> Social</h2>
                     <ul class="nav nav-simple">
                         <li class="nav-item"><a
-                                href="https://twitter.com/share?url=http://opendata.bogorkab.go.id/dataset/data-rekapitulasi-status-penggunaan-barang-milik-daerah/resource/92eceffb-4c2b-4a88-b6d5-3966af5204e1"
+                                href="#"
                                 target="_blank"><i class="fa fa-twitter-square"></i> Twitter</a></li>
                         <li class="nav-item"><a
-                                href="../../../login-1296.php?u=http://opendata.bogorkab.go.id/dataset/data-rekapitulasi-status-penggunaan-barang-milik-daerah/resource/92eceffb-4c2b-4a88-b6d5-3966af5204e1"
+                                href="#"
                                 target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a></li>
                     </ul>
                 </section>

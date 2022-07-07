@@ -27,7 +27,7 @@
                 {{-- Edit Judul Dataset --}}
                 <h2 class="h4 mb-0">
                     @if ($rowDataset->pembuat == Auth::user()->kode_admin)
-                        <input type="text" name="editJudulDataset" id="editJudulDataset" class="form-control-plaintext" value="{{ $rowDataset->judul_dataset }}">
+                        <input type="text" name="editJudulDataset" id="editJudulDataset" class="form-control-plaintext" value="{{ $rowDataset->judul_dataset }}" onclick="showBtnEditInformation('{{ $rowDataset->id }}')">
                     @else
                         {{ $rowDataset->judul_dataset }}
                     @endif
@@ -56,7 +56,7 @@
                                 @if ($rowDataset->pembuat == Auth::user()->kode_admin)
                                     Sektoral :
                                     <span class="col-lg-6">
-                                        <select name="editSektoralDataset" id="editSektoralDataset" class="form-select">
+                                        <select name="editSektoralDataset" id="editSektoralDataset" class="form-select" onchange="showBtnEditInformation('{{ $rowDataset->id }}')">
                                             <option value="{{ $rowDataset->kode_sektoral }}" selected>{{ $rowDataset->nama_sektor }}</option>
                                             @foreach($rowSektoral as $row)
                                                 @if ($row->kode_sektor != $rowDataset->kode_sektoral)
@@ -75,7 +75,7 @@
                                 @if ($rowDataset->pembuat == Auth::user()->kode_admin)
                                     Tag :
                                     <span class="col-lg-6">
-                                        <select name="editTagDataset" id="editTagDataset" class="form-select">
+                                        <select name="editTagDataset" id="editTagDataset" class="form-select" onchange="showBtnEditInformation('{{ $rowDataset->id }}')">
                                             <option value="{{ $rowDataset->kode_tag }}" selected>{{ $rowDataset->nama_tag }}</option>
                                             @foreach($rowTag as $tag)
                                                 @if ($tag->kode_tag != $rowDataset->kode_tag)
@@ -115,19 +115,19 @@
                             <tbody>
                                 <tr>
                                     <th scope="row" class="text-left fw-bold h6">Sumber</th>
-                                    <td><input type="text" class="form-control-plaintext" name="editSumberDataset" id="editSumberDataset" value="{{ $rowDataset->sumber }}" @if($rowDataset->pembuat != Auth::user()->kode_admin) readonly @endif></td>
+                                    <td><input type="text" class="form-control-plaintext" name="editSumberDataset" id="editSumberDataset" value="{{ $rowDataset->sumber }}" @if($rowDataset->pembuat != Auth::user()->kode_admin) readonly @else onclick="showBtnEditInformation('{{ $rowDataset->id }}')" @endif></td>
                                 </tr>
                                 <tr>
                                     <th scope="row" class="text-left fw-bold h6">Pengelola</th>
-                                    <td><input type="text" class="form-control-plaintext" name="editPengelolaDataset" id="editPengelolaDataset" value="{{ $rowDataset->pengelola }}" @if($rowDataset->pembuat != Auth::user()->kode_admin) readonly @endif></td>
+                                    <td><input type="text" class="form-control-plaintext" name="editPengelolaDataset" id="editPengelolaDataset" value="{{ $rowDataset->pengelola }}" @if($rowDataset->pembuat != Auth::user()->kode_admin) readonly @else onclick="showBtnEditInformation('{{ $rowDataset->id }}')" @endif></td>
                                 </tr>
                                 <tr>
                                     <th scope="row" class="text-left fw-bold h6">Lisensi</th>
-                                    <td><input type="text" class="form-control-plaintext" name="editLisensiDataset" id="editLisensiDataset" value="{{ $rowDataset->lisensi }}" @if($rowDataset->pembuat != Auth::user()->kode_admin) readonly @endif></td>
+                                    <td><input type="text" class="form-control-plaintext" name="editLisensiDataset" id="editLisensiDataset" value="{{ $rowDataset->lisensi }}" @if($rowDataset->pembuat != Auth::user()->kode_admin) readonly @else onclick="showBtnEditInformation('{{ $rowDataset->id }}')" @endif></td>
                                 </tr>
                                 <tr>
                                     <th scope="row" class="text-left fw-bold h6">Versi</th>
-                                    <td><input type="text" class="form-control-plaintext" name="editVersiDataset" id="editVersiDataset" value="{{ $rowDataset->versi_dataset }}" @if($rowDataset->pembuat != Auth::user()->kode_admin) readonly @endif></td>
+                                    <td><input type="text" class="form-control-plaintext" name="editVersiDataset" id="editVersiDataset" value="{{ $rowDataset->versi_dataset }}" @if($rowDataset->pembuat != Auth::user()->kode_admin) readonly @else onclick="showBtnEditInformation('{{ $rowDataset->id }}')" @endif></td>
                                 </tr>
                                 <tr>
                                     <th scope="row" class="text-left fw-bold h6">Terakhir diUpdate</th>
@@ -136,6 +136,15 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="col-12">
+                    <button class="btn btn-primary col-lg-12 d-none" id="btnEditInformationDataset">Edit</button>
+                    <button class="btn btn-primary col-lg-12 d-none" type="button" id="btnSpinEditInformationDataset" disabled>
+                        <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                        Loading...
+                    </button>
                 </div>
             </div>
             <div class="row justify-content-center mt-4">

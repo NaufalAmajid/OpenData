@@ -6,8 +6,8 @@
 
 <head>
     {{-- <meta charset="utf-8"> --}}
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-    {{-- <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> --}}
+    {{-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"> --}}
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="generator" content="ckan 2.8.7">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="token-csrf" content="{{ csrf_token() }}">
@@ -20,7 +20,7 @@
     <title>Open Data Kabupaten Klaten</title>
 
 
-    <link rel="shortcut icon" href="{{ asset('template/forUser/base/images/logo-kab-bogor.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('template/forUser/base/images/logokabklaten.png') }}">
     <link rel="stylesheet" href="{{ asset('template/forUser/base/css/custom.css') }}">
 
 </head>

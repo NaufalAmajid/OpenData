@@ -80,7 +80,7 @@ class DatasetController extends Controller
 
         $activity = new Activity();
         $activity->kode_kegiatan = $dataset->kode_dataset;
-        $activity->nama_kegiatan = $dataset->pembuat . ' membuat dataset baru <b>' . $dataset->judul_dataset . '</b>';
+        $activity->nama_kegiatan = Auth::user()->name . ' membuat dataset baru <b>' . $dataset->judul_dataset . '</b>';
 
         $notifikasi = new Notifikasi();
         $notifikasi->kode_notifikasi = $dataset->kode_dataset;
@@ -231,6 +231,24 @@ class DatasetController extends Controller
             'status' => 'success',
             'message' => 'File berhasil ditambahkan',
             'data' => $fileNew,
+        ]);
+    }
+
+    public function editInformationDataset(Request $req)
+    {
+        $oldInformation = Dataset::where('id', '=', $req->idDataset)->first();
+        $oldInformation->judul_dataset = $req->judul;
+        $oldInformation->kode_sektoral = $req->sektoral;
+        $oldInformation->kode_tag = $req->tag;
+        $oldInformation->sumber = $req->sumber;
+        $oldInformation->pengelola = $req->pengelola;
+        $oldInformation->lisensi = $req->lisensi;
+        $oldInformation->versi_dataset = $req->versi;
+        $oldInformation->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Informasi berhasil diubah',
         ]);
     }
 }

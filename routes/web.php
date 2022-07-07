@@ -63,6 +63,7 @@ Route::controller(DatasetController::class)->group(function(){
     Route::post('/dataset/data/addLinkFile', 'addLinkFile')->name('addLink')->middleware('auth');
     Route::post('/dataset/data/deleteDataset', 'deleteDataset')->name('deleteDataset')->middleware('auth');
     Route::post('/dataset/data/addNewFileDataset', 'addNewFileDataset')->name('addNewFileDataset')->middleware('auth');
+    Route::post('/dataset/data/editInformationDataset', 'editInformationDataset')->name('editInformationDataset')->middleware('auth');
 });
 
 // ROUTES FOR TAGS
@@ -99,7 +100,7 @@ Route::controller(AdministratorController::class)->group(function () {
     Route::post('/administrator/addNewAdmin', 'storeNewAdmin')->name('addNewAdmin')->middleware('is_admin');
     Route::post('/administrator/acceptDataset', 'publishDataset')->name('acceptDataset')->middleware('is_admin');
     Route::post('/administrator/acceptTag', 'acceptTag')->name('acceptTag')->middleware('is_admin');
-    Route::post('/administrator/editTagName', 'editTagName')->name('editTag')->middleware('is_admin');
+    Route::post('/administrator/editTagName', 'editTagName')->name('editTag')->middleware('auth');
     Route::post('/administrator/checkBeforeDeleteTag', 'checkBeforeDeleteTag')->name('checkBfrDelTag')->middleware('is_admin');
     Route::post('/administrator/deleteTag', 'deleteTag')->name('delTag')->middleware('is_admin');
     Route::post('/administrator/acceptSektoral', 'acceptSektoral')->name('acceptSektoral')->middleware('is_admin');

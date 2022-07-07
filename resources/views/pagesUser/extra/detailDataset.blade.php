@@ -47,10 +47,10 @@
                     <h2 class="module-heading"><i class="fa fa-share-square-o"></i> Social</h2>
                     <ul class="nav nav-simple">
                         <li class="nav-item"><a
-                                href="https://twitter.com/share?url=http://opendata.bogorkab.go.id/dataset/status-perkembangan-desa-pasirgaok"
+                                href="#"
                                 target="_blank"><i class="fa fa-twitter-square"></i> Twitter</a></li>
                         <li class="nav-item"><a
-                                href="../login-1.php?u=http://opendata.bogorkab.go.id/dataset/status-perkembangan-desa-pasirgaok"
+                                href="#"
                                 target="_blank"><i class="fa fa-facebook-square"></i> Facebook</a></li>
                     </ul>
                 </section>

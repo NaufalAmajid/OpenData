@@ -101,7 +101,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-12 col-xl-8">
+    <div class="col-12 col-xl-12">
         <div class="row">
             <div class="col-12 mb-4">
                 <div class="card border-0 shadow">
@@ -146,7 +146,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    {{-- </div>
     <div class="col-12 col-xl-4">
         <div class="col-12 px-0 mb-4">
             <div class="card border-0 shadow">
@@ -175,6 +175,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 </div>
 @endsection

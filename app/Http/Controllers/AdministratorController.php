@@ -67,8 +67,9 @@ class AdministratorController extends Controller
             ->join('organisasis', 'datasets.kode_organisasi', '=', 'organisasis.kode_organisasi')
             ->join('sektorals', 'datasets.kode_sektoral', '=', 'sektorals.kode_sektor')
             ->join('tags', 'datasets.kode_tag', '=', 'tags.kode_tag')
+            ->join('users', 'datasets.pembuat', '=', 'users.kode_admin')
             ->select('datasets.*', 'organisasis.nama_organisasi', 'organisasis.logo_organisasi',
-                'sektorals.nama_sektor', 'tags.nama_tag')
+                'sektorals.nama_sektor', 'tags.nama_tag', 'users.name')
             ->get();
 
         return view('administrator.data.tableDataset', compact('dataDataset'));

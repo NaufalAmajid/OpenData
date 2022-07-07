@@ -7,7 +7,6 @@ use App\Models\Notifikasi;
 use App\Models\Tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 
 class TagsController extends Controller
 {
@@ -19,7 +18,10 @@ class TagsController extends Controller
 
     public function read()
     {
-        $tags = Tags::all();
+        $tags = Tags::join('users', 'users.kode_admin', '=', 'tags.pembuat')
+            ->select('tags.*', 'users.name')
+            ->orderBy('tags.created_at', 'desc')
+            ->get();
 
         return view('pagesAdmin.dataset.tags.tableTags', compact('tags'));
     }
@@ -37,7 +39,7 @@ class TagsController extends Controller
 
         $activity = new Activity();
         $activity->kode_kegiatan = $tag->kode_tag;
-        $activity->nama_kegiatan = $tag->pembuat . ' menambahkan tag <b>' . $tag->nama_tag . '</b>';
+        $activity->nama_kegiatan = Auth::user()->name . ' menambahkan tag <b>' . $tag->nama_tag . '</b>';
 
         $notifikasi = new Notifikasi();
         $notifikasi->kode_notifikasi = $tag->kode_tag;
