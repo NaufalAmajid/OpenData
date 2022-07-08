@@ -58,7 +58,7 @@ class DatabaseSeeder extends Seeder
         // Call Class To Seed Data
         $this->call([
             OrganisasiSeeder::class,
-            SektoralSeeder::class,
+            // SektoralSeeder::class,
             TagSeeder::class,
             // DatasetSeeder::class,
         ]);
